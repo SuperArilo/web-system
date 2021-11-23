@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backgroundsystem.mapper.DynamicMapper">
+    <select id="dynamicGet" resultMap="dynamic">
+        SELECT
+            ud.dynamicid,
+            ud.content,
+            ud.likesum,
+            ud.watchsum,
+            ud.commentsum,
+            ud.createtime,
+            ui.userhead,
+            ui.username,
+            ui.`class`
+        FROM
+            user_dynamic AS ud
+        INNER JOIN user_information AS ui ON ui.`uid` = ud.uid order by ud.dynamicid desc limit #{leftvalue},#{rightvalue}
+    </select>
+    <select id="getImageUrl" resultType="string">
+        select imageurl
+        from user_dynamic_image
+        where `dynamicid` = #{dynamicid}
+    </select>
+    <resultMap id="dynamic" type="map">
+        <id column="dynamicid" property="dynamicid"/>
+        <collection property="imagelist" javaType="list" ofType="string" column="dynamicid" select="getImageUrl"/>
+    </resultMap>
+    <select id="dynamicDel" parameterType="java.util.List">
+        DELETE
+            user_dynamic,
+            user_dynamic_image
+        FROM
+            user_dynamic
+                LEFT JOIN user_dynamic_image
+                          ON user_dynamic.dynamicid = user_dynamic_image.dynamicid
+        WHERE userid = #{userid} and user_dynamic.dynamicid in
+        <foreach collection="dynamicidlist" item="item" index="index" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="dynamicImageNameGet"  parameterType="java.util.List" resultType="string">
+        SELECT imagename FROM user_dynamic_image WHERE dynamicid IN 
+        <foreach collection="dynamicIdList" item="item" index="index" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

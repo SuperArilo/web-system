@@ -1,0 +1,48 @@
+spring:
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  data:
+    redis:
+      repositories:
+        enabled: false
+  redis:
+    host: localhost  #配置redis的主机地址，需要修改成自己的
+    database: 0
+    port: 2568
+    password: 728152568
+    jedis:
+      pool:
+        max-active: 50 # 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool 的状态为exhausted(耗尽)
+        max-idle: 20 # 连接池中的最大空闲连接，默认值也是8。
+        min-idle: 5  # 连接池中的最小空闲连接，默认值也是0。
+        # max-wait: 5 # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接 抛出JedisConnectionException
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: ayrRJ2z632hpMxdf
+    username: root
+    password: 728152568
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  port: 80
+#  ssl:
+#    key-store: classpath:5998859_superarilo.online.jks
+#    enabled: true
+#    key-store-password: 483c4j50
+#    keyStoreType: JKS
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
