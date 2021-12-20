@@ -1,5 +1,4 @@
-package com.example.backgroundsystem.config;
-//
+//package com.example.backgroundsystem.config;
 //import org.apache.catalina.Context;
 //import org.apache.catalina.connector.Connector;
 //import org.apache.tomcat.util.descriptor.web.SecurityCollection;
