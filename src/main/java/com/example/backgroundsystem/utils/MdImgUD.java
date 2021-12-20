@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MdImgUD {
     public Boolean upload(List<MultipartFile> listFile, String path, List<String> listFileName) {
         for (int i = 0; i < listFile.size(); i++) {

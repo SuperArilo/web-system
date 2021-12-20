@@ -1,4 +1,4 @@
-package com.example.backgroundsystem.config;//package com.superarilo.backgroundsystem.config;
+package com.example.backgroundsystem.config;
 //
 //import org.apache.catalina.Context;
 //import org.apache.catalina.connector.Connector;
