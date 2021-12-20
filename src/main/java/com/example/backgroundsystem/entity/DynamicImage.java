@@ -11,7 +11,7 @@ import lombok.Data;
 @TableName(value = "user_dynamic_image")
 public class DynamicImage {
     @TableId(type = IdType.AUTO,value = "imageid")
-    private int imageId;
+    private Integer imageId;
     @TableField(value = "dynamicid")
     private int dynamicId;
     @TableField(value = "imagename")

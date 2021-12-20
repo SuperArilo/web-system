@@ -13,10 +13,10 @@
             ud.createtime,
             ui.userhead,
             ui.username,
-            ui.`class`
+            ui.class
         FROM
             user_dynamic AS ud
-        INNER JOIN user_information AS ui ON ui.`uid` = ud.uid order by ud.dynamicid desc limit #{leftvalue},#{rightvalue}
+        INNER JOIN user_information AS ui ON ui.uid = ud.uid order by ud.dynamicid desc limit #{leftvalue},#{rightvalue}
     </select>
     <select id="getImageUrl" resultType="string">
         select imageurl
@@ -35,7 +35,7 @@
             user_dynamic
                 LEFT JOIN user_dynamic_image
                           ON user_dynamic.dynamicid = user_dynamic_image.dynamicid
-        WHERE userid = #{userid} and user_dynamic.dynamicid in
+        WHERE uid = #{userid} and user_dynamic.dynamicid in
         <foreach collection="dynamicidlist" item="item" index="index" open="("  separator="," close=")">
             #{item}
         </foreach>

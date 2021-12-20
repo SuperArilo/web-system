@@ -44,7 +44,7 @@ public class DynamicService extends ServiceImpl<DynamicMapper, Dynamic> implemen
             dynamicNew.setWatchSum(0);
             dynamicNew.setLikeSum(0);
             dynamicNew.setCreateTime(new Date());
-            dynamicNew.setUserId(uid);
+            dynamicNew.setUId(uid);
             this.save(dynamicNew);
             List<DynamicImage> dynamicImageList = new ArrayList<>();
             for(String fileNameSub : listFileName) {

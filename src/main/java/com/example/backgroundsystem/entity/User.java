@@ -12,7 +12,7 @@ import java.util.Date;
 @TableName(value = "`user_information")
 public class User {
     @TableId(type = IdType.AUTO,value = "id")
-    private int Id;
+    private Integer Id;
     @TableField(value = "uid")
     private int uid;
     @TableField(value = "username")

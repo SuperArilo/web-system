@@ -13,9 +13,9 @@ import java.util.Date;
 @TableName(value = "user_dynamic")
 public class Dynamic {
     @TableId(type = IdType.AUTO,value = "dynamicid")
-    private int dynamicId;
-    @TableField(value = "userid")
-    private int userId;
+    private Integer dynamicId;
+    @TableField(value = "uid")
+    private int uId;
     @TableField(value = "createtime")
     @JsonFormat(timezone = "GMT+8",pattern = "yyyyMMddHHmmss")
     private Date createTime;

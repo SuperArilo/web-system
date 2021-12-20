@@ -17,7 +17,7 @@
         FROM
             user_dynamic_comment AS udc
                 INNER JOIN user_information AS ui
-                           ON udc.userid = ui.userid
+                           ON udc.uid = ui.uid
         WHERE udc.dynamicid = #{dynamicid}
         order by udc.commentid desc limit #{leftvalue},#{rightvalue}
     </select>

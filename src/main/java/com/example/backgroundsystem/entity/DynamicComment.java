@@ -12,9 +12,9 @@ import java.util.Date;
 @TableName(value = "user_dynamic_comment")
 public class DynamicComment {
     @TableId(type = IdType.AUTO,value = "commentid")
-    private int commentid;
-    @TableField(value = "userid")
-    private int userId;
+    private Integer commentid;
+    @TableField(value = "uid")
+    private int uId;
     @TableField(value = "content")
     private String content;
     @TableField(value = "createtime")
