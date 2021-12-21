@@ -12,19 +12,26 @@ import java.util.Date;
 @Data
 @TableName(value = "user_dynamic")
 public class Dynamic {
+
     @TableId(type = IdType.AUTO,value = "dynamicid")
     private Integer dynamicId;
+
     @TableField(value = "uid")
     private int uId;
+
     @TableField(value = "createtime")
     @JsonFormat(timezone = "GMT+8",pattern = "yyyyMMddHHmmss")
     private Date createTime;
+
     @TableField(value = "content")
     private String content;
+
     @TableField(value = "likesum")
     private int likeSum;
+
     @TableField(value = "commentsum")
     private int commentSum;
+
     @TableField(value = "watchsum")
     private int watchSum;
 }
