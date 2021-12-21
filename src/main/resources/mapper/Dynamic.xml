@@ -42,6 +42,7 @@
         FROM user_dynamic AS ud
         INNER JOIN user_dynamic_liked AS udl ON udl.dynamicId = ud.dynamicid
         INNER JOIN user_information AS ui ON ui.id = udl.uid
+        WHERE ud.`dynamicid` = #{dynamicid}
     </select>
 
     <select id="dynamicDel" parameterType="java.util.List">

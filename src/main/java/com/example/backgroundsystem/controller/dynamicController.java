@@ -2,6 +2,7 @@ package com.example.backgroundsystem.controller;
 
 import com.example.backgroundsystem.entity.Result;
 import com.example.backgroundsystem.service.DynamicInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,11 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/dynamic")
 public class dynamicController {
-    final
-    DynamicInterface dynamicInterface;
-    public dynamicController(DynamicInterface dynamicInterface) {
-        this.dynamicInterface = dynamicInterface;
-    }
+
+    @Autowired
+    private DynamicInterface dynamicInterface;
+
     @GetMapping("/get")
     public Result<?> dynamicGet(@RequestParam(value = "page",required = false)Integer page, @RequestParam(value = "size",required = false)Integer size){
         if (page == null || size == null){
