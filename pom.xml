@@ -8,11 +8,11 @@
         <version>2.6.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>BackgroundSystem</artifactId>
+    <groupId>online.superarilo</groupId>
+    <artifactId>backend-framework</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Background System</name>
-    <description>Background System</description>
+    <name>backend-framework</name>
+    <description>backend-framework</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -104,6 +104,16 @@
             <artifactId>commonmark-ext-heading-anchor</artifactId>
             <version>0.17.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -118,6 +128,14 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
         </plugins>
