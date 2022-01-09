@@ -46,6 +46,11 @@ server:
 #    enabled: true
 #    key-store-password: saP88oIo
 #    keyStoreType: JKS
+  ssl:
+    key-store: classpath:caoguirong.jks
+    enabled: true
+    key-store-password: lzjFMku1
+    keyStoreType: JKS
 
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
