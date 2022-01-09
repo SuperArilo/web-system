@@ -31,8 +31,8 @@ spring:
 #    username: root
 #    password: 123456
     url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-    username: root
-    password: 14bfb12496eb0042
+    username: myblog_dev
+    password: EtB74aept34AaXG8
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   compression:
