@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.superarilo.myblog.mapper.DynamicCommentsMapper">
+    <resultMap id="comments" type="dynamicCommentsVO">
+        <id property="id" column="id"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="commentParentId" column="comment_parent_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="dynamicId" column="dynamic_id"/>
+        <result property="uid" column="uid"/>
+        <result property="username" column="username"/>
+    </resultMap>
+
+    <!-- 查询指定动态的评论数据 -->
+    <select id="listCommentsByDynamicId" resultMap="comments">
+        SELECT
+            dc.id,
+            dc.comment_content,
+            dc.comment_parent_id,
+            dc.create_time,
+            dc.dynamic_id,
+            dc.uid,
+            ui.username
+        FROM
+            dynamic_comments AS dc
+                INNER JOIN
+            user_information AS ui ON ui.id = dc.uid
+        WHERE
+            dc.comment_parent_id = #{commentParentId} AND dc.dynamic_id = #{dynamicId}
+        ORDER BY dc.create_time DESC, dc.id ASC
+            LIMIT #{pageStart}, #{pageSize}
+    </select>
+</mapper>
