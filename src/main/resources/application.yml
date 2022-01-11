@@ -46,11 +46,11 @@ server:
 #    enabled: true
 #    key-store-password: saP88oIo
 #    keyStoreType: JKS
-  ssl:
-    key-store: classpath:caoguirong.jks
-    enabled: true
-    key-store-password: lzjFMku1
-    keyStoreType: JKS
+#  ssl:
+#    key-store: classpath:caoguirong.jks
+#    enabled: true
+#    key-store-password: lzjFMku1
+#    keyStoreType: JKS
 
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
@@ -59,3 +59,13 @@ mybatis-plus:
 logging:
   level:
     com.example.backgroundsystem.mapper: debug
+
+
+## upload file adress
+uploadFile:
+  ## windows
+  windows_file_server_root: D:/nginx/static/
+  windows_file_server_url: http://127.0.0.1:8888/
+  ## linux
+  linux_file_server_root: /usr/local/nginx/static/
+  linux_file_server_url: http://wwww.itrong.love:8888/
