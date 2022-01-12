@@ -26,21 +26,21 @@ public class FileMultipartServiceImpl implements IFileMultipartService {
 
 
     @Override
-    public Result<Map<String, String>> uploadImage(MultipartFile imageFile, String business, HttpServletResponse response) {
+    public Result<Map<String, String>> uploadImage(MultipartFile imageFile) {
         if(imageFile == null || imageFile.isEmpty()) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "图片文件不能为空");
         }
-        // 检查是否为图片格式
         String originalFilename = imageFile.getOriginalFilename();
         if(originalFilename == null) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "图片名称不能为空");
         }
+        // 检查是否为图片格式
         String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         if(!FileMultipartUtil.IMAGE_FILE_SUFFIX.contains(suffix.toUpperCase())) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "图片格式不正确，目前支持 JPG, PNG, JPEG格式");
         }
 
-        String path = FileMultipartUtil.compressFile(imageFile, business);
+        String path = FileMultipartUtil.compressFile(imageFile, "image");
 
         Map<String, String> map = new HashMap<>();
         map.put("relativePath", path);

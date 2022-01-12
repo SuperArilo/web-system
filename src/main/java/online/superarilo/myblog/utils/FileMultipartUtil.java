@@ -44,10 +44,8 @@ public class FileMultipartUtil {
         String root = "";
         if(operatingSystemName != null && operatingSystemName.toLowerCase().startsWith("windows")) {
             root = environment.getProperty("uploadFile.windows_file_server_root");
-        }else if(operatingSystemName != null && operatingSystemName.toLowerCase().startsWith("linux")) {
+        } else {
             root = environment.getProperty("uploadFile.linux_file_server_root");
-        }else {
-            throw new RuntimeException("当前操作系统不支持");
         }
 
         float compressFactor = 0.7f; // 压缩因子
