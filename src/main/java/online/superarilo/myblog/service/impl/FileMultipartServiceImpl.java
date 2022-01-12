@@ -4,7 +4,9 @@ import net.coobird.thumbnailator.ThumbnailParameter;
 import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.util.ThumbnailatorUtils;
+import online.superarilo.myblog.entity.MediaManager;
 import online.superarilo.myblog.service.IFileMultipartService;
+import online.superarilo.myblog.service.IMediaManagerService;
 import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.utils.FileMultipartUtil;
 import online.superarilo.myblog.utils.Result;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +30,9 @@ public class FileMultipartServiceImpl implements IFileMultipartService {
 
     @Autowired
     private IUserInformationService userInformationService;
+
+    @Autowired
+    private IMediaManagerService mediaManagerService;
 
 
     @Override
@@ -48,6 +54,13 @@ public class FileMultipartServiceImpl implements IFileMultipartService {
         }
 
         String path = FileMultipartUtil.compressFile(imageFile, "image");
+
+        // todo 区分用户 将连接存放数据库
+        MediaManager mediaManager = new MediaManager();
+        mediaManager.setUid(uid);
+        mediaManager.setCreateTime(new Date());
+        mediaManager.setMediaUrl(path);
+        mediaManagerService.save(mediaManager);
 
         Map<String, String> map = new HashMap<>();
         map.put("relativePath", path);
