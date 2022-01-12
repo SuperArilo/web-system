@@ -5,6 +5,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.util.ThumbnailatorUtils;
 import online.superarilo.myblog.service.IFileMultipartService;
+import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.utils.FileMultipartUtil;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,15 @@ public class FileMultipartServiceImpl implements IFileMultipartService {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private IUserInformationService userInformationService;
+
 
     @Override
-    public Result<Map<String, String>> uploadImage(MultipartFile imageFile) {
+    public Result<Map<String, String>> uploadImage(MultipartFile imageFile, Integer uid) {
+        if(uid == null || userInformationService.getById(uid) == null) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "用户不存在");
+        }
         if(imageFile == null || imageFile.isEmpty()) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "图片文件不能为空");
         }

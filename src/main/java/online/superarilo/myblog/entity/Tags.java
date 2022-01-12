@@ -1,11 +1,14 @@
 package online.superarilo.myblog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import online.superarilo.myblog.utils.DateUtils;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -38,6 +41,8 @@ public class Tags implements Serializable {
 
     /**
      * 创建时间
+     * 时间格式 默认 yyyy/MM/dd HH:mm:ss
      */
-    private LocalDateTime createTime;
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
+    private Date createTime;
 }

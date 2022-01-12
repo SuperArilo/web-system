@@ -11,6 +11,7 @@ public interface IFileMultipartService {
     /**
      * 上传图片（图片将进行压缩处理）
      * @param imageFile
+     * @param uid
      */
-    Result<Map<String, String>> uploadImage(MultipartFile imageFile);
+    Result<Map<String, String>> uploadImage(MultipartFile imageFile, Integer uid);
 }

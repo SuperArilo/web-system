@@ -19,7 +19,7 @@ public class FileMultipartController {
     private IFileMultipartService fileMultipartService;
 
     @PostMapping("/upload/image")
-    public Result<Map<String, String>> uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
-        return fileMultipartService.uploadImage(imageFile);
+    public Result<Map<String, String>> uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @RequestParam("uid") Integer uid) {
+        return fileMultipartService.uploadImage(imageFile, uid);
     }
 }

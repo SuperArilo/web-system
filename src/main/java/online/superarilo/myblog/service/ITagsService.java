@@ -1,7 +1,11 @@
 package online.superarilo.myblog.service;
 
+import online.superarilo.myblog.dto.TagsDTO;
 import online.superarilo.myblog.entity.Tags;
 import com.baomidou.mybatisplus.extension.service.IService;
+import online.superarilo.myblog.vo.TagsVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ITagsService extends IService<Tags> {
 
+    List<TagsVO> listTags(TagsDTO tagsDTO);
 }

@@ -39,5 +39,5 @@ public class DateUtils {
     /**
      * 年月日时分秒(以 斜线 ‘/’ 分割)
      */
-    public static final String YYYY_MM__DD_HH_MM_SS_BIAS_PATTERN = "yyyy/MM/dd HH:mm:ss";
+    public static final String YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN = "yyyy/MM/dd HH:mm:ss";
 }

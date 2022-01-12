@@ -19,7 +19,7 @@ class BackgroundSystemApplicationTests {
     @Test
     void contextLoads() {
 
-//        FastAutoGenerator.create("jdbc:mysql://localhost:3357/myblog?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai", "root", "123456")
+//        FastAutoGenerator.create("jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai", "root", "123456")
 //                .globalConfig(builder -> {
 //                    builder.author("caoguirong") // 设置作者
 //                            .outputDir("D:\\workspaces\\web-system\\src\\main\\java\\"); // 指定输出目录
