@@ -68,4 +68,4 @@ uploadFile:
   windows_file_server_url: http://127.0.0.1:8888/
   ## linux
   linux_file_server_root: /usr/local/nginx/static/
-  linux_file_server_url: http://wwww.itrong.love:8888/
+  linux_file_server_url: http://www.itrong.love:8888/
