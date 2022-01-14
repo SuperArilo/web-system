@@ -43,6 +43,11 @@ public class MediaManager implements Serializable {
     private String mediaUrl;
 
     /**
+     * http请求地址
+     */
+    private String mediaHttpUrl;
+
+    /**
      * 创建时间
      * 时间格式 默认 yyyy/MM/dd HH:mm:ss
      */

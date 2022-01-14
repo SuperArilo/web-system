@@ -30,7 +30,7 @@ class BackgroundSystemApplicationTests {
 //                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\workspaces\\web-system\\src\\main\\resources\\myblog\\mapper\\")); // 设置mapperXml生成路径
 //                })
 //                .strategyConfig(builder -> {
-//                    builder.addInclude("users_dynamics", "user_information", "tags","reporting_system","dynamic_tags_relations","dynamic_comments","collections"); // 设置需要生成的表名
+//                    builder.addInclude("media_manager"); // 设置需要生成的表名
 //                })
 //                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
 //                .execute();
