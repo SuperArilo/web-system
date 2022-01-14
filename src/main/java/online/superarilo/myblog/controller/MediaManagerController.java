@@ -1,15 +1,13 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.entity.MediaManager;
 import online.superarilo.myblog.service.IMediaManagerService;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -28,6 +26,16 @@ public class MediaManagerController {
 
     @Autowired
     private IMediaManagerService mediaManagerService;
+
+    /**
+     * 获取用户的媒体管理器数据
+     * @param uid
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<MediaManager>> listMediaByUid(@RequestParam("uid") Integer uid) {
+        return mediaManagerService.listMediaByUid(uid);
+    }
 
     /**
      * 用户上传图片

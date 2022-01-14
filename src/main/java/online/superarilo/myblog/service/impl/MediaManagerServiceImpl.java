@@ -1,6 +1,8 @@
 package online.superarilo.myblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import online.superarilo.myblog.entity.MediaManager;
+import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.mapper.MediaManagerMapper;
 import online.superarilo.myblog.service.IMediaManagerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,6 +11,7 @@ import online.superarilo.myblog.utils.FTPUtil;
 import online.superarilo.myblog.utils.FileMultipartUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
+import online.superarilo.myblog.vo.MediaManagerVO;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,17 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
 
     @Autowired
     private Environment environment;
+
+    @Override
+    public Result<List<MediaManager>> listMediaByUid(Integer uid) {
+
+        UserInformation selUser = userInformationService.getById(uid);
+        if(selUser == null) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "未找到该用户", null);
+        }
+        List<MediaManager> data = this.list(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid));
+        return new Result<>(true, HttpStatus.OK, "查询成功", data);
+    }
 
     @Override
     public Result<List> uploadImages(List<MultipartFile> files, Integer uid) {
