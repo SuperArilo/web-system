@@ -38,11 +38,11 @@ public interface IMediaManagerService extends IService<MediaManager> {
 
     /**
      * 删除用户媒体数据
-     * @param meidaId
+     * @param mediaIds
      * @param uid
      * @return
      */
-    Result<String> removeMediaByMeidaIdAndUid(Integer mediaId, Integer uid);
+    Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Integer uid);
 
 
 }

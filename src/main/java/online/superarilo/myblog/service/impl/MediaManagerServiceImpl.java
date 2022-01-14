@@ -78,10 +78,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         // 返回数据
         List<ImageRelativeAbsolutePathVO> list = new ArrayList<>();
         // 将本地图片上传至图片服务器
-        FTPClient ftpClient = FTPUtil.getFTPClient(environment.getProperty("pictureServer.host"),
-                Integer.parseInt(environment.getProperty("pictureServer.port")),
-                environment.getProperty("pictureServer.user"),
-                environment.getProperty("pictureServer.password"));
+        FTPClient ftpClient = FTPUtil.getFTPClient();
 
         // 使用集合的foreach方法
         List<String> imagesAbsolutePathList = Arrays.asList(imagesAbsolutePath);
@@ -144,20 +141,43 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     }
 
     @Override
-    public Result<String> removeMediaByMeidaIdAndUid(Integer mediaId, Integer uid) {
-        MediaManager selMediaManager = this.getById(mediaId);
-        if (selMediaManager == null) {
-            return new Result<>(false, HttpStatus.NOT_FOUND, "删除用的资源不存在","删除用的资源不存在");
-        }
+    public Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Integer uid) {
         UserInformation selUser = userInformationService.getById(uid);
         if(selUser == null) {
             return new Result<>(false, HttpStatus.NOT_FOUND, "当前用户不存在","当前用户不存在");
         }
-        this.remove(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getId, mediaId).eq(MediaManager::getUid, uid));
-        // TODO 删除图片服务器资源
+        if(mediaIds == null || mediaIds.isEmpty()) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "选择要删除的资源","选择要删除的资源");
+        }
+        List<MediaManager> list = this.list(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid).in(MediaManager::getId, mediaIds));
+        // 用户删除的资源集合
+        List<MediaManager> removeMediaRelativePaths = new ArrayList<>();
+        if(list == null || list.size() == 0) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "删除的资源不存在或已删除","删除的资源不存在或已删除");
+        }
+        list.forEach((item) -> {
+            if(mediaIds.contains(item.getId())) {
+                removeMediaRelativePaths.add(item);
+            }
+        });
+
+        this.remove(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid).in(MediaManager::getId, mediaIds));
+
+        // 异步删除图片服务器资源
+        if(removeMediaRelativePaths.size() > 0) {
+            new Thread(() -> {
+                FTPClient ftpClient = FTPUtil.getFTPClient();
+                removeMediaRelativePaths.forEach((item) -> {
+                    String parentFolder = item.getMediaUrl().substring(0, item.getMediaUrl().lastIndexOf("/"));
+                    String fileName = item.getMediaName();
+                    FTPUtil.deleteFileByFileName(ftpClient, parentFolder, fileName);
+                });
+                FTPUtil.closeFTP(ftpClient);
+            }).start();
+        }
+
         return new Result<>(true, HttpStatus.OK, "success", "删除成功");
     }
-
 
     /**
      * 检查文件

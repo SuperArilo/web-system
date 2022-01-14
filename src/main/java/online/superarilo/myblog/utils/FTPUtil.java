@@ -5,6 +5,9 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.SocketException;
@@ -12,28 +15,41 @@ import java.net.SocketException;
 /**
  * ftp
  */
+@Component
 public class FTPUtil {
 
     private static Logger logger = LogManager.getLogger(FTPUtil.class);
 
+    private static String ftpHost;
+    private static String ftpPort;
+    private static String ftpUser;
+    private static String ftpPassword;
+
+    private static Environment environment;
+    @Autowired
+    public void setEnvironment(Environment env) {
+        FTPUtil.environment = env;
+        ftpHost = env.getProperty("pictureServer.host");
+        ftpPort = env.getProperty("pictureServer.port");
+        ftpUser = env.getProperty("pictureServer.user");
+        ftpPassword = env.getProperty("pictureServer.password");
+    }
+
+
+
     /**
      * 获取FTPClient对象
-     * @param ftpServerHost 服务器IP
-     * @param ftpServerPort 服务器端口号
-     * @param ftpServerUsername 用户名
-     * @param ftpServerPassword 密码
      * @return FTPClient
      */
-    public static FTPClient getFTPClient(String ftpServerHost, int ftpServerPort,
-                                  String ftpServerUsername, String ftpServerPassword) {
+    public static FTPClient getFTPClient() {
         FTPClient ftp = null;
 
         try {
             ftp = new FTPClient();
             // 连接FPT服务器,设置IP及端口
-            ftp.connect(ftpServerHost, ftpServerPort);
+            ftp.connect(ftpHost, Integer.parseInt(ftpPort));
             // 设置用户名和密码
-            ftp.login(ftpServerUsername, ftpServerPassword);
+            ftp.login(ftpUser, ftpPassword);
             // 设置连接超时时间,5000毫秒
             ftp.setConnectTimeout(50000);
             // 设置中文编码集，防止中文乱码
@@ -269,6 +285,28 @@ public class FTPUtil {
             logger.error("移动文件失败");
         }
         return flag;
+    }
+
+    /**
+     * 删除FTP上指定文件夹下文件及其子文件方法，添加了对中文目录的支持
+     * @param ftp FTPClient对象
+     * @param ftpFileParentFolder 需要删除的文件的父路径
+     * @param fileName 需要删除文件名
+     * @return
+     */
+    public static boolean deleteFileByFileName(FTPClient ftp,String ftpFileParentFolder, String fileName){
+        boolean flag = false;
+        try {
+            boolean b = ftp.changeWorkingDirectory(new String(ftpFileParentFolder.getBytes("UTF-8"), "ISO-8859-1"));
+            ftp.enterLocalPassiveMode();
+            //删除文件
+            flag = ftp.deleteFile(new String(fileName.getBytes("UTF-8"),"ISO-8859-1"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("删除失败");
+        }
+        return flag;
+
     }
 
     /**
