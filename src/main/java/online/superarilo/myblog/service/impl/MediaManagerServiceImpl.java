@@ -124,7 +124,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
 
 
 
-        return new Result<List>(true, HttpStatus.OK, "success", list);
+        return new Result<List>(true, HttpStatus.OK, "success", mediaManagerList);
     }
 
 
