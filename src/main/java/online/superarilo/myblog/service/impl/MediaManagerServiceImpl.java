@@ -143,6 +143,21 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         return new Result<List>(true, HttpStatus.OK, "success", mediaManagerList);
     }
 
+    @Override
+    public Result<String> removeMediaByMeidaIdAndUid(Integer mediaId, Integer uid) {
+        MediaManager selMediaManager = this.getById(mediaId);
+        if (selMediaManager == null) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "删除用的资源不存在","删除用的资源不存在");
+        }
+        UserInformation selUser = userInformationService.getById(uid);
+        if(selUser == null) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "当前用户不存在","当前用户不存在");
+        }
+        this.remove(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getId, mediaId).eq(MediaManager::getUid, uid));
+        // TODO 删除图片服务器资源
+        return new Result<>(true, HttpStatus.OK, "success", "删除成功");
+    }
+
 
     /**
      * 检查文件

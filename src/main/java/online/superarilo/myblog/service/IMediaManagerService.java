@@ -36,4 +36,13 @@ public interface IMediaManagerService extends IService<MediaManager> {
     Result<List> uploadImages(List<MultipartFile> files, Integer uid);
 
 
+    /**
+     * 删除用户媒体数据
+     * @param meidaId
+     * @param uid
+     * @return
+     */
+    Result<String> removeMediaByMeidaIdAndUid(Integer mediaId, Integer uid);
+
+
 }

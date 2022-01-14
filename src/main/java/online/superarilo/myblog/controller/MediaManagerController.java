@@ -4,6 +4,7 @@ package online.superarilo.myblog.controller;
 import online.superarilo.myblog.entity.MediaManager;
 import online.superarilo.myblog.service.IMediaManagerService;
 import online.superarilo.myblog.utils.Result;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +47,16 @@ public class MediaManagerController {
     @PostMapping("/upload/image")
     public Result<List> uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, @RequestParam("uid") Integer uid) {
         return mediaManagerService.uploadImages(imageFiles, uid);
+    }
+
+    /**
+     * 删除用户的媒体资源
+     * @param mediaId
+     * @param uid
+     * @return
+     */
+    @PostMapping("/remove")
+    public Result<String> removeMediaByMeidaIdAndUid(Integer mediaId, Integer uid) {
+        return mediaManagerService.removeMediaByMeidaIdAndUid(mediaId, uid);
     }
 }
