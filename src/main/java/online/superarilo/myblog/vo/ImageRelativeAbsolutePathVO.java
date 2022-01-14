@@ -6,6 +6,8 @@ import lombok.Data;
 public class ImageRelativeAbsolutePathVO {
 
 
+    private String fileName;
+
     private String relativePath;
 
     private String absolutePath;

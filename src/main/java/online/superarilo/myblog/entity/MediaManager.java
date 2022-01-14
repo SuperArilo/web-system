@@ -38,6 +38,11 @@ public class MediaManager implements Serializable {
     private Integer uid;
 
     /**
+     * 媒体文件名称
+     */
+    private String mediaName;
+
+    /**
      * 相对地址
      */
     private String mediaUrl;

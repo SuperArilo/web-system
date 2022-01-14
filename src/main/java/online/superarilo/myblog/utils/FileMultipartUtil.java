@@ -160,8 +160,10 @@ public class FileMultipartUtil {
         String relativeBasePath = ftpPath.replaceFirst(getBasePath("uploadFileAddress.picture_server_base_path"), "");
         ImageRelativeAbsolutePathVO imageRelativeAbsolutePathVO = new ImageRelativeAbsolutePathVO();
         String relativePath = relativeBasePath + fileName;
+        imageRelativeAbsolutePathVO.setFileName(fileName);
         imageRelativeAbsolutePathVO.setRelativePath(relativePath);
         imageRelativeAbsolutePathVO.setAbsolutePath(environment.getProperty("pictureHttp") + relativePath);
+
         return imageRelativeAbsolutePathVO;
     }
 }

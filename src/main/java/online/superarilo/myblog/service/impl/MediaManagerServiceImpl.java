@@ -110,8 +110,10 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         list.forEach((item) -> {
             MediaManager mediaManager = new MediaManager();
             mediaManager.setUid(uid);
+            mediaManager.setMediaName(item.getFileName());
             mediaManager.setMediaUrl(item.getRelativePath());
             mediaManager.setMediaHttpUrl(item.getAbsolutePath());
+            mediaManager.setCreateTime(new Date());
             mediaManagerList.add(mediaManager);
         });
         this.saveBatch(mediaManagerList);
