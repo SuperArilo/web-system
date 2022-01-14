@@ -56,8 +56,15 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         if(uid == null || userInformationService.getById(uid) == null) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "用户不存在");
         }
+        List<MediaManager> userMediaList = this.list(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid));
+        if(userMediaList.size() >= 16) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "最多保存十六张图片");
+        }
         if(files == null || files.isEmpty()) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请选择图片文件");
+        }
+        if(files.size() > 4) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "单次最多上传4张图片");
         }
         // 检查图片
         Result<List> checkFilesResult = this.checkFile(files, FileMultipartUtil.IMAGE_FILE_SUFFIX);
@@ -77,6 +84,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
 
         // 返回数据
         List<ImageRelativeAbsolutePathVO> list = new ArrayList<>();
+
         // 将本地图片上传至图片服务器
         FTPClient ftpClient = FTPUtil.getFTPClient();
 
@@ -91,15 +99,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
             // 处理相对路径和图片请求地址
             list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, fileName));
         });
-        /*for (String s : imagesAbsolutePath) {
-            // 最后一个 / 所在位置
-            int index = s.lastIndexOf("/") + 1;
-            String basePath = s.substring(0, index);
-            String fileName = s.substring(index);
-            FTPUtil.uploadFile(ftpClient, basePath, imageServerBasePath, fileName);
-            // 处理相对路径和图片请求地址
-            list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, fileName));
-        }*/
+
         FTPUtil.closeFTP(ftpClient);
 
         // 保存到数据库
@@ -123,19 +123,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
                     file.delete();
                 }
             });
-            /*for (String path : imagesAbsolutePath) {
-                File file = new File(path);
-                if(file.exists()) {
-                    String parent = file.getParent();
-                    File file1 = new File(parent);
-                    if(file1.exists()) {
-                        file1.delete();
-                    }
-                }
-            }*/
         }).start();
-
-
 
         return new Result<List>(true, HttpStatus.OK, "success", mediaManagerList);
     }
