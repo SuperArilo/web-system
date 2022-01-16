@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,11 +48,26 @@ public class UsersDynamicsController {
         return new Result<>(true, HttpStatus.OK, "success", usersDynamicsService.listUserDynamics(queryParams));
     }
 
+    @GetMapping("/details")
+    public Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId) {
+        return usersDynamicsService.queryDynamicById(dynamicId);
+    }
+
 
     @PostMapping("/")
     public Result<String> saveUserDynamic(@RequestBody UsersDynamicsVO usersDynamicsVO) {
         return usersDynamicsService.saveUserDynamic(usersDynamicsVO);
     }
 
+    /**
+     * 动态浏览量递增
+     * @param dynamicId
+     * @param request
+     * @return
+     */
+    @GetMapping("/increment")
+    public Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request) {
+        return usersDynamicsService.incrementDynamicPageView(dynamicId, request);
+    }
 
 }

@@ -1,5 +1,7 @@
 package online.superarilo.myblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import online.superarilo.myblog.entity.DynamicTagsRelations;
 import online.superarilo.myblog.entity.Tags;
 import online.superarilo.myblog.entity.UsersDynamics;
@@ -11,12 +13,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.UsersDynamicsVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -39,6 +44,23 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
     @Override
     public List<UsersDynamicsVO> listUserDynamics(Map<String, Object> queryParams) {
         return this.baseMapper.listUserDynamics(queryParams);
+    }
+
+    @Override
+    public Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId) {
+        if(dynamicId == null) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "参数有误", null);
+        }
+        UsersDynamics selDynamic = this.getOne(new QueryWrapper<UsersDynamics>()
+                .lambda().eq(UsersDynamics::getId, dynamicId)
+                .eq(UsersDynamics::getIsReporting, 0).last("limit 1"));
+        if(Objects.isNull(selDynamic)) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "查询的动态不存在或已被举报", null);
+        }
+
+        UsersDynamicsVO usersDynamicsVO = this.baseMapper.queryDynamicById(dynamicId);
+
+        return new Result<>(true, HttpStatus.OK, "查询成功", usersDynamicsVO);
     }
 
     @Override
@@ -85,6 +107,35 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
         dynamicTagsRelationsService.saveBatch(dynamicTagsRelationsEntities);
 
         return new Result<>(true, HttpStatus.OK, "发布成功", null);
+    }
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Override
+    public Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request) {
+        if(dynamicId == null) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "参数有误", null);
+        }
+        UsersDynamics selDynamic = this.getOne(new QueryWrapper<UsersDynamics>()
+                .lambda().eq(UsersDynamics::getId, dynamicId)
+                .eq(UsersDynamics::getIsReporting, 0).last("limit 1"));
+        if(Objects.isNull(selDynamic)) {
+            return new Result<>(false, HttpStatus.NOT_FOUND, "动态不存在或已被举报", null);
+        }
+
+        String sameIPRedisKey = dynamicId + ":" + request.getRemoteHost();
+        if(Boolean.TRUE.equals(redisTemplate.hasKey(sameIPRedisKey))) {
+            return new Result<>(true, HttpStatus.OK, "30分钟内浏览相同动态算一次哦", null);
+        }
+        redisTemplate.opsForValue().set(sameIPRedisKey, sameIPRedisKey, 60 * 30, TimeUnit.SECONDS);
+//        redisTemplate.opsForValue().set(sameIPRedisKey, sameIPRedisKey ,10, TimeUnit.SECONDS); // 测试10秒
+
+        this.update(new UpdateWrapper<UsersDynamics>()
+                .lambda()
+                .set(UsersDynamics::getDynamicPageView, selDynamic.getDynamicPageView() + 1)
+                .eq(UsersDynamics::getId, selDynamic.getId()));
+        return new Result<>(true, HttpStatus.OK, dynamicId + ": 浏览数量加一", null);
     }
 
 

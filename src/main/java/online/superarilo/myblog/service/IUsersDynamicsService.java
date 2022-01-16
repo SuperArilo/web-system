@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.UsersDynamicsVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +24,26 @@ public interface IUsersDynamicsService extends IService<UsersDynamics> {
      */
     List<UsersDynamicsVO> listUserDynamics(Map<String, Object> queryParams);
 
+
+    /**
+     * 根据id查询详情
+     * @param dynamicId
+     * @return
+     */
+    Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId);
+
     /**
      * 发布动态
      * @param usersDynamicsVO
      * @return
      */
     Result<String> saveUserDynamic(UsersDynamicsVO usersDynamicsVO);
+
+    /**
+     * 动态浏览量递增
+     * @param dynamicId
+     * @param request
+     * @return
+     */
+    Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request);
 }

@@ -25,31 +25,25 @@
     <!-- 按条件查询动态信息 -->
     <select id="listUserDynamics" resultMap="dynamic">
         SELECT
-        ud.id,
-        ud.dynamic_title,
-        ud.dynamic_describe,
-        ud.dynamic_content,
-        ud.dynamic_page_view,
-        ud.is_reporting,
-        ud.create_time,
-        ui.id AS uid,
-        ui.username,
-        ui.userhead as userHead,
-        ui.class as clazz,
-        COUNT(DISTINCT dc.id) AS commentNum,
-        COUNT(DISTINCT c.id) AS collectionNum
-        FROM
-        users_dynamics AS ud
-        INNER JOIN
-        user_information AS ui ON ui.id = ud.uid
-        LEFT JOIN
-        dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
-        INNER JOIN
-        dynamic_tags_relations AS dtr ON dtr.dynamic_id = ud.id
-        INNER JOIN
-        tags AS t ON t.id = dtr.tag_id
-        left JOIN
-        collections as c on c.dynamic_id = ud.id
+            ud.id,
+            ud.dynamic_title,
+            ud.dynamic_describe,
+            ud.dynamic_content,
+            ud.dynamic_page_view,
+            ud.is_reporting,
+            ud.create_time,
+            ui.id AS uid,
+            ui.username,
+            ui.userhead as userHead,
+            ui.class as clazz,
+            COUNT(DISTINCT dc.id) AS commentNum,
+            COUNT(DISTINCT c.id) AS collectionNum
+        FROM users_dynamics AS ud
+        INNER JOIN user_information AS ui ON ui.id = ud.uid
+        LEFT JOIN dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
+        INNER JOIN dynamic_tags_relations AS dtr ON dtr.dynamic_id = ud.id
+        INNER JOIN tags AS t ON t.id = dtr.tag_id
+        left JOIN collections as c on c.dynamic_id = ud.id
         <where>
             ud.is_reporting = 0
             <if test="tagIds != null and tagIds.length > 0">
@@ -79,6 +73,31 @@
         </trim>
         ud.create_time DESC, ud.id ASC
         LIMIT #{pageNumber}, #{pageSize}
+    </select>
+
+    <!-- 根据id查询动态 -->
+    <select id="queryDynamicById" resultMap="dynamic">
+        SELECT
+            ud.id,
+            ud.dynamic_title,
+            ud.dynamic_describe,
+            ud.dynamic_content,
+            ud.dynamic_page_view,
+            ud.is_reporting,
+            ud.create_time,
+            ui.id AS uid,
+            ui.username,
+            ui.userhead as userHead,
+            ui.class as clazz,
+            COUNT(DISTINCT dc.id) AS commentNum,
+            COUNT(DISTINCT c.id) AS collectionNum
+        FROM users_dynamics AS ud
+        INNER JOIN user_information AS ui ON ui.id = ud.uid
+        LEFT JOIN dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
+        LEFT JOIN dynamic_tags_relations AS dtr ON dtr.dynamic_id = ud.id
+        LEFT JOIN tags AS t ON t.id = dtr.tag_id
+        LEFT JOIN collections as c on c.dynamic_id = ud.id
+        where ud.id = #{dynamicId}
     </select>
 
     <!-- 根据动态id查询贴在这条动态上面的标签集合 -->

@@ -12,8 +12,8 @@ spring:
   redis:
     host: localhost  #配置redis的主机地址，需要修改成自己的
     database: 0
-    port: 2568
-    password: 728152568
+    port: 6379
+    password: redis123456
     jedis:
       pool:
         max-active: 50 # 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool 的状态为exhausted(耗尽)
