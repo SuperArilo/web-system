@@ -61,9 +61,8 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
         // 保存新标签
         if (usersDynamicsVO.getTags() != null && usersDynamicsVO.getTags().size() > 0) {
             tagsService.saveBatch(usersDynamicsVO.getTags());
-            Iterator<Tags> tagsEntityIterator = usersDynamicsVO.getTags().iterator();
-            if (tagsEntityIterator.hasNext()) {
-                usersDynamicsVO.getAlreadyExistedTagIds().add(tagsEntityIterator.next().getId()); // 将新添加的标签id加入动态标签组中
+            for (Tags tags : usersDynamicsVO.getTags()) {
+                usersDynamicsVO.getAlreadyExistedTagIds().add(tags.getId()); // 将新添加的标签id加入动态标签组中
             }
         }
 
@@ -85,46 +84,46 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
         }
         dynamicTagsRelationsService.saveBatch(dynamicTagsRelationsEntities);
 
-        return new Result<>(true, HttpStatus.OK, "success", "发布成功");
+        return new Result<>(true, HttpStatus.OK, "发布成功", null);
     }
 
 
     private Result<String> before(UsersDynamicsVO usersDynamicsVO) {
         if(usersDynamicsVO == null) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "参数不正确或参数不完整");
+            return new Result<>(false, HttpStatus.BAD_REQUEST,"参数不正确或参数不完整", null);
         }
         if(usersDynamicsVO.getUid() == null) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "用户信息不能为空");
+            return new Result<>(false, HttpStatus.BAD_REQUEST,"用户信息不能为空", null);
         }
         if(!StringUtils.hasLength(usersDynamicsVO.getDynamicTitle())) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "标题不能为空");
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "标题不能为空", null);
         }
         if(!StringUtils.hasLength(usersDynamicsVO.getDynamicDescribe())) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "简介不能为空");
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "简介不能为空", null);
         }
         if(!StringUtils.hasLength(usersDynamicsVO.getDynamicContent())) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "动态内容不能为空");
+            return new Result<>(false, HttpStatus.BAD_REQUEST,"动态内容不能为空", null);
         }
         if(usersDynamicsVO.getTags() == null && usersDynamicsVO.getAlreadyExistedTagIds() == null) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "至少添加一个标签");
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "至少添加一个标签", null);
         }else {
             if(usersDynamicsVO.getTags() == null) {
                 if(usersDynamicsVO.getAlreadyExistedTagIds().size() == 0) {
-                    return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "至少添加一个标签");
+                    return new Result<>(false, HttpStatus.BAD_REQUEST, "至少添加一个标签", null);
                 }else if(usersDynamicsVO.getAlreadyExistedTagIds().size() > 3) {
-                    return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "最多添加三个标签");
+                    return new Result<>(false, HttpStatus.BAD_REQUEST,"最多添加三个标签", null);
                 }
             } else if(usersDynamicsVO.getAlreadyExistedTagIds() == null) {
                 if(usersDynamicsVO.getTags().size() == 0) {
-                    return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "至少添加一个标签");
+                    return new Result<>(false, HttpStatus.BAD_REQUEST, "至少添加一个标签", null);
                 }else if(usersDynamicsVO.getTags().size() > 3) {
-                    return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "最多添加三个标签");
+                    return new Result<>(false, HttpStatus.BAD_REQUEST,"最多添加三个标签", null);
                 }
             } else {
                 if(usersDynamicsVO.getTags().size() + usersDynamicsVO.getAlreadyExistedTagIds().size() == 0) {
-                    return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "至少添加一个标签");
+                    return new Result<>(false, HttpStatus.BAD_REQUEST, "至少添加一个标签", null);
                 }else if(usersDynamicsVO.getTags().size() + usersDynamicsVO.getAlreadyExistedTagIds().size() > 3) {
-                    return new Result<>(false, HttpStatus.BAD_REQUEST, "error", "最多添加三个标签");
+                    return new Result<>(false, HttpStatus.BAD_REQUEST, "最多添加三个标签", null);
                 }
             }
         }

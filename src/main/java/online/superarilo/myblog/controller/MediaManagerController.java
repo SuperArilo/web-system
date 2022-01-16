@@ -44,7 +44,7 @@ public class MediaManagerController {
      * @param uid
      * @return
      */
-    @PostMapping("/upload/image")
+    @PostMapping(value = "/upload/image")
     public Result<List> uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, @RequestParam("uid") Integer uid) {
         return mediaManagerService.uploadImages(imageFiles, uid);
     }
