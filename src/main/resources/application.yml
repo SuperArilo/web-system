@@ -78,4 +78,4 @@ pictureServer:
   password: admin123456
 
 ## http
-pictureHttp: http://www.itrong.love:8888/
+pictureHttp: https://www.itrong.love:4433/
