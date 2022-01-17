@@ -49,7 +49,8 @@ public class UsersDynamicsController {
     }
 
     @GetMapping("/details")
-    public Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId) {
+    public Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId, HttpServletRequest request) {
+        usersDynamicsService.incrementDynamicPageView(dynamicId, request);
         return usersDynamicsService.queryDynamicById(dynamicId);
     }
 
@@ -65,9 +66,9 @@ public class UsersDynamicsController {
      * @param request
      * @return
      */
-    @GetMapping("/increment")
-    public Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request) {
-        return usersDynamicsService.incrementDynamicPageView(dynamicId, request);
-    }
+//    @GetMapping("/increment")
+//    public Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request) {
+//        return usersDynamicsService.incrementDynamicPageView(dynamicId, request);
+//    }
 
 }
