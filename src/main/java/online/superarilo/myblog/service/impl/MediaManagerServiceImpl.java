@@ -107,7 +107,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         if(byteArrayOutputStreams.size() > 0) {
             byteArrayOutputStreams.forEach((item) -> {
                 // uuid生成图片名称
-                String imageName = UUID.randomUUID().toString() + ".jpg";
+                String imageName = UUID.randomUUID().toString().replaceAll("-", "") + ".jpg";
                 FTPUtil.uploadFile(ftpClient, imageServerBasePath, imageName, new ByteArrayInputStream(item.toByteArray()));
                 // 处理相对路径和图片请求地址
                 list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, imageName));
@@ -117,7 +117,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         // 上传gif
         if(gifFiles.size() > 0) {
             for (InputStream gifFile : gifFiles) {
-                String imageName = UUID.randomUUID().toString() + ".gif";
+                String imageName = UUID.randomUUID().toString().replaceAll("-", "") + ".gif";
                 FTPUtil.uploadFile(ftpClient, imageServerBasePath, imageName, gifFile);
                 // 处理相对路径和图片请求地址
                 list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, imageName));
