@@ -143,6 +143,57 @@ public class FTPUtil {
     /**
      * FTP文件上传方法
      * @param ftp
+     * @param fileName
+     * @return
+     */
+    public static boolean uploadFile(FTPClient ftp, String ftpPath, String fileName, InputStream is){
+        boolean flag = false;
+        try {
+            // 设置PassiveMode传输
+            ftp.enterLocalPassiveMode();
+            //设置二进制传输，使用BINARY_FILE_TYPE，ASC容易造成文件损坏
+            ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
+            //判断FPT目标文件夹时候存在不存在则创建
+            String[] split = ftpPath.split("/");
+            if(!ftp.changeWorkingDirectory(ftpPath)){
+                for (String s : split) {
+                    ftp.makeDirectory(s);
+                    ftp.changeWorkingDirectory(s);
+                }
+            }
+            //跳转目标目录
+            ftp.changeWorkingDirectory(ftpPath);
+
+            //上传文件
+            flag = ftp.storeFile(fileName,is);
+            for (int i = 0; i < split.length; i++) {
+                ftp.changeToParentDirectory();
+            }
+            if(flag){
+                logger.info("上传成功");
+            }else{
+                logger.error("上传失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("上传失败11");
+        }finally{
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return flag;
+    }
+
+
+    /**
+     * FTP文件上传方法
+     * @param ftp
      * @param basePath
      * @param fileName
      * @return

@@ -10,9 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -27,7 +25,7 @@ public class FileMultipartUtil {
     /**
      * 图片扩展名称
      */
-    public static final List<String> IMAGE_FILE_SUFFIX = Arrays.asList("JPG", "PNG", "JPEG");
+    public static final List<String> IMAGE_FILE_SUFFIX = Arrays.asList("JPG", "PNG", "JPEG", "GIF");
 
     private static Environment environment;
     @Autowired
@@ -73,11 +71,10 @@ public class FileMultipartUtil {
     /**
      * 压缩图片保存到本地
      * @param files
-     * @param localBasePath
      * @throws RuntimeException
      * @return 返回图片在本地的绝对路径集合
      */
-    public static String[] compressFile(List<MultipartFile> files, String localBasePath) throws RuntimeException {
+    public static List<ByteArrayOutputStream> compressFile(List<MultipartFile> files) throws RuntimeException {
         // 压缩因子
         float compressFactor = 0.7f;
 
@@ -85,28 +82,28 @@ public class FileMultipartUtil {
         String compressFormat = "jpg";
 
         // 创建父文件夹
-        File outputFileParentAdressFile = new File(localBasePath);
-        if(!outputFileParentAdressFile.exists()) {
-            outputFileParentAdressFile.mkdirs();
-        }
+//        File outputFileParentAdressFile = new File(localBasePath);
+//        if(!outputFileParentAdressFile.exists()) {
+//            outputFileParentAdressFile.mkdirs();
+//        }
 
         // 文件集合绝对路径
-        String[] filePath = new String[files.size()];
+//        String[] filePath = new String[files.size()];
 
-        // 压缩后输出本地的文件类集合
-        List<File> fs = new ArrayList<>();
+        // 压缩后输出流类集合
+        List<ByteArrayOutputStream> fs = new ArrayList<>();
 
         // 创建文件类并添加到压缩后输出本地的文件集合中
         for (int i = 0; i < files.size(); i++) {
-            filePath[i] = localBasePath + UUID.randomUUID().toString().replaceAll("-", "") + "." + compressFormat;
-            fs.add(new File(filePath[i]));
+//            filePath[i] = localBasePath + UUID.randomUUID().toString().replaceAll("-", "") + "." + compressFormat;
+            fs.add(new ByteArrayOutputStream());
         }
 
         // 开始压缩
         InputStream[] inputStreams = null;
         try {
             inputStreams = createInputStreams(files);
-            Thumbnails.of(inputStreams).outputQuality(compressFactor).outputFormat(compressFormat).scale(1).toFiles(fs);
+            Thumbnails.of(inputStreams).outputQuality(compressFactor).outputFormat(compressFormat).scale(1).toOutputStreams(fs);
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("压缩图片失败");
@@ -119,7 +116,7 @@ public class FileMultipartUtil {
 
             }
         }
-        return filePath;
+        return fs;
     }
 
     /**

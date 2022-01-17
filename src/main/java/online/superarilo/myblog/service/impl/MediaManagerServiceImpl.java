@@ -20,7 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -72,15 +72,30 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
             return checkFilesResult;
         }
 
-        // 获取本地存储路径
-        String localBasePath = FileMultipartUtil.systemRoot();
-
+//        // 获取本地存储路径
+//        String localBasePath = FileMultipartUtil.systemRoot();
+//
         // 获取图片服务器图片存储父路径
         String business = "images";
         String imageServerBasePath = FileMultipartUtil.getImageServerBasePath(business);
 
+        // 格式为  jpg/png/jpeg 进行压缩
+        List<MultipartFile> tempFiles = new ArrayList<>();
+        List<InputStream> gifFiles = new ArrayList<>();
+        files.forEach((item) -> {
+            if(!Objects.equals("GIF", item.getOriginalFilename().substring(item.getOriginalFilename().lastIndexOf(".") + 1).toUpperCase())) {
+                tempFiles.add(item);
+            }else {
+                try {
+                    gifFiles.add(item.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         // MultipartFile对象压缩成图片保存到本地，返回图片绝对路径
-        String[] imagesAbsolutePath = FileMultipartUtil.compressFile(files, localBasePath);
+        List<ByteArrayOutputStream> byteArrayOutputStreams = FileMultipartUtil.compressFile(tempFiles);
 
         // 返回数据
         List<ImageRelativeAbsolutePathVO> list = new ArrayList<>();
@@ -89,17 +104,26 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         FTPClient ftpClient = FTPUtil.getFTPClient();
 
         // 使用集合的foreach方法
-        List<String> imagesAbsolutePathList = Arrays.asList(imagesAbsolutePath);
-        imagesAbsolutePathList.forEach((item) -> {
-            // 最后一个 / 所在位置
-            int index = item.lastIndexOf("/") + 1;
-            String basePath = item.substring(0, index);
-            String fileName = item.substring(index);
-            FTPUtil.uploadFile(ftpClient, basePath, imageServerBasePath, fileName);
-            // 处理相对路径和图片请求地址
-            list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, fileName));
-        });
+        if(byteArrayOutputStreams.size() > 0) {
+            byteArrayOutputStreams.forEach((item) -> {
+                // uuid生成图片名称
+                String imageName = UUID.randomUUID().toString() + ".jpg";
+                FTPUtil.uploadFile(ftpClient, imageServerBasePath, imageName, new ByteArrayInputStream(item.toByteArray()));
+                // 处理相对路径和图片请求地址
+                list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, imageName));
+            });
+        }
 
+        // 上传gif
+        if(gifFiles.size() > 0) {
+            for (InputStream gifFile : gifFiles) {
+                String imageName = UUID.randomUUID().toString() + ".gif";
+                FTPUtil.uploadFile(ftpClient, imageServerBasePath, imageName, gifFile);
+                // 处理相对路径和图片请求地址
+                list.add(FileMultipartUtil.hanldeImageRelativeHttpRequest(imageServerBasePath, imageName));
+            }
+
+        }
         FTPUtil.closeFTP(ftpClient);
 
         // 保存到数据库
@@ -115,15 +139,15 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         });
         this.saveBatch(mediaManagerList);
 
-        // 异步线程删除保存在本地的图片
-        new Thread( () -> {
-            imagesAbsolutePathList.forEach((item) -> {
-                File file = new File(item);
-                if(file.exists()) {
-                    file.delete();
-                }
-            });
-        }).start();
+//        // 异步线程删除保存在本地的图片
+//        new Thread( () -> {
+//            imagesAbsolutePathList.forEach((item) -> {
+//                File file = new File(item);
+//                if(file.exists()) {
+//                    file.delete();
+//                }
+//            });
+//        }).start();
 
         return new Result<List>(true, HttpStatus.OK, "success", mediaManagerList);
     }
@@ -178,7 +202,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
             String originalFilename = file.getOriginalFilename();
             String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
             if(!suffixes.contains(suffix.toUpperCase())) {
-                errorList.add(originalFilename + " 图片格式不正确，目前支持 JPG, PNG, JPEG格式");
+                errorList.add(originalFilename + " 图片格式不正确，目前支持 JPG, PNG, JPEG, GIF格式");
             }
         }
         return errorList.isEmpty() ? null : new Result<>(false, HttpStatus.BAD_REQUEST, "error", errorList);
