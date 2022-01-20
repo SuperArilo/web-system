@@ -95,7 +95,10 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         });
 
         // MultipartFile对象压缩成图片保存到本地，返回图片绝对路径
-        List<ByteArrayOutputStream> byteArrayOutputStreams = FileMultipartUtil.compressFile(tempFiles);
+        List<ByteArrayOutputStream> byteArrayOutputStreams = null;
+        if(tempFiles.size() > 0) {
+            byteArrayOutputStreams = FileMultipartUtil.compressFile(tempFiles);
+        }
 
         // 返回数据
         List<ImageRelativeAbsolutePathVO> list = new ArrayList<>();
@@ -104,7 +107,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         FTPClient ftpClient = FTPUtil.getFTPClient();
 
         // 使用集合的foreach方法
-        if(byteArrayOutputStreams.size() > 0) {
+        if(Objects.nonNull(byteArrayOutputStreams) && byteArrayOutputStreams.size() > 0) {
             byteArrayOutputStreams.forEach((item) -> {
                 // uuid生成图片名称
                 String imageName = UUID.randomUUID().toString().replaceAll("-", "") + ".jpg";
