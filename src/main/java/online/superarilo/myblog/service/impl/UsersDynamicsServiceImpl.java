@@ -10,6 +10,7 @@ import online.superarilo.myblog.service.IDynamicTagsRelationsService;
 import online.superarilo.myblog.service.ITagsService;
 import online.superarilo.myblog.service.IUsersDynamicsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.UsersDynamicsVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,9 +110,6 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
         return new Result<>(true, HttpStatus.OK, "发布成功", null);
     }
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-
     @Override
     public Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request) {
         if(dynamicId == null) {
@@ -125,11 +123,11 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
         }
 
         String sameIPRedisKey = dynamicId + ":" + request.getRemoteHost();
-        if(Boolean.TRUE.equals(redisTemplate.hasKey(sameIPRedisKey))) {
+        if(RedisUtil.hasKey(sameIPRedisKey)) {
             return new Result<>(true, HttpStatus.OK, "30分钟内浏览相同动态算一次哦", null);
         }
-        redisTemplate.opsForValue().set(sameIPRedisKey, sameIPRedisKey, 60 * 30, TimeUnit.SECONDS);
-//        redisTemplate.opsForValue().set(sameIPRedisKey, sameIPRedisKey ,10, TimeUnit.SECONDS); // 测试10秒
+        RedisUtil.set(sameIPRedisKey, sameIPRedisKey, 60 * 30, TimeUnit.SECONDS);
+//        RedisUtil.set(sameIPRedisKey, sameIPRedisKey ,10, TimeUnit.SECONDS); // 测试10秒
 
         this.update(new UpdateWrapper<UsersDynamics>()
                 .lambda()

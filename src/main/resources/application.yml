@@ -22,17 +22,29 @@ spring:
         # max-wait: 5 # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接 抛出JedisConnectionException
   main:
     allow-bean-definition-overriding: true
+
+  ## email
+  mail:
+    default-encoding: utf-8
+    host: smtp.qq.com
+    username: 1847714996@qq.com
+    password: yxwytbgxhwbpfcff
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+
+
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-#    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: 123456
-    url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-    username: myblog_dev
-    password: EtB74aept34AaXG8
+    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+#    url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+#    username: myblog_dev
+#    password: EtB74aept34AaXG8
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   compression:
@@ -46,11 +58,11 @@ server:
 #    enabled: true
 #    key-store-password: saP88oIo
 #    keyStoreType: JKS
-  ssl:
-    key-store: classpath:caoguirong.jks
-    enabled: true
-    key-store-password: lzjFMku1
-    keyStoreType: JKS
+#  ssl:
+#    key-store: classpath:caoguirong.jks
+#    enabled: true
+#    key-store-password: lzjFMku1
+#    keyStoreType: JKS
 
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
