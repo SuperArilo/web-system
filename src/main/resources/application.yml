@@ -84,10 +84,10 @@ uploadFileAddress:
 
 ## picture server:
 pictureServer:
-  host: 1.116.88.15
+  host: 182.42.112.115
   port: 21
   user: ftpadmin
   password: admin123456
 
 ## http
-pictureHttp: https://www.itrong.love:4433/
+pictureHttp: https://www.superarilo.icu:4433/
