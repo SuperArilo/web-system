@@ -50,7 +50,7 @@ server:
   compression:
     enabled: true
     mime-types: application/json,application/xml,text/html,text/xml,text/plain
-  port: 80
+  port: 443
   servlet:
     context-path: /api
   ssl:
