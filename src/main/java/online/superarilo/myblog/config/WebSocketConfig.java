@@ -8,7 +8,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 public class WebSocketConfig {
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
-        System.out.println("启动");
         return new ServerEndpointExporter();
     }
 }
