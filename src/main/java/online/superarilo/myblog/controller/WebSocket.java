@@ -15,11 +15,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/websockets/{name}")
 public class WebSocket {
 
+    /**
+     *  与某个客户端的连接对话，需要通过它来给客户端发送消息
+     */
     private Session session;
-    //标识当前连接客户端的用户名
+
+    /**
+     * 标识当前连接客户端的用户名
+     */
     private String name;
 
-    //用于存所有的连接服务的客户端，这个对象存储是安全的
+    /**
+     *  用于存所有的连接服务的客户端，这个对象存储是安全的
+     */
     private static final ConcurrentHashMap<String,WebSocket> webSocketSet = new ConcurrentHashMap<>();
 
 
@@ -29,24 +37,25 @@ public class WebSocket {
         this.name = name;
         // name是用来表示唯一客户端，如果需要指定发送，需要指定发送通过name来区分
         webSocketSet.put(name,this);
-        log.info("[WebSocket] 连接成功，当前连接人数为：= {}",webSocketSet.size());
+        log.info("连接成功，当前连接人数为：= {}",webSocketSet.size());
     }
 
 
     @OnClose
     public void OnClose(){
         webSocketSet.remove(this.name);
-        log.info("[WebSocket] 退出成功，当前连接人数为：= {}",webSocketSet.size());
+        log.info("退出成功，当前连接人数为：= {}",webSocketSet.size());
     }
 
     @OnMessage
     public void OnMessage(String message){
-        log.info("[WebSocket] 收到消息：{}",message);
-        //判断是否需要指定发送，具体规则自定义
-        AppointSending(name,"服务器收到了消息");
-
+        log.info("收到消息：{} ",message);
+        GroupSending(message);
     }
-    //群发
+
+    /**
+     * 群发
+     */
     public void GroupSending(String message){
         for (String name : webSocketSet.keySet()){
             try {
@@ -56,7 +65,10 @@ public class WebSocket {
             }
         }
     }
-    //指定name 发送
+
+    /**
+     * 指定发送
+     */
     public void AppointSending(String name,String message){
         try {
             webSocketSet.get(name).session.getBasicRemote().sendText(message);
