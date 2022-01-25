@@ -1,5 +1,6 @@
 package online.superarilo.myblog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import online.superarilo.myblog.dto.RegisterUserDTO;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.service.IRegisterService;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 @Service
@@ -35,6 +37,12 @@ public class RegisterServiceImpl implements IRegisterService {
         }
         if(!StringUtils.hasLength(userDTO.getMail().trim()) || !userDTO.getMail().trim().matches(MailUtil.MAIL_REGEX)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确邮箱");
+        }
+        // 判断邮箱是否注册
+        UserInformation hasUser = userInformationService.getOne(new QueryWrapper<UserInformation>()
+                .lambda().eq(UserInformation::getUsername, userDTO.getMail().trim().toLowerCase()).last("limit 1"));
+        if(Objects.nonNull(hasUser)) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "邮箱已注册");
         }
         if(!StringUtils.hasLength(userDTO.getPassword().trim()) || !userDTO.getPassword().trim().matches(RegexUtil.ALPHANUMERIC_CHARACTERS_AND_SPECIAL_CHARACTERS)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "密码为字母数组和特殊字符@./*-+%$# 至少两种组成的6-16个字符");
