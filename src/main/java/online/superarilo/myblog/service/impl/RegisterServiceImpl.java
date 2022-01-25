@@ -1,7 +1,7 @@
 package online.superarilo.myblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import online.superarilo.myblog.dto.RegisterUserDTO;
+import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.service.IRegisterService;
 import online.superarilo.myblog.service.IUserInformationService;
@@ -15,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 @Service
@@ -31,7 +29,7 @@ public class RegisterServiceImpl implements IRegisterService {
     }
 
     @Override
-    public Result<String> register(RegisterUserDTO userDTO) {
+    public Result<String> register(UserDTO userDTO) {
         if(Objects.isNull(userDTO)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确参数", null);
         }

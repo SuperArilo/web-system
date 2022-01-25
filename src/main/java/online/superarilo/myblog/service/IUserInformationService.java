@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserInformationService extends IService<UserInformation> {
 
+
+    UserInformation findUserByUsername(String username);
 }

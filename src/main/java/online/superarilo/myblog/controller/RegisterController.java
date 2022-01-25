@@ -1,7 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
-import online.superarilo.myblog.dto.RegisterUserDTO;
+import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.service.IRegisterService;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class RegisterController {
 
 
     @PostMapping("/user")
-    public Result<String> registerUser(@RequestBody RegisterUserDTO userDTO) {
+    public Result<String> registerUser(@RequestBody UserDTO userDTO) {
         return registerService.register(userDTO);
     }
 

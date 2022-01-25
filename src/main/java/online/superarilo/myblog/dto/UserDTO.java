@@ -6,7 +6,7 @@ import lombok.Data;
  * 注册用户数据传输类
  */
 @Data
-public class RegisterUserDTO {
+public class UserDTO {
 
     /**
      * 邮箱号
