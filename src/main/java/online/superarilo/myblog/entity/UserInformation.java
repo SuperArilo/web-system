@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -36,5 +36,5 @@ public class UserInformation implements Serializable {
 
     private String imagename;
 
-    private LocalDateTime registertime;
+    private Date registertime;
 }

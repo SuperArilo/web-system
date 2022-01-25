@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 
@@ -12,6 +13,8 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisUtil {
+
+    public static final String VERIFY_CODE_REDIS_KEY_SUFFIX = "VERIFY_CODE_REDIS_KEY";
 
     private static RedisTemplate<String, Object> redisTemplate;
 
@@ -28,14 +31,16 @@ public class RedisUtil {
         redisTemplate.opsForValue().set(key, value, time, timeUnit);
     }
 
-    public static Object get(String key, boolean isDelete) {
-        Object value = null;
-        if(isDelete) {
-            value = redisTemplate.opsForValue().getAndDelete(key);
-        } else {
-            value = redisTemplate.opsForValue().get(key);
-        }
-        return value;
+    public static Object get(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    public static Long delete(Collection<String> keys) {
+        return redisTemplate.delete(keys);
+    }
+
+    public static boolean delete(String key) {
+        return Boolean.TRUE.equals(redisTemplate.delete(key));
     }
 
     public static boolean hasKey(String key) {

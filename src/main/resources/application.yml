@@ -32,7 +32,16 @@ spring:
     properties.mail.smtp.auth: true
     properties.mail.smtp.starttls.enable: true
     properties.mail.smtp.starttls.required: true
-
+    ## self-define
+    title-template: "??? 是您的验证码"
+    content-template:
+      "<div>\
+        <p>Hi，亲爱的玩家</p>\
+        <p>你正在注册王勇强的博客账号，验证码为：<b style='text-decoration:underline;'>???</b></p>\
+        <p>请在5分钟内完成验证</p>\
+        <p><b>SuperArilo</b></p>\
+        <p>此为系统邮件，切勿回复</p>\
+      </div>"
 
   servlet:
     multipart:
@@ -46,6 +55,7 @@ spring:
     username: root
     password: mysql123456@
     driver-class-name: com.mysql.cj.jdbc.Driver
+
 server:
   compression:
     enabled: true
@@ -53,16 +63,16 @@ server:
   port: 443
   servlet:
     context-path: /api
-  ssl:
-    key-store: classpath:5670151_superarilo.icu.jks
-    enabled: true
-    key-store-password: saP88oIo
-    keyStoreType: JKS
 #  ssl:
-#    key-store: classpath:caoguirong.jks
+#    key-store: classpath:5670151_superarilo.icu.jks
 #    enabled: true
-#    key-store-password: lzjFMku1
+#    key-store-password: saP88oIo
 #    keyStoreType: JKS
+  ssl:
+    key-store: classpath:caoguirong.jks
+    enabled: true
+    key-store-password: lzjFMku1
+    keyStoreType: JKS
 
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
@@ -84,10 +94,12 @@ uploadFileAddress:
 
 ## picture server:
 pictureServer:
-  host: 182.42.112.115
+#  host: 182.42.112.115
+  host: 1.116.88.15
   port: 21
   user: ftpadmin
   password: admin123456
 
 ## http
-pictureHttp: https://www.superarilo.icu:4433/
+#pictureHttp: https://www.superarilo.icu:4433/
+pictureHttp: https://www.itrong.love:4433/
