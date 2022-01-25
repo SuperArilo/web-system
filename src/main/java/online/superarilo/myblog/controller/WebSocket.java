@@ -1,5 +1,7 @@
 package online.superarilo.myblog.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import javax.websocket.OnClose;
@@ -29,7 +31,7 @@ public class WebSocket {
      *  用于存所有的连接服务的客户端，这个对象存储是安全的
      */
     private static final ConcurrentHashMap<String,WebSocket> webSocketSet = new ConcurrentHashMap<>();
-
+    private final String gameSign = "minecraft";
 
     @OnOpen
     public void OnOpen(Session session, @PathParam(value = "name") String name){
@@ -50,18 +52,23 @@ public class WebSocket {
     @OnMessage
     public void OnMessage(String message){
         log.info("收到消息：{} ",message);
-        GroupSending(message);
+        Boolean fromGame = (Boolean) JSONObject.parseObject(message).get("fromGame");
+        if(fromGame != null){
+            if(!fromGame){
+                AppointSending(gameSign,message);
+            }
+            GroupSending(message);
+        }
     }
 
     /**
      * 群发
      */
+    @SneakyThrows
     public void GroupSending(String message){
         for (String name : webSocketSet.keySet()){
-            try {
+            if(!name.equals(gameSign)) {
                 webSocketSet.get(name).session.getBasicRemote().sendText(message);
-            }catch (Exception e){
-                e.printStackTrace();
             }
         }
     }
@@ -69,11 +76,8 @@ public class WebSocket {
     /**
      * 指定发送
      */
-    public void AppointSending(String name,String message){
-        try {
-            webSocketSet.get(name).session.getBasicRemote().sendText(message);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    @SneakyThrows
+    public void AppointSending(String name, String message){
+        webSocketSet.get(name).session.getBasicRemote().sendText(message);
     }
 }
