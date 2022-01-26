@@ -26,9 +26,10 @@ spring:
   ## email
   mail:
     default-encoding: utf-8
-    host: smtp.qq.com
-    username: 1847714996@qq.com
-    password: yxwytbgxhwbpfcff
+    host: smtp.189.cn
+    port: 587
+    username: superarilo@189.cn
+    password: WangHao1812
     properties.mail.smtp.auth: true
     properties.mail.smtp.starttls.enable: true
     properties.mail.smtp.starttls.required: true
@@ -42,6 +43,7 @@ spring:
         <p><b>SuperArilo</b></p>\
         <p>此为系统邮件，切勿回复</p>\
       </div>"
+
 
   servlet:
     multipart:

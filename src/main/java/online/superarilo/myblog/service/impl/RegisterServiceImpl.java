@@ -43,7 +43,7 @@ public class RegisterServiceImpl implements IRegisterService {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "邮箱已注册");
         }
         if(!StringUtils.hasLength(userDTO.getPassword().trim()) || !userDTO.getPassword().trim().matches(RegexUtil.ALPHANUMERIC_CHARACTERS_AND_SPECIAL_CHARACTERS)) {
-            return new Result<>(false, HttpStatus.BAD_REQUEST, "密码为字母数组和特殊字符@./*-+%$# 至少两种组成的6-16个字符");
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "密码至少为字母、数字、和特殊字符@./*-+%$#中的前两种6-16个字符");
         }
         if(!userDTO.getPassword().trim().equals(userDTO.getConfirm())) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "确认密码不一致");
@@ -67,6 +67,6 @@ public class RegisterServiceImpl implements IRegisterService {
         // 删除验证码
         RedisUtil.delete(userInformation.getUsername());
         RedisUtil.delete(verifyKey);
-        return new Result<>(false, HttpStatus.OK, "注册成功");
+        return new Result<>(true, HttpStatus.OK, "注册成功");
     }
 }

@@ -16,7 +16,7 @@ public class MailUtil {
     /**
      * 邮箱验证规则
      */
-    public static final String MAIL_REGEX = "^[a-zA-Z0-9]+@([a-zA-Z0-9])+\\.[a-zA-Z]+$";
+    public static final String MAIL_REGEX = "^\\w+@(\\w)+(\\.[a-zA-Z]+)+$";
 
 
     private static JavaMailSender javaMailSender;

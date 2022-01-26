@@ -2,6 +2,8 @@ package online.superarilo.myblog.controller;
 
 
 import online.superarilo.myblog.utils.RedisUtil;
+import online.superarilo.myblog.utils.Result;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,20 +47,12 @@ public class VerificationController {
 
 
 	@GetMapping("/image/{method}")
-	public void verificationForImage(@PathVariable("method") String method, String random, HttpServletResponse response) {
+	public Result verificationForImage(@PathVariable("method") String method, String random, HttpServletResponse response) {
 		// 验证获取验证码是否是可行方式
 		if(!VERIFY_METHODS.contains(method) || !StringUtils.hasLength(random)) {
-			try {
-				response.setContentType("text/html;charset=utf8");
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.getWriter().write("{\"code\": 400, \"message\": \"获取验证码错误\"}");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return ;
+			return new Result(false, HttpStatus.BAD_REQUEST, "获取验证码错误");
 		}
 
-		response.setContentType("image/jpeg");
 		int imageWidth = 500;
 		int imageHeight = 100;
 
@@ -107,10 +101,34 @@ public class VerificationController {
 		graphics.setColor(defaultColor);
 		graphics.dispose();
 
+		ByteArrayOutputStream baos = null;
+		ByteArrayInputStream bais = null;
 		try {
-			ImageIO.write(bufferedImage, "jpeg", response.getOutputStream());
+
+			ImageIO.write(bufferedImage, "jpg", baos = new ByteArrayOutputStream());
+			bais = new ByteArrayInputStream(baos.toByteArray());
+			byte[] data = new byte[baos.size()];
+			bais.read(data, 0, data.length);
+			baos.flush();
+			return new Result(true, HttpStatus.OK, "获取验证码成功", data);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return new Result(false, HttpStatus.INTERNAL_SERVER_ERROR, "获取失败");
+		}finally {
+			if(bais != null) {
+				try {
+					bais.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(baos != null) {
+				try {
+					baos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

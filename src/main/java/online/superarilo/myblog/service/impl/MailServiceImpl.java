@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,9 @@ public class MailServiceImpl implements IMailService {
     }
 
     public Result<String> sendMail(String to) {
+        if(!StringUtils.hasLength(to)) {
+            to = "";
+        }
         to = to.trim();
         if(to.length() == 0) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入邮箱", null);
