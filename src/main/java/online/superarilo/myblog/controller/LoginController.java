@@ -20,7 +20,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result<String> login(@RequestBody UserDTO user) {
         String verifyKey = "login" + user.getRandom() + RedisUtil.VERIFY_CODE_REDIS_KEY_SUFFIX;
-        if(!StringUtils.hasLength(user.getVerifyCode().trim()) || !user.getVerifyCode().trim().equalsIgnoreCase((String) RedisUtil.get(verifyKey))) {
+        if(!StringUtils.hasLength(user.getVerifyCode().trim()) || !user.getVerifyCode().trim().equalsIgnoreCase(String.valueOf(RedisUtil.get(verifyKey)))) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "验证码错误！");
         }
 

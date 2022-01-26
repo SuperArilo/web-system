@@ -17,6 +17,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/verification")
@@ -74,7 +75,7 @@ public class VerificationController {
 		for (char aChar : chars) {
 			sb.append(aChar);
 		}
-		RedisUtil.set(key, sb.toString());
+		RedisUtil.set(key, sb.toString(), 3 * 60, TimeUnit.SECONDS);
 
 
 		for (Color color : colors) {

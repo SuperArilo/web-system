@@ -48,12 +48,12 @@ public class RegisterServiceImpl implements IRegisterService {
         if(!userDTO.getPassword().trim().equals(userDTO.getConfirm())) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "确认密码不一致");
         }
-        if(!StringUtils.hasLength(userDTO.getMailVerifyCode().trim()) || !userDTO.getMailVerifyCode().trim().equalsIgnoreCase((String) RedisUtil.get(userDTO.getMail().trim()))) {
+        if(!StringUtils.hasLength(userDTO.getMailVerifyCode().trim()) || !userDTO.getMailVerifyCode().trim().equalsIgnoreCase(String.valueOf(RedisUtil.get(userDTO.getMail().trim())))) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "邮箱验证码不正确");
         }
         String verifyKey = "register" + userDTO.getRandom() + RedisUtil.VERIFY_CODE_REDIS_KEY_SUFFIX;
         Object o = RedisUtil.get(verifyKey);
-        if(!StringUtils.hasLength(userDTO.getVerifyCode().trim()) || !userDTO.getVerifyCode().trim().equalsIgnoreCase((String) RedisUtil.get(verifyKey))) {
+        if(!StringUtils.hasLength(userDTO.getVerifyCode().trim()) || !userDTO.getVerifyCode().trim().equalsIgnoreCase(String.valueOf(RedisUtil.get(verifyKey)))) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "验证码不正确");
         }
 
