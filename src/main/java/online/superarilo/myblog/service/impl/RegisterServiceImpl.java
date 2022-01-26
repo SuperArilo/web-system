@@ -11,6 +11,7 @@ import online.superarilo.myblog.utils.RegexUtil;
 import online.superarilo.myblog.utils.Result;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,15 @@ public class RegisterServiceImpl implements IRegisterService {
     public void setUserInformationService(IUserInformationService us) {
         userInformationService = us;
     }
+
+    private Environment environment;
+
+    @Autowired
+    public void setEnvironment(Environment env) {
+        environment = env;
+    }
+
+    private static final String DEFAULT_HEADER_URL_KEY = "user.default-header.url";
 
     @Override
     public Result<String> register(UserDTO userDTO) {
@@ -61,6 +71,7 @@ public class RegisterServiceImpl implements IRegisterService {
         userInformation.setUsername(userDTO.getMail().trim());
         userInformation.setEmail(userInformation.getUsername());
         userInformation.setRegistertime(new Date());
+        userInformation.setUserhead(environment.getProperty(DEFAULT_HEADER_URL_KEY));
         userInformation.setUserpwd(new Md5Hash(userDTO.getPassword().trim(), userDTO.getMail().trim(), 2).toString());
         userInformationService.save(userInformation);
 

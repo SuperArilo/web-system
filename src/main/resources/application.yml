@@ -105,3 +105,9 @@ pictureServer:
 ## http
 #pictureHttp: https://www.superarilo.icu:4433/
 pictureHttp: https://www.itrong.love:4433/
+
+
+## user default-header.png url
+user:
+  default-header:
+    url: https://www.itrong.love:4433/images/header/default/default-header.png
