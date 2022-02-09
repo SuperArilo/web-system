@@ -46,7 +46,7 @@ public class ShiroFilter extends FormAuthenticationFilter {
         try {
             userInfo = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
         } catch (Exception e) {
-            this.errorCode = HttpStatus.BAD_REQUEST;
+            this.errorCode = HttpStatus.UNAUTHORIZED;
             this.errorMsg = "token失效";
             return false;
         }

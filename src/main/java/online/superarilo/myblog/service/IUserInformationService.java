@@ -2,6 +2,9 @@ package online.superarilo.myblog.service;
 
 import online.superarilo.myblog.entity.UserInformation;
 import com.baomidou.mybatisplus.extension.service.IService;
+import online.superarilo.myblog.utils.Result;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -15,4 +18,11 @@ public interface IUserInformationService extends IService<UserInformation> {
 
 
     UserInformation findUserByUsername(String username);
+
+
+    /**
+     * 根据token返回用户信息
+     * @return
+     */
+    Result<UserInformation> queryUserInfo(HttpServletRequest request);
 }
