@@ -37,11 +37,11 @@ public class DynamicCommentsController {
      * @return
      */
     @GetMapping(value = "/list")
-    public Result<List<DynamicCommentsVO>> listComments(@RequestParam(value = "commentParentId", defaultValue = "0") Integer commentParentId,
-                                                        @RequestParam("dynamicId") Integer dynamicId,
+    public Result<List<DynamicCommentsVO>> listComments(@RequestParam(value = "commentParentId", defaultValue = "0") Long commentParentId,
+                                                        @RequestParam("dynamicId") Long dynamicId,
                                                         @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
         if(commentParentId < 0) {
-            commentParentId = 0;
+            commentParentId = 0L;
         }
         int pageStart = DEFAULT_PAGE_NUMBER;
         if(pageNumber > 1) {

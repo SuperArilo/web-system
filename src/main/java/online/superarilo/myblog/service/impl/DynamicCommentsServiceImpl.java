@@ -31,7 +31,7 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
     private IUsersDynamicsService dynamicsService;
 
     @Override
-    public Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Integer commentParentId, Integer dynamicId, Integer pageStart, Integer pageSize) {
+    public Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize) {
         UsersDynamics dynamics = dynamicsService.getById(dynamicId);
 
         if(dynamics == null) {

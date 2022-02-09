@@ -43,5 +43,5 @@ public class UsersDynamicsVO extends UsersDynamics {
      * 选中的标签id集合
      */
     @TableField(exist = false)
-    private List<Integer> alreadyExistedTagIds;
+    private List<Long> alreadyExistedTagIds;
 }

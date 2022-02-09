@@ -25,18 +25,17 @@ public class DynamicTagsRelations implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 动态id
      */
-    private Integer dynamicId;
+    private Long dynamicId;
 
     /**
      * 标签id
      */
-    private Integer tagId;
+    private Long tagId;
 
     /**
      * 创建时间

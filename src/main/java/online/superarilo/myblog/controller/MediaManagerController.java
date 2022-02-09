@@ -34,7 +34,7 @@ public class MediaManagerController {
      * @return
      */
     @GetMapping("/list")
-    public Result<List<MediaManager>> listMediaByUid(@RequestParam("uid") Integer uid) {
+    public Result<List<MediaManager>> listMediaByUid(@RequestParam("uid") Long uid) {
         return mediaManagerService.listMediaByUid(uid);
     }
 
@@ -45,7 +45,7 @@ public class MediaManagerController {
      * @return
      */
     @PostMapping(value = "/upload/image")
-    public Result<List> uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, @RequestParam("uid") Integer uid) {
+    public Result<List> uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, @RequestParam("uid") Long uid) {
         return mediaManagerService.uploadImages(imageFiles, uid);
     }
 
@@ -56,7 +56,7 @@ public class MediaManagerController {
      * @return
      */
     @PostMapping("/remove")
-    public Result<String> removeMediaByMeidaIdAndUid(@RequestParam("mediaIds") List<Integer>  mediaIds, Integer uid) {
+    public Result<String> removeMediaByMeidaIdAndUid(@RequestParam("mediaIds") List<Integer>  mediaIds, Long uid) {
         return mediaManagerService.removeMediaByMeidaIdAndUid(mediaIds, uid);
     }
 }

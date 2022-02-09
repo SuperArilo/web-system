@@ -29,13 +29,12 @@ public class MediaManager implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户id
      */
-    private Integer uid;
+    private Long uid;
 
     /**
      * 媒体文件名称

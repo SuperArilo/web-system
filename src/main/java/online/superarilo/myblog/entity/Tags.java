@@ -26,8 +26,7 @@ public class Tags implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 标签名称

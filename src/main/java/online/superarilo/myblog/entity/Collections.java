@@ -26,18 +26,17 @@ public class Collections implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 收藏的用户id
      */
-    private Integer uid;
+    private Long uid;
 
     /**
      * 收藏的动态id
      */
-    private Integer dynamicId;
+    private Long dynamicId;
 
     /**
      * 收藏时间

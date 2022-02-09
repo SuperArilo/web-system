@@ -41,7 +41,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     private Environment environment;
 
     @Override
-    public Result<List<MediaManager>> listMediaByUid(Integer uid) {
+    public Result<List<MediaManager>> listMediaByUid(Long uid) {
 
         UserInformation selUser = userInformationService.getById(uid);
         if(selUser == null) {
@@ -52,7 +52,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     }
 
     @Override
-    public Result<List> uploadImages(List<MultipartFile> files, Integer uid) {
+    public Result<List> uploadImages(List<MultipartFile> files, Long uid) {
         if(uid == null || userInformationService.getById(uid) == null) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "用户不存在");
         }
@@ -156,7 +156,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     }
 
     @Override
-    public Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Integer uid) {
+    public Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Long uid) {
         UserInformation selUser = userInformationService.getById(uid);
         if(selUser == null) {
             return new Result<>(false, HttpStatus.NOT_FOUND, "当前用户不存在","当前用户不存在");

@@ -25,18 +25,17 @@ public class DynamicComments implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 评论父id(最多两级)
      */
-    private Integer commentParentId;
+    private Long commentParentId;
 
     /**
      * 发布评论的动态的id
      */
-    private Integer dynamicId;
+    private Long dynamicId;
 
     /**
      * 评论内容
@@ -46,7 +45,7 @@ public class DynamicComments implements Serializable {
     /**
      * 发布评论的用户id
      */
-    private Integer uid;
+    private Long uid;
 
     /**
      * 创建时间

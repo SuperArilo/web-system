@@ -47,8 +47,7 @@ public class RegisterServiceImpl implements IRegisterService {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确邮箱");
         }
         // 判断邮箱是否注册
-        UserInformation hasUser = userInformationService.getOne(new QueryWrapper<UserInformation>()
-                .lambda().eq(UserInformation::getUsername, userDTO.getMail().trim().toLowerCase()).last("limit 1"));
+        UserInformation hasUser = userInformationService.findUserByUsername(userDTO.getMail().trim().toLowerCase());
         if(Objects.nonNull(hasUser)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "邮箱已注册");
         }

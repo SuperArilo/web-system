@@ -25,5 +25,5 @@ public interface IDynamicCommentsService extends IService<DynamicComments> {
      * @param pageSize  分页数量
      * @return
      */
-    Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Integer commentParentId, Integer dynamicId, Integer pageStart, Integer pageSize);
+    Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize);
 }

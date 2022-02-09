@@ -98,7 +98,7 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
         this.save(usersDynamics);
 
         // 保存动态与标签的关系
-        for (Integer tagId: usersDynamicsVO.getAlreadyExistedTagIds()) {
+        for (Long tagId: usersDynamicsVO.getAlreadyExistedTagIds()) {
             DynamicTagsRelations dynamicTagsRelationsEntity = new DynamicTagsRelations();
             dynamicTagsRelationsEntity.setDynamicId(usersDynamics.getId());
             dynamicTagsRelationsEntity.setTagId(tagId);

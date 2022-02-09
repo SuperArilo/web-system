@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -25,23 +26,22 @@ public class ReportingSystem implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 举报用户id
      */
-    private Integer reportUid;
+    private Long reportUid;
 
     /**
      * 被举报用户id
      */
-    private Integer beReportUid;
+    private Long beReportUid;
 
     /**
      * 被举报的动态id
      */
-    private Integer dynamicId;
+    private Long dynamicId;
 
     /**
      * 被处理意见
@@ -61,10 +61,10 @@ public class ReportingSystem implements Serializable {
     /**
      * 举报时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 处理时间
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 }

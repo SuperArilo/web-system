@@ -25,8 +25,7 @@ public class UsersDynamics implements Serializable {
     /**
      * id主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 动态标题
@@ -56,7 +55,7 @@ public class UsersDynamics implements Serializable {
     /**
      * 用户id
      */
-    private Integer uid;
+    private Long uid;
 
     /**
      * 创建时间

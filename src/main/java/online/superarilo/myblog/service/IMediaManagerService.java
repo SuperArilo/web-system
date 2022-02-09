@@ -24,7 +24,7 @@ public interface IMediaManagerService extends IService<MediaManager> {
      * @param uid
      * @return
      */
-    Result<List<MediaManager>> listMediaByUid(Integer uid);
+    Result<List<MediaManager>> listMediaByUid(Long uid);
 
 
     /**
@@ -33,7 +33,7 @@ public interface IMediaManagerService extends IService<MediaManager> {
      * @param uid
      * @return
      */
-    Result<List> uploadImages(List<MultipartFile> files, Integer uid);
+    Result<List> uploadImages(List<MultipartFile> files, Long uid);
 
 
     /**
@@ -42,7 +42,7 @@ public interface IMediaManagerService extends IService<MediaManager> {
      * @param uid
      * @return
      */
-    Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Integer uid);
+    Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Long uid);
 
 
 }
