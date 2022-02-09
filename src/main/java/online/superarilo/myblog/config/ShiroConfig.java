@@ -48,7 +48,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/verification/**", "anon");
 
         // authc ： 必须认证才能访问
-        filterChainDefinitionMap.put("/**", "oauth2");
+//        filterChainDefinitionMap.put("/**", "oauth2");
+        filterChainDefinitionMap.put("/**", "anon");
         // 设置登录路径
 //        shiroFilterFactoryBean.setLoginUrl("/blog/login");
         // 登录后主页面
