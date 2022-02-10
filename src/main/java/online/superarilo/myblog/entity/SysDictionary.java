@@ -1,5 +1,6 @@
 package online.superarilo.myblog.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -88,5 +89,6 @@ public class SysDictionary implements Serializable {
     /**
      * 是否删除（1表示删除，0表示未删除）
      */
-    private Boolean isDeleted;
+    @TableField("is_deleted")
+    private Boolean deleted;
 }

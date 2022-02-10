@@ -4,7 +4,7 @@
 
     <resultMap id="list" type="sysDictionaryVO">
         <id property="id" column="id"/>
-        <result property="username" column="creator"/>
+        <result property="username" column="username"/>
         <collection property="children" javaType="list" ofType="sysDictionary" column="id" select="listSysDictionary"/>
     </resultMap>
 
@@ -20,13 +20,14 @@
             sd.create_time AS createTime,
             sd.update_time AS updateTime,
             sd.dict_sort AS dictSort,
+            sd.is_deleted as deleted,
             sd.creator,
             ui.username
         FROM
             sys_dictionary AS sd
         INNER JOIN user_information as ui on ui.uid = sd.creator
         WHERE
-            sd.dict_parent_id = {parentId} AND sd.is_deleted = 0
+            sd.dict_parent_id = #{parentId} AND sd.is_deleted = 0
     </select>
 
 

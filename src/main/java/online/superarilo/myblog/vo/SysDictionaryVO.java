@@ -11,4 +11,6 @@ public class SysDictionaryVO extends SysDictionary {
     private List<SysDictionary> children;
 
     private String username;
+
+    private Long creator;
 }

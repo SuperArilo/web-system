@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2022-02-10
  */
 @RestController
-@RequestMapping("/myblog/dictionary")
+@RequestMapping("/dictionary")
 public class SysDictionaryController {
 
 

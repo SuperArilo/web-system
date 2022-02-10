@@ -74,7 +74,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         dictionary.setDictValue(sysDictionary.getDictValue());
         dictionary.setCreateTime(new Date());
         dictionary.setDictParentId(sysDictionary.getDictParentId());
-        dictionary.setIsDeleted(false);
+        dictionary.setDeleted(false);
         dictionary.setCreator(userInformation.getUid());
         this.save(dictionary);
         return new Result<>(true, HttpStatus.OK, "保存成功", "保存成功");
