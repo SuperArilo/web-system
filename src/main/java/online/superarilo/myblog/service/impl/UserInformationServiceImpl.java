@@ -53,9 +53,6 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
         if(Objects.isNull(userInformation)) {
             return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录", null);
         }
-
-
-        userInformation.setUserpwd(null);
         return new Result<>(true, HttpStatus.OK, "查询成功", userInformationMapper.queryUserInfo(userInformation.getUid()));
     }
 }

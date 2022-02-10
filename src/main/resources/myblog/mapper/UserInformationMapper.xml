@@ -4,7 +4,7 @@
     
     
     <resultMap id="userInfo" type="map">
-        <id property="uid" column="id"/>
+        <id property="uid" column="uid"/>
         <result property="username" column="username"/>
         <result property="email" column="email"/>
         <result property="userhead" column="userhead"/>

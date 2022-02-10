@@ -38,7 +38,7 @@ spring:
     content-template:
       "<div>\
         <p>Hi，亲爱的玩家</p>\
-        <p>你正在注册王勇强的博客账号，验证码为：<b style='text-decoration:underline;'>???</b></p>\
+        <p>你正在注册凡尔赛小镇的账号，验证码为：<b style='text-decoration:underline;'>???</b></p>\
         <p>请在5分钟内完成验证</p>\
         <p><b>SuperArilo</b></p>\
         <p>此为系统邮件，切勿回复</p>\
