@@ -79,9 +79,6 @@ server:
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
   type-aliases-package: online.superarilo.myblog.entity, online.superarilo.myblog.vo
-  global-config:
-    db-config:
-      id-type: ASSIGN_ID
 
 logging:
   level:
