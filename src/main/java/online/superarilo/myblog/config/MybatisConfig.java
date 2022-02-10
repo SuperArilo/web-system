@@ -21,7 +21,7 @@ public class MybatisConfig {
 
             @Override
             public Number nextId(Object entity) {
-                SnowFlakeUtil snowFlake = new SnowFlakeUtil(1,1,1);
+                SnowFlakeUtil snowFlake = new SnowFlakeUtil(1L,1L);
                 return snowFlake.nextId();
             }
         };
