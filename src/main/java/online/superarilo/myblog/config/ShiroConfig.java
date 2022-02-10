@@ -1,7 +1,6 @@
 package online.superarilo.myblog.config;
 
 import online.superarilo.myblog.filter.ShiroFilter;
-import online.superarilo.myblog.realm.UserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -10,7 +9,6 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -62,9 +60,8 @@ public class ShiroConfig {
 
     @Bean
     public online.superarilo.myblog.realm.UserRealm  userRealm() {
-        online.superarilo.myblog.realm.UserRealm userRealm = new online.superarilo.myblog.realm.UserRealm();
-//        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        return userRealm;
+        //        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return new online.superarilo.myblog.realm.UserRealm();
     }
 
     @Bean

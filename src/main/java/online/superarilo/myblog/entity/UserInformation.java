@@ -32,6 +32,10 @@ public class UserInformation implements Serializable {
     @TableField("class")
     private Integer clazz;
 
+    private String className;
+
+    private String classColor;
+
     private String userhead;
 
     private String imagename;
