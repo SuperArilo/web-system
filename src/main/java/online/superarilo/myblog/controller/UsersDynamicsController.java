@@ -2,7 +2,9 @@ package online.superarilo.myblog.controller;
 
 
 
+import com.alibaba.fastjson.JSONObject;
 import online.superarilo.myblog.service.IUsersDynamicsService;
+import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.UsersDynamicsVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -40,12 +43,21 @@ public class UsersDynamicsController {
                                                           String order,
                                                           @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        Map<String, Object> queryParams = new HashMap<>();
-        queryParams.put("tagIds", tagIds);
-        queryParams.put("order", order);
-        queryParams.put("pageNumber", (pageNumber -1) * pageSize);
-        queryParams.put("pageSize", pageSize);
-        return new Result<>(true, HttpStatus.OK, "success", usersDynamicsService.listUserDynamics(queryParams));
+        List<UsersDynamicsVO> usersDynamicsVOS;
+
+        String key = "list:" + pageNumber + pageSize;
+        if(RedisUtil.hasKey(key)) {
+            usersDynamicsVOS = (List<UsersDynamicsVO>) JSONObject.parse(String.valueOf(RedisUtil.get(key)));
+        }else {
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("tagIds", tagIds);
+            queryParams.put("order", order);
+            queryParams.put("pageNumber", (pageNumber - 1) * pageSize);
+            queryParams.put("pageSize", pageSize);
+            usersDynamicsVOS = usersDynamicsService.listUserDynamics(queryParams);
+            RedisUtil.set("list:" + pageNumber + pageSize, JSONObject.toJSONString(usersDynamicsVOS), 24 * 60 * 60L, TimeUnit.SECONDS);
+        }
+        return new Result<>(true, HttpStatus.OK, "success", usersDynamicsVOS);
     }
 
     @GetMapping("/details")

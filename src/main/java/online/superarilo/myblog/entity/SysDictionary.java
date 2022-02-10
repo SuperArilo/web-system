@@ -1,7 +1,5 @@
 package online.superarilo.myblog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -17,11 +15,11 @@ import java.util.Date;
  * </p>
  *
  * @author caoguirong
- * @since 2022-01-08
+ * @since 2022-02-10
  */
 @Data
-@TableName("reporting_system")
-public class ReportingSystem implements Serializable {
+@TableName("sys_dictionary")
+public class SysDictionary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,44 +29,64 @@ public class ReportingSystem implements Serializable {
     private Long id;
 
     /**
-     * 举报用户id
+     * 父ID
      */
-    private Long reportUid;
+    private Long dictParentId;
 
     /**
-     * 被举报用户id
+     * 字典编码
      */
-    private Long beReportUid;
+    private String dictKey;
 
     /**
-     * 被举报的动态id
+     * 字典值
      */
-    private Long dynamicId;
+    private String dictValue;
 
     /**
-     * 被处理意见
+     * 字典类型
      */
-    private String opinion;
+    private String dictType;
 
     /**
-     * 备注
+     * 字典描述
      */
-    private String remark;
+    private String dictDescribe;
 
     /**
-     * 是否被处理（0未处理，1已处理）
+     * 是否启用(1 表示启用，0表示禁用)
      */
-    private Boolean isHandle;
+    private Boolean dictEnable;
 
     /**
-     * 举报时间
+     * 排序
+     */
+    private Long dictSort;
+
+    /**
+     * 创建时间
      */
     @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date createTime;
 
     /**
-     * 处理时间
+     * 创建者
+     */
+    private Long creator;
+
+    /**
+     * 更新时间
      */
     @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date updateTime;
+
+    /**
+     * 更新者
+     */
+    private Long updator;
+
+    /**
+     * 是否删除（1表示删除，0表示未删除）
+     */
+    private Boolean isDeleted;
 }

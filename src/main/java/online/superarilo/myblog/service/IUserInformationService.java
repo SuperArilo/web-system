@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import online.superarilo.myblog.utils.Result;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * <p>
@@ -24,5 +25,5 @@ public interface IUserInformationService extends IService<UserInformation> {
      * 根据token返回用户信息
      * @return
      */
-    Result<UserInformation> queryUserInfo(HttpServletRequest request);
+    Result<Map<String, Object>> queryUserInfo(HttpServletRequest request);
 }

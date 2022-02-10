@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.superarilo.myblog.mapper.SysDictionaryMapper">
+
+    <resultMap id="list" type="sysDictionaryVO">
+        <id property="id" column="id"/>
+        <result property="username" column="creator"/>
+        <collection property="children" javaType="list" ofType="sysDictionary" column="id" select="listSysDictionary"/>
+    </resultMap>
+
+
+    <select id="listSysDictionary" resultMap="list">
+        SELECT
+            sd.dict_key AS dictKey,
+            sd.dict_type AS dictType,
+            sd.dict_value AS dictValue,
+            sd.dict_enable AS dictEnable,
+            sd.dict_describe AS dictDescribe,
+            sd.dict_parent_id AS dictParentId,
+            sd.create_time AS createTime,
+            sd.update_time AS updateTime,
+            sd.dict_sort AS dictSort,
+            sd.creator,
+            ui.username
+        FROM
+            sys_dictionary AS sd
+        INNER JOIN user_information as ui on ui.uid = sd.creator
+        WHERE
+            sd.dict_parent_id = {parentId} AND sd.is_deleted = 0
+    </select>
+
+
+
+
+
+
+
+
+</mapper>

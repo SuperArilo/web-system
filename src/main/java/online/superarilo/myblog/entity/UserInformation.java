@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import online.superarilo.myblog.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -33,15 +35,12 @@ public class UserInformation implements Serializable {
     private String email;
 
     @TableField("class")
-    private Integer clazz;
-
-    private String className;
-
-    private String classColor;
+    private String clazz;
 
     private String userhead;
 
     private String imagename;
 
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date registertime;
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,7 +35,7 @@ public class UserInformationController {
     }
 
     @GetMapping("/information")
-    public Result<UserInformation> queryUserInfo(HttpServletRequest request) {
+    public Result<Map<String, Object>> queryUserInfo(HttpServletRequest request) {
         return userInformationService.queryUserInfo(request);
     }
 }
