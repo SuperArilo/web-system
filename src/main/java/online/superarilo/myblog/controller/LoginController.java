@@ -46,6 +46,11 @@ public class LoginController {
 
         RedisUtil.delete(verifyKey);
 
+        UserInformation userByUsername = userInformationService.findUserByUsername(user.getMail().trim());
+        if(Objects.isNull(userByUsername)) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "用户不存在", null);
+        }
+
         UserInformation userInformation = userInformationService.getOne(new QueryWrapper<UserInformation>()
                 .lambda()
                 .eq(UserInformation::getUsername, user.getMail().trim())
