@@ -24,7 +24,7 @@
         FROM
             dynamic_comments AS dc
                 INNER JOIN
-            user_information AS ui ON ui.id = dc.uid
+            user_information AS ui ON ui.uid = dc.uid
         WHERE
             dc.comment_parent_id = #{commentParentId} AND dc.dynamic_id = #{dynamicId}
         ORDER BY dc.create_time DESC, dc.id ASC
