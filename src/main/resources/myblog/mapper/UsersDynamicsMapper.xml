@@ -101,7 +101,7 @@
     </select>
 
     <!-- 根据动态id查询贴在这条动态上面的标签集合 -->
-    <select id="listTagsByDynamicId" parameterType="int" resultType="tags">
+    <select id="listTagsByDynamicId" parameterType="long" resultType="tags">
         SELECT
             l.id,
             l.tag_content,
