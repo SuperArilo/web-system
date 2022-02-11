@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -69,6 +67,13 @@ public class UsersDynamicsController {
 
     @PostMapping("/")
     public Result<String> saveUserDynamic(@RequestBody UsersDynamicsVO usersDynamicsVO) {
+
+        Set<String> keys = RedisUtil.likeKeys("list:*");
+        if(!Objects.isNull(keys) && keys.size() > 0) {
+            for (String key: keys) {
+                RedisUtil.delete(key);
+            }
+        }
         return usersDynamicsService.saveUserDynamic(usersDynamicsVO);
     }
 

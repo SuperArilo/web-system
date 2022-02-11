@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
@@ -59,6 +56,11 @@ public class RedisUtil {
     public static void expire(String key, int time) {
         redisTemplate.expire(key, time, TimeUnit.SECONDS);
     }
+
+    public static Set<String> likeKeys(String likeKey) {
+        return redisTemplate.keys(likeKey);
+    }
+
 
     // hash
     public static <T> void setObject(String key, T obj, Class<T> clazz) throws IllegalAccessException {
