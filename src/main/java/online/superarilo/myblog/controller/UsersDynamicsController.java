@@ -7,6 +7,7 @@ import online.superarilo.myblog.service.IUsersDynamicsService;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.UsersDynamicsVO;
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class UsersDynamicsController {
      * @return
      */
     @GetMapping("/list")
-    public Result<List<UsersDynamicsVO>> listUserDynamics(Integer[] tagIds,
+    public Result<Object> listUserDynamics(Integer[] tagIds,
                                                           String order,
                                                           @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
@@ -46,7 +47,12 @@ public class UsersDynamicsController {
         queryParams.put("order", order);
         queryParams.put("pageNumber", (pageNumber - 1) * pageSize);
         queryParams.put("pageSize", pageSize);
-        return new Result<>(true, HttpStatus.OK, "success", usersDynamicsService.listUserDynamics(queryParams));
+        List<UsersDynamicsVO> usersDynamicsVOS = usersDynamicsService.listUserDynamics(queryParams);
+        long count = usersDynamicsService.count();
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", usersDynamicsVOS);
+        result.put("total", count);
+        return new Result<>(true, HttpStatus.OK, "success", result);
     }
 
     @GetMapping("/details")
