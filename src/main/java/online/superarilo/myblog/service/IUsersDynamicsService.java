@@ -30,7 +30,7 @@ public interface IUsersDynamicsService extends IService<UsersDynamics> {
      * @param dynamicId
      * @return
      */
-    Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId);
+    Result<UsersDynamicsVO> queryDynamicById(Long dynamicId);
 
     /**
      * 发布动态
@@ -45,5 +45,5 @@ public interface IUsersDynamicsService extends IService<UsersDynamics> {
      * @param request
      * @return
      */
-    Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request);
+    Result<String> incrementDynamicPageView(Long dynamicId, HttpServletRequest request);
 }

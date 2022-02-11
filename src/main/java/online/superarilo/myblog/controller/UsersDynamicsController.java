@@ -59,7 +59,7 @@ public class UsersDynamicsController {
     }
 
     @GetMapping("/details")
-    public Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId, HttpServletRequest request) {
+    public Result<UsersDynamicsVO> queryDynamicById(Long dynamicId, HttpServletRequest request) {
         usersDynamicsService.incrementDynamicPageView(dynamicId, request);
         return usersDynamicsService.queryDynamicById(dynamicId);
     }

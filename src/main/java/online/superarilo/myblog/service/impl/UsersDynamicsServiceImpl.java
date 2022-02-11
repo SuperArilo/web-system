@@ -48,7 +48,7 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
     }
 
     @Override
-    public Result<UsersDynamicsVO> queryDynamicById(Integer dynamicId) {
+    public Result<UsersDynamicsVO> queryDynamicById(Long dynamicId) {
         if(dynamicId == null) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "参数有误", null);
         }
@@ -111,7 +111,7 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
     }
 
     @Override
-    public Result<String> incrementDynamicPageView(Integer dynamicId, HttpServletRequest request) {
+    public Result<String> incrementDynamicPageView(Long dynamicId, HttpServletRequest request) {
         if(dynamicId == null) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "参数有误", null);
         }

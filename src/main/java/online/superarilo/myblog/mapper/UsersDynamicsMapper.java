@@ -31,5 +31,5 @@ public interface UsersDynamicsMapper extends BaseMapper<UsersDynamics> {
      * @param dynamicId
      * @return
      */
-    UsersDynamicsVO queryDynamicById(@Param("dynamicId") Integer dynamicId);
+    UsersDynamicsVO queryDynamicById(@Param("dynamicId") Long dynamicId);
 }
