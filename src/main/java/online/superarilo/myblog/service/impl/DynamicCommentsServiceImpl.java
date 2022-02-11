@@ -56,6 +56,6 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
             }
         }
 
-        return new Result<>(false, HttpStatus.OK, "success", dynamicCommentsEntities);
+        return new Result<>(true, HttpStatus.OK, "查询成功", dynamicCommentsEntities);
     }
 }

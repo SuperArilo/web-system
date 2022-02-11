@@ -68,15 +68,18 @@ public class UsersDynamicsController {
     @PostMapping("/")
     public Result<String> saveUserDynamic(@RequestBody UsersDynamicsVO usersDynamicsVO) {
 
+        delCache();
+        return usersDynamicsService.saveUserDynamic(usersDynamicsVO);
+    }
+
+    public void delCache() {
         Set<String> keys = RedisUtil.likeKeys("list:*");
         if(!Objects.isNull(keys) && keys.size() > 0) {
             for (String key: keys) {
                 RedisUtil.delete(key);
             }
         }
-        return usersDynamicsService.saveUserDynamic(usersDynamicsVO);
     }
-
     /**
      * 动态浏览量递增
      * @param dynamicId

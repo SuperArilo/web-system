@@ -2,6 +2,7 @@ package online.superarilo.myblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import online.superarilo.myblog.controller.UsersDynamicsController;
 import online.superarilo.myblog.entity.DynamicTagsRelations;
 import online.superarilo.myblog.entity.Tags;
 import online.superarilo.myblog.entity.UsersDynamics;
@@ -133,9 +134,17 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
                 .lambda()
                 .set(UsersDynamics::getDynamicPageView, selDynamic.getDynamicPageView() + 1)
                 .eq(UsersDynamics::getId, selDynamic.getId()));
+        usersDynamicsController.delCache();
         return new Result<>(true, HttpStatus.OK, dynamicId + ": 浏览数量加一", null);
     }
 
+    private UsersDynamicsController usersDynamicsController;
+
+
+    @Autowired
+    private void setUsersDynamicsController(UsersDynamicsController usersDynamicsController) {
+        this.usersDynamicsController = usersDynamicsController;
+    }
 
     private Result<String> before(UsersDynamicsVO usersDynamicsVO) {
         if(usersDynamicsVO == null) {
