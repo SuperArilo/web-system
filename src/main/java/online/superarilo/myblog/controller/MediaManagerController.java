@@ -56,7 +56,7 @@ public class MediaManagerController {
      * @return
      */
     @PostMapping("/remove")
-    public Result<String> removeMediaByMeidaIdAndUid(@RequestParam("mediaIds") List<Integer>  mediaIds, Long uid) {
+    public Result<String> removeMediaByMeidaIdAndUid(@RequestParam("mediaIds") List<Long>  mediaIds, Long uid) {
         return mediaManagerService.removeMediaByMeidaIdAndUid(mediaIds, uid);
     }
 }

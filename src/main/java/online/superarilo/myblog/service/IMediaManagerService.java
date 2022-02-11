@@ -42,7 +42,7 @@ public interface IMediaManagerService extends IService<MediaManager> {
      * @param uid
      * @return
      */
-    Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Long uid);
+    Result<String> removeMediaByMeidaIdAndUid(List<Long> mediaIds, Long uid);
 
 
 }

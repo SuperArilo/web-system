@@ -156,7 +156,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     }
 
     @Override
-    public Result<String> removeMediaByMeidaIdAndUid(List<Integer> mediaIds, Long uid) {
+    public Result<String> removeMediaByMeidaIdAndUid(List<Long> mediaIds, Long uid) {
         UserInformation selUser = userInformationService.getById(uid);
         if(selUser == null) {
             return new Result<>(false, HttpStatus.NOT_FOUND, "当前用户不存在","当前用户不存在");
