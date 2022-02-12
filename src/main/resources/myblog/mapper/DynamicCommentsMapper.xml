@@ -10,8 +10,8 @@
         <result property="uid" column="uid"/>
         <result property="username" column="username"/>
         <result property="userHead" column="userhead"/>
-        <result property="classColor" column="classColor"/>
-        <result property="className" column="className"/>
+        <result property="classColor" column="dict_value"/>
+        <result property="className" column="dict_describe"/>
     </resultMap>
 
     <!-- 查询指定动态的评论数据 -->
@@ -25,8 +25,8 @@
             dc.uid,
             ui.username,
             ui.userhead,
-            sd.class_color,
-            sd.class_name
+            sd.dict_value,
+            sd.dict_describe
         FROM
             dynamic_comments AS dc
         INNER JOIN user_information AS ui ON ui.uid = dc.uid
