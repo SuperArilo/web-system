@@ -25,8 +25,8 @@
             dc.uid,
             ui.username,
             ui.userhead,
-            sd.classColor,
-            sd.className
+            sd.class_color,
+            sd.class_name
         FROM
             dynamic_comments AS dc
         INNER JOIN user_information AS ui ON ui.uid = dc.uid
