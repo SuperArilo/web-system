@@ -9,6 +9,9 @@
         <result property="dynamicId" column="dynamic_id"/>
         <result property="uid" column="uid"/>
         <result property="username" column="username"/>
+        <result property="userHead" column="userhead"/>
+        <result property="classColor" column="classColor"/>
+        <result property="className" column="className"/>
     </resultMap>
 
     <!-- 查询指定动态的评论数据 -->
@@ -20,11 +23,14 @@
             dc.create_time,
             dc.dynamic_id,
             dc.uid,
-            ui.username
+            ui.username,
+            ui.userhead,
+            sd.classColor,
+            sd.className
         FROM
             dynamic_comments AS dc
-                INNER JOIN
-            user_information AS ui ON ui.uid = dc.uid
+        INNER JOIN user_information AS ui ON ui.uid = dc.uid
+        LEFT JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.is_deleted = 0 AND sd.dict_enable = 1
         WHERE
             dc.comment_parent_id = #{commentParentId} AND dc.dynamic_id = #{dynamicId}
         ORDER BY dc.create_time DESC, dc.id ASC

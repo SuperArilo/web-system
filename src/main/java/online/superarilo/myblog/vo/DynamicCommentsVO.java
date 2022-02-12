@@ -17,12 +17,16 @@ public class DynamicCommentsVO extends DynamicComments {
     /**
      * 子评论集合
      */
-    @TableField(exist = false)
     private List<DynamicCommentsVO> children;
 
     /**
      * 用户昵称
      */
-    @TableField(exist = false)
     private String username;
+
+    private String userHead;
+
+    private String classColor;
+
+    private String className;
 }
