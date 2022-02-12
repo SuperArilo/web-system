@@ -1,17 +1,27 @@
 package online.superarilo.myblog.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import online.superarilo.myblog.entity.DynamicComments;
+import online.superarilo.myblog.entity.Tags;
+import online.superarilo.myblog.entity.UserInformation;
+import online.superarilo.myblog.entity.UsersDynamics;
 import online.superarilo.myblog.service.IDynamicCommentsService;
+import online.superarilo.myblog.service.IUsersDynamicsService;
+import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.DynamicCommentsVO;
+import org.apache.shiro.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -28,8 +38,13 @@ public class DynamicCommentsController {
     private static final int DEFAULT_PAGE_NUMBER = 0;
     private static final int PAGE_SIZE = 8;
 
-    @Autowired
+
     private IDynamicCommentsService dynamicCommentsService;
+
+    @Autowired
+    public void setDynamicCommentsService(IDynamicCommentsService dcs) {
+        this.dynamicCommentsService = dcs;
+    }
 
     /**
      * 请求一级评论
@@ -49,5 +64,14 @@ public class DynamicCommentsController {
         }
 
         return dynamicCommentsService.listCommentsByDynamicId(commentParentId, dynamicId, pageStart, PAGE_SIZE);
+    }
+
+
+    /**
+     * 用户评论
+     */
+    @PostMapping("/comment/{dynamicId}")
+    public Result<String> commentByDynamicId(@PathVariable("dynamicId") Long dynamicId, @RequestBody DynamicComments dynamicComments, HttpServletRequest request) {
+        return dynamicCommentsService.commentByDynamicId(dynamicId, dynamicComments, request);
     }
 }

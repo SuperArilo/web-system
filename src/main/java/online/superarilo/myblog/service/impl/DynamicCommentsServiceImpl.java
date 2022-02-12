@@ -1,20 +1,27 @@
 package online.superarilo.myblog.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import online.superarilo.myblog.entity.DynamicComments;
+import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.entity.UsersDynamics;
 import online.superarilo.myblog.mapper.DynamicCommentsMapper;
 import online.superarilo.myblog.service.IDynamicCommentsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import online.superarilo.myblog.service.IUsersDynamicsService;
+import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.DynamicCommentsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -57,5 +64,33 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
         }
 
         return new Result<>(true, HttpStatus.OK, "查询成功", dynamicCommentsEntities);
+    }
+
+    @Override
+    public Result<String> commentByDynamicId(Long dynamicId, DynamicComments dynamicComments, HttpServletRequest request) {
+        if(Objects.isNull(dynamicId) || Objects.isNull(this.getOne(new QueryWrapper<DynamicComments>().lambda().eq(DynamicComments::getId, dynamicId)))) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "未找到评论的动态", null);
+        }
+
+        if(!StringUtils.hasLength(dynamicComments.getCommentContent().trim())) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "评论内容不能为空", null);
+        }
+
+        if(Objects.isNull(dynamicComments.getCommentParentId())) {
+            dynamicComments.setCommentParentId(0L);
+        }
+
+        String token = request.getHeader("token");
+        if(!org.apache.shiro.util.StringUtils.hasLength(token)) {
+            new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录", null);
+        }
+        UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+        if(Objects.isNull(user)) {
+            new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录", null);
+        }
+        dynamicComments.setUid(user.getUid());
+        dynamicComments.setDynamicId(dynamicId);
+        this.save(dynamicComments);
+        return new Result<>(true, HttpStatus.OK, "评论成功", null);
     }
 }

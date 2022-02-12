@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.DynamicCommentsVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -26,4 +27,9 @@ public interface IDynamicCommentsService extends IService<DynamicComments> {
      * @return
      */
     Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize);
+
+    /**
+     * 用户评论
+     */
+    Result<String> commentByDynamicId(Long dynamicId, DynamicComments dynamicComments, HttpServletRequest request);
 }

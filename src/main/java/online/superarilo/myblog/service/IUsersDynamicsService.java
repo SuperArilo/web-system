@@ -1,5 +1,6 @@
 package online.superarilo.myblog.service;
 
+import online.superarilo.myblog.entity.DynamicComments;
 import online.superarilo.myblog.entity.UsersDynamics;
 import com.baomidou.mybatisplus.extension.service.IService;
 import online.superarilo.myblog.utils.Result;
