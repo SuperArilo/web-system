@@ -88,7 +88,7 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
         }
         UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
         if(Objects.isNull(user)) {
-            new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录", null);
+            return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录", null);
         }
         dynamicComments.setUid(user.getUid());
         dynamicComments.setDynamicId(dynamicId);
