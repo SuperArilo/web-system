@@ -70,6 +70,7 @@ public class RegisterServiceImpl implements IRegisterService {
         userInformation.setUsername(userDTO.getMail().trim());
         userInformation.setEmail(userInformation.getUsername());
         userInformation.setRegistertime(new Date());
+        userInformation.setClazz("3");
         userInformation.setUserhead(environment.getProperty(DEFAULT_HEADER_URL_KEY));
         userInformation.setUserpwd(new Md5Hash(userDTO.getPassword().trim(), userDTO.getMail().trim(), 2).toString());
         userInformationService.save(userInformation);
