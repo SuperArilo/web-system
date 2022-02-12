@@ -37,6 +37,8 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
     @Autowired
     private IUsersDynamicsService dynamicsService;
 
+
+
     @Override
     public Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize) {
         UsersDynamics dynamics = dynamicsService.getById(dynamicId);
@@ -68,7 +70,7 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
 
     @Override
     public Result<String> commentByDynamicId(Long dynamicId, DynamicComments dynamicComments, HttpServletRequest request) {
-        if(Objects.isNull(dynamicId) || Objects.isNull(this.getOne(new QueryWrapper<DynamicComments>().lambda().eq(DynamicComments::getId, dynamicId)))) {
+        if(Objects.isNull(dynamicId) || Objects.isNull(dynamicsService.getOne(new QueryWrapper<UsersDynamics>().lambda().eq(UsersDynamics::getId, dynamicId)))) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "未找到评论的动态", null);
         }
 
