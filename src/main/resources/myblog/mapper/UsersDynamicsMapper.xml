@@ -111,7 +111,7 @@
             ui.userhead as userHead,
             ui.class as clazz,
             sd.dict_value as classColor,
-            sd.dict_type as className,
+            sd.dict_describe as className,
             COUNT(DISTINCT dc.id) AS commentNum,
             COUNT(DISTINCT c.id) AS collectionNum
         FROM users_dynamics AS ud
