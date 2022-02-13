@@ -110,6 +110,7 @@
             ui.username,
             ui.userhead as userHead,
             ui.class as clazz,
+            sd.id,
             sd.dict_value as classColor,
             sd.dict_type as className,
             COUNT(DISTINCT dc.id) AS commentNum,
