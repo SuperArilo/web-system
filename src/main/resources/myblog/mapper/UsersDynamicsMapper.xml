@@ -77,7 +77,7 @@
 
     <select id="dynamicListCount" resultType="long">
         SELECT
-            count(distinct *)
+            count(distinct ud.id)
         FROM users_dynamics AS ud
         INNER JOIN user_information AS ui ON ui.uid = ud.uid
         LEFT JOIN dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
@@ -93,7 +93,6 @@
                 </foreach>
             </if>
         </where>
-        GROUP BY ud.id
         ORDER BY
         <trim suffix=",">
             <choose>
