@@ -37,9 +37,12 @@
             ui.userhead as userHead,
             ui.class as clazz,
             COUNT(DISTINCT dc.id) AS commentNum,
-            COUNT(DISTINCT c.id) AS collectionNum
+            COUNT(DISTINCT c.id) AS collectionNum,
+            ud.dict_value as classColor,
+            ud.dict_describe as className
         FROM users_dynamics AS ud
         INNER JOIN user_information AS ui ON ui.uid = ud.uid
+        INNER JOIN sys_dictionary as sd ON sd.dict_type = ui.class
         LEFT JOIN dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
         INNER JOIN dynamic_tags_relations AS dtr ON dtr.dynamic_id = ud.id
         INNER JOIN tags AS t ON t.id = dtr.tag_id

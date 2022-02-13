@@ -28,6 +28,10 @@ public class UsersDynamicsVO extends UsersDynamics {
     @TableField(exist = false)
     private Integer clazz;
 
+    private String classColor;
+
+    private String className;
+
     /**
      * 评论数量
      */
