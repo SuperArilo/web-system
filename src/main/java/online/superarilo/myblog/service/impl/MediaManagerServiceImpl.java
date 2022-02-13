@@ -179,17 +179,17 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
         this.remove(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid).in(MediaManager::getId, mediaIds));
 
         // 异步删除图片服务器资源
-        if(removeMediaRelativePaths.size() > 0) {
-            new Thread(() -> {
-                FTPClient ftpClient = FTPUtil.getFTPClient();
-                removeMediaRelativePaths.forEach((item) -> {
-                    String parentFolder = item.getMediaUrl().substring(0, item.getMediaUrl().lastIndexOf("/"));
-                    String fileName = item.getMediaName();
-                    FTPUtil.deleteFileByFileName(ftpClient, parentFolder, fileName);
-                });
-                FTPUtil.closeFTP(ftpClient);
-            }).start();
-        }
+//        if(removeMediaRelativePaths.size() > 0) {
+//            new Thread(() -> {
+//                FTPClient ftpClient = FTPUtil.getFTPClient();
+//                removeMediaRelativePaths.forEach((item) -> {
+//                    String parentFolder = item.getMediaUrl().substring(0, item.getMediaUrl().lastIndexOf("/"));
+//                    String fileName = item.getMediaName();
+//                    FTPUtil.deleteFileByFileName(ftpClient, parentFolder, fileName);
+//                });
+//                FTPUtil.closeFTP(ftpClient);
+//            }).start();
+//        }
 
         return new Result<>(true, HttpStatus.OK, "success", "删除成功");
     }
