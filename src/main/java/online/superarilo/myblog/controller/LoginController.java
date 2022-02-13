@@ -15,11 +15,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -67,5 +65,22 @@ public class LoginController {
         map.put("token", token);
 
         return new Result<>(true, HttpStatus.OK, "登录成功", map);
+    }
+
+    @GetMapping("/logout")
+    public Result<String> logout(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if(StringUtils.hasLength(token)) {
+            try {
+                RedisUtil.delete(token);
+            }catch (Exception e) {
+                e.printStackTrace();
+                return new Result<>(false, HttpStatus.UNAUTHORIZED, "服务器繁忙，稍后重试");
+            }
+
+        }else {
+            return new Result<>(false, HttpStatus.UNAUTHORIZED, "未登录，无需退出登录");
+        }
+        return new Result<>(true, HttpStatus.OK, "退出登录成功");
     }
 }
