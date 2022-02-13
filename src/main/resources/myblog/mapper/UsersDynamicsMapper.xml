@@ -75,6 +75,45 @@
         LIMIT #{pageNumber}, #{pageSize}
     </select>
 
+    <select id="dynamicListCount" resultType="long">
+        SELECT
+            count(distinct *)
+        FROM users_dynamics AS ud
+        INNER JOIN user_information AS ui ON ui.uid = ud.uid
+        LEFT JOIN dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
+        INNER JOIN dynamic_tags_relations AS dtr ON dtr.dynamic_id = ud.id
+        INNER JOIN tags AS t ON t.id = dtr.tag_id
+        left JOIN collections as c on c.dynamic_id = ud.id
+        <where>
+            ud.is_reporting = 0
+            <if test="tagIds != null and tagIds.length > 0">
+                and t.id in
+                <foreach collection="tagIds" item="tagId" open="(" close=")" separator=",">
+                    #{tagId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY ud.id
+        ORDER BY
+        <trim suffix=",">
+            <choose>
+                <!--            <when test="order != null and order == 'newest'">-->
+                <!--                ud.create_time DESC,-->
+                <!--            </when>-->
+                <when test="order != null and order == 'hottest'">
+                    collectionNum desc, commentNum desc, ud.dynamic_page_view desc
+                </when>
+                <when test="order != null and order.toUpperCase() == 'ASC'">
+                    ud.create_time ASC
+                </when>
+                <!--            <when test="order != null and order.toUpperCase() == 'DESC'">-->
+                <!--                ud.create_time DESC,-->
+                <!--            </when>-->
+            </choose>
+        </trim>
+        ud.create_time DESC, ud.id ASC
+    </select>
+
     <!-- 根据id查询动态 -->
     <select id="queryDynamicById" resultMap="dynamic">
         SELECT

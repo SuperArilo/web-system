@@ -25,6 +25,12 @@ public interface IUsersDynamicsService extends IService<UsersDynamics> {
      */
     List<UsersDynamicsVO> listUserDynamics(Map<String, Object> queryParams);
 
+    /**
+     * 查询条数
+     * @param queryParams
+     * @return
+     */
+    Long dynamicListCount(Map<String, Object> queryParams);
 
     /**
      * 根据id查询详情

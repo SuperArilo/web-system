@@ -48,6 +48,11 @@ public class UsersDynamicsServiceImpl extends ServiceImpl<UsersDynamicsMapper, U
     }
 
     @Override
+    public Long dynamicListCount(Map<String, Object> queryParams) {
+        return this.baseMapper.dynamicListCount(queryParams);
+    }
+
+    @Override
     public Result<UsersDynamicsVO> queryDynamicById(Long dynamicId) {
         if(dynamicId == null) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "参数有误", null);

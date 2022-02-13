@@ -3,6 +3,8 @@ package online.superarilo.myblog.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import online.superarilo.myblog.entity.UsersDynamics;
 import online.superarilo.myblog.service.IUsersDynamicsService;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
@@ -48,7 +50,8 @@ public class UsersDynamicsController {
         queryParams.put("pageNumber", (pageNumber - 1) * pageSize);
         queryParams.put("pageSize", pageSize);
         List<UsersDynamicsVO> usersDynamicsVOS = usersDynamicsService.listUserDynamics(queryParams);
-        long count = usersDynamicsService.count();
+//        long count = usersDynamicsService.count();
+        Long count = usersDynamicsService.dynamicListCount(queryParams);
         Map<String, Object> result = new HashMap<>();
         result.put("data", usersDynamicsVOS);
         result.put("total", count);

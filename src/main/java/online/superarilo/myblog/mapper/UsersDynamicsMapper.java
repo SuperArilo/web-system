@@ -27,6 +27,12 @@ public interface UsersDynamicsMapper extends BaseMapper<UsersDynamics> {
     List<UsersDynamicsVO> listUserDynamics(Map<String, Object> queryParams);
 
     /**
+     * 查询条数
+     *
+     */
+    Long dynamicListCount(Map<String, Object> queryParams);
+
+    /**
      * 根据id查询动态信息
      * @param dynamicId
      * @return
