@@ -63,7 +63,7 @@ public class LoginController {
         RedisUtil.set(token, JSONObject.toJSONString(userInformation), 30 * 60, TimeUnit.SECONDS);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("user", userInformation);
+//        map.put("user", userInformation);
         map.put("token", token);
 
         return new Result<>(true, HttpStatus.OK, "登录成功", map);
