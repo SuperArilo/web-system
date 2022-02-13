@@ -56,7 +56,7 @@
                 </foreach>
             </if>
         </where>
-        GROUP BY ud.id
+        GROUP BY ud.id,sd.id
         ORDER BY
         <trim suffix=",">
             <choose>
