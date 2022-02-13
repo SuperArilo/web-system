@@ -38,8 +38,8 @@
             ui.class as clazz,
             COUNT(DISTINCT dc.id) AS commentNum,
             COUNT(DISTINCT c.id) AS collectionNum,
-            ud.dict_value as classColor,
-            ud.dict_describe as className
+            sd.dict_value as classColor,
+            sd.dict_describe as className
         FROM users_dynamics AS ud
         INNER JOIN user_information AS ui ON ui.uid = ud.uid
         INNER JOIN sys_dictionary as sd ON sd.dict_type = ui.class
