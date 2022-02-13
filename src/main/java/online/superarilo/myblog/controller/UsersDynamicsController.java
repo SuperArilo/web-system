@@ -38,7 +38,7 @@ public class UsersDynamicsController {
      * @return
      */
     @GetMapping("/list")
-    public Result<Object> listUserDynamics(Integer[] tagIds,
+    public Result<Object> listUserDynamics(Long[] tagIds,
                                                           String order,
                                                           @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
