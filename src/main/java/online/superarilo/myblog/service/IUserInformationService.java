@@ -31,5 +31,5 @@ public interface IUserInformationService extends IService<UserInformation> {
     /**
      * 用户修改个人信息
      */
-    Result<String> updateUserInfo(UserInformation user);
+    Result<String> updateUserInfo(UserInformation user, HttpServletRequest request);
 }

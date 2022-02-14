@@ -57,9 +57,20 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
     }
 
     @Override
-    public Result<String> updateUserInfo(UserInformation user) {
+    public Result<String> updateUserInfo(UserInformation user, HttpServletRequest request) {
         if(Objects.isNull(user) || Objects.isNull(user.getUid())) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "修改失败");
+        }
+        UserInformation login;
+        try {
+            String token = request.getHeader("token");
+            login = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录");
+        }
+        if(!Objects.equals(login.getUid(), user.getUid())) {
+            return new Result<>(false, HttpStatus.BAD_REQUEST, "不可以修改别人信息哦");
         }
         UserInformation userInformation = new UserInformation();
         if(!Objects.isNull(user.getNickname()) && user.getNickname().length() > 100) {

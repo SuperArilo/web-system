@@ -42,10 +42,10 @@ public class UserInformationController {
      * 用户修改个人信息
      */
     @PostMapping("/{uid}")
-    public Result<String> updateUserInfo(@PathVariable("uid") Long uid, @RequestBody UserInformation user) {
+    public Result<String> updateUserInfo(@PathVariable("uid") Long uid, @RequestBody UserInformation user, HttpServletRequest request) {
         if(Objects.isNull(user.getUid())) {
             user.setUid(uid);
         }
-        return userInformationService.updateUserInfo(user);
+        return userInformationService.updateUserInfo(user, request);
     }
 }
