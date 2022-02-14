@@ -49,6 +49,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/dynamic/comments/list", "anon");
         filterChainDefinitionMap.put("/tags/list", "anon");
         filterChainDefinitionMap.put("/onlinetalk/**", "anon");
+        filterChainDefinitionMap.put("/verification/**", "anon");
 
         // authc ： 必须认证才能访问
         filterChainDefinitionMap.put("/**", "oauth2");
