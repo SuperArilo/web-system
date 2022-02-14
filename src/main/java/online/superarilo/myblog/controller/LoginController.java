@@ -58,7 +58,7 @@ public class LoginController {
         }
         userInformation.setUserpwd(null);
         String token = TokenGenerator.generateToken();
-        RedisUtil.set(token, JSONObject.toJSONString(userInformation), 30 * 60, TimeUnit.SECONDS);
+        RedisUtil.set(token, JSONObject.toJSONString(userInformation), 24 * 60 * 60, TimeUnit.SECONDS);
 
         Map<String, Object> map = new HashMap<>();
 //        map.put("user", userInformation);

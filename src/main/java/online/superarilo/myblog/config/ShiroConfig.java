@@ -43,11 +43,16 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/register/**", "anon");
         filterChainDefinitionMap.put("/blog/login", "anon");
         filterChainDefinitionMap.put("/email/code", "anon");
-        filterChainDefinitionMap.put("/verification/**", "anon");
+        filterChainDefinitionMap.put("/dynamic/**", "anon");
+        filterChainDefinitionMap.put("/dynamic/list", "anon");
+        filterChainDefinitionMap.put("/dynamic/details", "anon");
+        filterChainDefinitionMap.put("/dynamic/comments/list", "anon");
+        filterChainDefinitionMap.put("/tags/list", "anon");
+        filterChainDefinitionMap.put("/onlinetalk/**", "anon");
 
         // authc ： 必须认证才能访问
-//        filterChainDefinitionMap.put("/**", "oauth2");
-        filterChainDefinitionMap.put("/**", "anon");
+        filterChainDefinitionMap.put("/**", "oauth2");
+//        filterChainDefinitionMap.put("/**", "anon");
         // 设置登录路径
 //        shiroFilterFactoryBean.setLoginUrl("/blog/login");
         // 登录后主页面

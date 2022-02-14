@@ -14,6 +14,8 @@
         <result property="username" column="mc_uuid"/>
         <result property="classColor" column="classColor"/>
         <result property="className" column="className"/>
+        <result property="nickname" column="nickname"/>
+        <result property="personalizedSignature" column="personalized_signature"/>
     </resultMap>
     
     <select id="queryUserInfo" resultMap="userInfo">
@@ -26,6 +28,8 @@
             ui.registertime,
             ui.java_Mc_id,
             ui.mc_uuid,
+            ui.nickname as nickname,
+            ui.personalized_signature as personalizedSignature
             sd.dict_value AS classColor,
             sd.dict_describe AS className
         FROM

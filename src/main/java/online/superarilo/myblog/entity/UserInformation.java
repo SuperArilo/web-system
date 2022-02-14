@@ -43,4 +43,8 @@ public class UserInformation implements Serializable {
 
     @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date registertime;
+
+    private String nickname;
+
+    private String personalizedSignature;
 }

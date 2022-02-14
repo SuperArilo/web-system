@@ -26,4 +26,10 @@ public interface IUserInformationService extends IService<UserInformation> {
      * @return
      */
     Result<Map<String, Object>> queryUserInfo(HttpServletRequest request);
+
+
+    /**
+     * 用户修改个人信息
+     */
+    Result<String> updateUserInfo(UserInformation user);
 }

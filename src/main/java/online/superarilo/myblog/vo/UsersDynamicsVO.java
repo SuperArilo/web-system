@@ -16,6 +16,8 @@ public class UsersDynamicsVO extends UsersDynamics {
     @TableField(exist = false)
     private String username;
 
+    private String nickname;
+
     /**
      * 用户头像
      */
