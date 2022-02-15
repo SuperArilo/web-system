@@ -79,7 +79,10 @@ public class RegisterServiceImpl implements IRegisterService {
         userInformationService.save(userInformation);
 
         // 修改昵称
-        userInformationService.update(new UpdateWrapper<UserInformation>().lambda().eq(UserInformation::getUid, userInformation.getUid()));
+        userInformationService.update(new UpdateWrapper<UserInformation>()
+                .lambda()
+                .set(UserInformation::getNickname, "玩家" + userInformation.getUid())
+                .eq(UserInformation::getUid, userInformation.getUid()));
 
         // 删除验证码
         RedisUtil.delete(userInformation.getUsername());
