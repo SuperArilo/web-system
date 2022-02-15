@@ -29,12 +29,12 @@
             ui.java_Mc_id,
             ui.mc_uuid,
             ui.nickname as nickname,
-            ui.personalized_signature as personalizedSignature
+            ui.personalized_signature as personalizedSignature,
             sd.dict_value AS classColor,
             sd.dict_describe AS className
         FROM
             user_information AS ui
-        LEFT JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.is_deleted = 0 AND sd.dict_enable = 1
+        INNER JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.is_deleted = 0 AND sd.dict_enable = 1
         WHERE ui.uid = #{uid}
     </select>
     
