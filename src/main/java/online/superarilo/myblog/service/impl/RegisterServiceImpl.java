@@ -1,6 +1,7 @@
 package online.superarilo.myblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.service.IRegisterService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -39,6 +41,7 @@ public class RegisterServiceImpl implements IRegisterService {
     private static final String DEFAULT_HEADER_URL_KEY = "user.default-header.url";
 
     @Override
+    @Transactional
     public Result<String> register(UserDTO userDTO) {
         if(Objects.isNull(userDTO)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确参数", null);
@@ -74,6 +77,9 @@ public class RegisterServiceImpl implements IRegisterService {
         userInformation.setUserhead(environment.getProperty(DEFAULT_HEADER_URL_KEY));
         userInformation.setUserpwd(new Md5Hash(userDTO.getPassword().trim(), userDTO.getMail().trim(), 2).toString());
         userInformationService.save(userInformation);
+
+        // 修改昵称
+        userInformationService.update(new UpdateWrapper<UserInformation>().lambda().eq(UserInformation::getUid, userInformation.getUid()));
 
         // 删除验证码
         RedisUtil.delete(userInformation.getUsername());
