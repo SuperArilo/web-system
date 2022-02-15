@@ -24,6 +24,8 @@ public class DynamicCommentsVO extends DynamicComments {
      */
     private String username;
 
+    private String nickname;
+
     private String userHead;
 
     private String classColor;

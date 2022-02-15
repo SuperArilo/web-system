@@ -24,6 +24,7 @@
             dc.dynamic_id,
             dc.uid,
             ui.username,
+            ui.nickname,
             ui.userhead,
             sd.dict_value,
             sd.dict_describe
