@@ -2,6 +2,7 @@ package online.superarilo.myblog.controller;
 
 
 import online.superarilo.myblog.entity.UserInformation;
+import online.superarilo.myblog.realm.UserRealm;
 import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.utils.FileMultipartUtil;
 import online.superarilo.myblog.utils.Result;
@@ -64,7 +65,11 @@ public class UserInformationController {
     public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile) {
         if(headerFile != null && !headerFile.isEmpty()) {
             ImageRelativeAbsolutePathVO imageRelativeAbsolutePathVO = FileMultipartUtil.uploadHeader(headerFile);
-            return new Result<>(true, HttpStatus.OK, "上传成功", imageRelativeAbsolutePathVO);
+            if(imageRelativeAbsolutePathVO != null) {
+                UserInformation userInformation = new UserInformation();
+                userInformation.setUserhead(imageRelativeAbsolutePathVO.getAbsolutePath());
+                return new Result<>(true, HttpStatus.OK, "上传成功", imageRelativeAbsolutePathVO);
+            }
         }
         return new Result<>(false, HttpStatus.BAD_REQUEST, "上传失败", null);
     }
