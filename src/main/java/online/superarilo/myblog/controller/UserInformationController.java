@@ -6,6 +6,7 @@ import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.realm.UserRealm;
 import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.utils.FileMultipartUtil;
+import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
 import org.apache.tomcat.util.http.fileupload.FileUpload;
@@ -66,7 +67,7 @@ public class UserInformationController {
     public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile, HttpServletRequest request) {
         if(headerFile != null && !headerFile.isEmpty()) {
             String token = request.getHeader("token");
-            UserInformation user = JSONObject.parseObject(String.valueOf(token), UserInformation.class);
+            UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
             if(user == null) {
                 return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录");
             }
