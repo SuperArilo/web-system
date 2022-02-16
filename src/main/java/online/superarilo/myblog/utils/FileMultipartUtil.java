@@ -163,7 +163,7 @@ public class FileMultipartUtil {
 
         try {
             is = headerFile.getInputStream();
-            Thumbnails.of(is).outputFormat("png").size(128, 128).scale(1).toOutputStream(baos);
+            Thumbnails.of(is).outputFormat("png")/*.size(128, 128)*/.scale(1).toOutputStream(baos);
             bais = new ByteArrayInputStream(baos.toByteArray());
             // 上传图片
             FTPClient ftpClient = FTPUtil.getFTPClient();
