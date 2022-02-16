@@ -15,7 +15,7 @@
         <result property="classColor" column="classColor"/>
         <result property="className" column="className"/>
         <result property="nickname" column="nickname"/>
-        <result property="personalizedSignature" column="personalized_signature"/>
+        <result property="personalizedSignature" column="personalizedSignature"/>
     </resultMap>
     
     <select id="queryUserInfo" resultMap="userInfo">
