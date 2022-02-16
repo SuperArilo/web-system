@@ -62,7 +62,7 @@ public class UserInformationController {
      */
     @PostMapping("/header/upload")
     public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile) {
-        if(headerFile != null && headerFile.isEmpty()) {
+        if(headerFile != null && !headerFile.isEmpty()) {
             ImageRelativeAbsolutePathVO imageRelativeAbsolutePathVO = FileMultipartUtil.uploadHeader(headerFile);
             return new Result<>(true, HttpStatus.OK, "上传成功", imageRelativeAbsolutePathVO);
         }
