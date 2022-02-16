@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.realm.UserRealm;
 import online.superarilo.myblog.service.IUserInformationService;
@@ -62,12 +63,19 @@ public class UserInformationController {
      * @return 路径
      */
     @PostMapping("/header/upload")
-    public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile) {
+    public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile, HttpServletRequest request) {
         if(headerFile != null && !headerFile.isEmpty()) {
+            String token = request.getHeader("token");
+            UserInformation user = JSONObject.parseObject(String.valueOf(token), UserInformation.class);
+            if(user == null) {
+                return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录");
+            }
             ImageRelativeAbsolutePathVO imageRelativeAbsolutePathVO = FileMultipartUtil.uploadHeader(headerFile);
             if(imageRelativeAbsolutePathVO != null) {
                 UserInformation userInformation = new UserInformation();
+                userInformation.setUid(user.getUid());
                 userInformation.setUserhead(imageRelativeAbsolutePathVO.getAbsolutePath());
+                userInformationService.updateById(userInformation);
                 return new Result<>(true, HttpStatus.OK, "上传成功", imageRelativeAbsolutePathVO);
             }
         }
