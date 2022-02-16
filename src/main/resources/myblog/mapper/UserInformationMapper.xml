@@ -25,7 +25,7 @@
             ui.email,
             ui.userhead,
             ui.class,
-            ui.registertime,
+            DATE_FORMAT(ui.registertime, '%Y/%m%d %H%i%s') as registertime,
             ui.java_Mc_id,
             ui.mc_uuid,
             ui.nickname as nickname,
