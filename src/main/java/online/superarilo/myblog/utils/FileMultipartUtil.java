@@ -147,6 +147,59 @@ public class FileMultipartUtil {
         }
     }
 
+
+
+
+    /**
+     * 上传头像
+     */
+    public static ImageRelativeAbsolutePathVO uploadHeader(MultipartFile headerFile) {
+        String ftpPath = getImageServerBasePath("images/header");
+        // 图片名称
+        String fileName = UUID.randomUUID().toString().replaceAll("-", "") + ".png";
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayInputStream bais  = null;
+        InputStream is = null;
+
+        try {
+            is = headerFile.getInputStream();
+            Thumbnails.of(is).outputFormat("png").size(128, 128).scale(1).toOutputStream(baos);
+            bais = new ByteArrayInputStream(baos.toByteArray());
+            // 上传图片
+            FTPClient ftpClient = FTPUtil.getFTPClient();
+
+            boolean b = FTPUtil.uploadFile(ftpClient, ftpPath, fileName, bais);
+            if(!b) {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(bais != null) {
+                try {
+                    bais.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return hanldeImageRelativeHttpRequest(ftpPath, fileName);
+    }
+
+
     /**
      * 处理相对路径和图片请求地址
      * @param ftpPath

@@ -135,6 +135,7 @@ public class FTPUtil {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return flag;
@@ -142,9 +143,9 @@ public class FTPUtil {
 
     /**
      * FTP文件上传方法
-     * @param ftp
-     * @param fileName
-     * @return
+     * @param ftp ftp
+     * @param fileName 文件名
+     * @return 是否上传成功
      */
     public static boolean uploadFile(FTPClient ftp, String ftpPath, String fileName, InputStream is){
         boolean flag = false;
@@ -193,10 +194,10 @@ public class FTPUtil {
 
     /**
      * FTP文件上传方法
-     * @param ftp
-     * @param basePath
-     * @param fileName
-     * @return
+     * @param ftp ftp
+     * @param basePath 父路径
+     * @param fileName 文件名
+     * @return 是否上传成功
      */
     public static boolean uploadFile(FTPClient ftp,String basePath, String ftpPath, String fileName){
         boolean flag = false;
@@ -252,7 +253,7 @@ public class FTPUtil {
      * @param olePath 原文件地址
      * @param newPath 新保存地址
      * @param fileName 文件名
-     * @return
+     * @return ..
      */
     public static boolean copyFile(FTPClient ftp, String olePath, String newPath,String fileName) {
         boolean flag = false;

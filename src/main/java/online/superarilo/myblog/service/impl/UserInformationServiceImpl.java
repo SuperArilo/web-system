@@ -81,6 +81,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
         }
 
         // todo 如果还需要修改其他字段 添加即可
+        userInformation.setUserhead(user.getUserhead().trim());
         userInformation.setNickname(StringUtils.hasLength(user.getNickname()) ? user.getNickname() : "");
         userInformation.setPersonalizedSignature(StringUtils.hasLength(user.getPersonalizedSignature()) ? user.getPersonalizedSignature() : "");
 
