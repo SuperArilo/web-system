@@ -7,6 +7,7 @@ import online.superarilo.myblog.vo.DynamicCommentsVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,7 +27,7 @@ public interface IDynamicCommentsService extends IService<DynamicComments> {
      * @param pageSize  分页数量
      * @return
      */
-    Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize);
+    Map<String, Object> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize);
 
     /**
      * 用户评论

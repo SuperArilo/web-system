@@ -21,7 +21,14 @@ public interface DynamicCommentsMapper extends BaseMapper<DynamicComments> {
 
     /**
      * 查询指定动态的评论数据
-     * @return
+     * @return 结果
      */
     List<DynamicCommentsVO> listCommentsByDynamicId(Map<String, Object> queryParams);
+
+    /**
+     * 放回动态评论数
+     * @param queryParams 条件
+     * @return 数量
+     */
+    Long dynamicCommentCount(Map<String, Object> queryParams);
 }

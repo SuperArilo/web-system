@@ -40,11 +40,11 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
 
 
     @Override
-    public Result<List<DynamicCommentsVO>> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize) {
+    public Map<String, Object> listCommentsByDynamicId(Long commentParentId, Long dynamicId, Integer pageStart, Integer pageSize) {
         UsersDynamics dynamics = dynamicsService.getById(dynamicId);
 
         if(dynamics == null) {
-            return new Result<>(false, HttpStatus.NOT_FOUND, "资源不存在", null);
+            return null;
         }
 
         Map<String, Object> queryParams = new HashMap<>();
@@ -57,15 +57,17 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
 
         if(commentParentId == 0) {
             for (DynamicCommentsVO dynamicCommentsVO : dynamicCommentsEntities) {
-                Result<List<DynamicCommentsVO>> childrenResult = this.listCommentsByDynamicId(dynamicCommentsVO.getId(),
+                Map<String, Object> childrenResult = this.listCommentsByDynamicId(dynamicCommentsVO.getId(),
                         dynamicCommentsVO.getDynamicId(),
                         pageStart,
                         pageSize);
-                dynamicCommentsVO.setChildren(childrenResult.getData());
+                dynamicCommentsVO.setChildren((List<DynamicCommentsVO>) childrenResult.get("list"));
             }
         }
-
-        return new Result<>(true, HttpStatus.OK, "查询成功", dynamicCommentsEntities);
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", dynamicCommentsEntities);
+        map.put("total", this.baseMapper.dynamicCommentCount(queryParams));
+        return map;
     }
 
     @Override

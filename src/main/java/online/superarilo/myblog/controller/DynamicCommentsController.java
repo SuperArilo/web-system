@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -52,9 +54,9 @@ public class DynamicCommentsController {
      * @return
      */
     @GetMapping(value = "/list")
-    public Result<List<DynamicCommentsVO>> listComments(@RequestParam(value = "commentParentId", defaultValue = "0") Long commentParentId,
-                                                        @RequestParam("dynamicId") Long dynamicId,
-                                                        @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
+    public Result<Map<String,Object>> listComments(@RequestParam(value = "commentParentId", defaultValue = "0") Long commentParentId,
+                                                   @RequestParam("dynamicId") Long dynamicId,
+                                                   @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
         if(commentParentId < 0) {
             commentParentId = 0L;
         }
@@ -62,8 +64,8 @@ public class DynamicCommentsController {
         if(pageNumber > 1) {
             pageStart = (pageNumber - 1) * PAGE_SIZE;
         }
-
-        return dynamicCommentsService.listCommentsByDynamicId(commentParentId, dynamicId, pageStart, PAGE_SIZE);
+        Map<String, Object> map = dynamicCommentsService.listCommentsByDynamicId(commentParentId, dynamicId, pageStart, PAGE_SIZE);
+        return new Result<>(true, HttpStatus.OK, "查询成功", map);
     }
 
 
