@@ -5,6 +5,7 @@ import lombok.Data;
 import online.superarilo.myblog.entity.DynamicComments;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评论实体类
@@ -17,7 +18,7 @@ public class DynamicCommentsVO extends DynamicComments {
     /**
      * 子评论集合
      */
-    private List<DynamicCommentsVO> children;
+    private Map<String, Object> children;
 
     /**
      * 用户昵称

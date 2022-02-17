@@ -61,7 +61,7 @@ public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMappe
                         dynamicCommentsVO.getDynamicId(),
                         pageStart,
                         pageSize);
-                dynamicCommentsVO.setChildren((List<DynamicCommentsVO>) childrenResult.get("list"));
+                dynamicCommentsVO.setChildren(childrenResult);
             }
         }
         Map<String, Object> map = new HashMap<>();
