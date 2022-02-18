@@ -2,8 +2,11 @@ package online.superarilo.myblog.service;
 
 import online.superarilo.myblog.entity.DynamicComment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import online.superarilo.myblog.entity.DynamicComments;
 import online.superarilo.myblog.utils.Result;
+import online.superarilo.myblog.vo.DynamicCommentVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -26,4 +29,9 @@ public interface IDynamicCommentService extends IService<DynamicComment> {
      * @return 结果
      */
     Result<Map<String, Object>> listCommentsByDynamicId(Long dynamicId, Integer pageStart, Integer pageSize);
+
+    /**
+     * 用户评论
+     */
+    Result<String> commentByDynamicId(Long dynamicId, DynamicCommentVO dynamicCommentVO, HttpServletRequest request);
 }

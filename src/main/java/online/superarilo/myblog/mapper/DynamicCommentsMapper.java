@@ -16,7 +16,13 @@ import java.util.Map;
  * @author caoguirong
  * @since 2022-01-08
  */
-@Mapper
+
+/**
+ * @since 2022-02-18
+ * 该接口已弃用 替代为 online.superarilo.myblog.mapper.DynamicCommentMapper
+ */
+
+//@Mapper
 public interface DynamicCommentsMapper extends BaseMapper<DynamicComments> {
 
     /**

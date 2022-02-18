@@ -1,15 +1,14 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.entity.DynamicComments;
 import online.superarilo.myblog.service.IDynamicCommentService;
 import online.superarilo.myblog.utils.Result;
+import online.superarilo.myblog.vo.DynamicCommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -47,6 +46,14 @@ public class DynamicCommentController {
             pageStart = (pageNumber - 1) * DEFAULT_PAGE_SIZE;
         }
         return dynamicCommentService.listCommentsByDynamicId(dynamicId, pageStart, DEFAULT_PAGE_SIZE);
+    }
+
+    /**
+     * 用户评论
+     */
+    @PostMapping("/comment/{dynamicId}")
+    public Result<String> commentByDynamicId(@PathVariable("dynamicId") Long dynamicId, @RequestBody DynamicCommentVO dynamicCommentVO, HttpServletRequest request) {
+        return dynamicCommentService.commentByDynamicId(dynamicId, dynamicCommentVO, request);
     }
 
 }

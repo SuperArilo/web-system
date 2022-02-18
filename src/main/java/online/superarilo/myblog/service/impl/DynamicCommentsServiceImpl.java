@@ -23,20 +23,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+
 /**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author caoguirong
- * @since 2022-01-08
+ * @since 2022-02-18
+ * 该类已弃用 替代为 online.superarilo.myblog.service.impl.DynamicCommentServiceImpl
  */
-@Service
+//@Service
 public class DynamicCommentsServiceImpl extends ServiceImpl<DynamicCommentsMapper, DynamicComments> implements IDynamicCommentsService {
 
-    @Autowired
+
     private IUsersDynamicsService dynamicsService;
 
+    @Autowired
+    public void setDynamicsService(IUsersDynamicsService dynamicsService) {
+        this.dynamicsService = dynamicsService;
+    }
 
 
     @Override

@@ -3,19 +3,14 @@ package online.superarilo.myblog.service;
 import online.superarilo.myblog.entity.DynamicComments;
 import com.baomidou.mybatisplus.extension.service.IService;
 import online.superarilo.myblog.utils.Result;
-import online.superarilo.myblog.vo.DynamicCommentsVO;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
+
 /**
- * <p>
- *  服务类
- * </p>
- *
- * @author caoguirong
- * @since 2022-01-08
+ * @since 2022-02-18
+ * 该接口已弃用 替代为 online.superarilo.myblog.service.IDynamicCommentService
  */
 public interface IDynamicCommentsService extends IService<DynamicComments> {
 
