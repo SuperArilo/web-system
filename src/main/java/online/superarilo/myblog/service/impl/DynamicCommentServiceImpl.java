@@ -79,7 +79,7 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
         }
 
 
-        if(Objects.isNull(dynamicCommentVO.getByReplyId()) || Objects.isNull(userInformationService.getOne(new QueryWrapper<UserInformation>()
+        if(!Objects.isNull(dynamicCommentVO.getByReplyId()) && Objects.isNull(userInformationService.getOne(new QueryWrapper<UserInformation>()
                 .lambda()
                 .eq(UserInformation::getUid, dynamicCommentVO.getByReplyId())))) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "回复的用户不存在");
