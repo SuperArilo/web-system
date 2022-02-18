@@ -119,7 +119,7 @@
         FROM users_dynamics AS ud
         INNER JOIN user_information AS ui ON ui.uid = ud.uid
         INNER JOIN sys_dictionary as sd on sd.dict_type = ui.class
-        LEFT JOIN dynamic_comments AS dc ON dc.dynamic_id = ud.id AND dc.comment_parent_id = 0
+        LEFT JOIN dynamic_comment AS dc ON dc.dynamic_id = ud.id
         LEFT JOIN dynamic_tags_relations AS dtr ON dtr.dynamic_id = ud.id
         LEFT JOIN tags AS t ON t.id = dtr.tag_id
         LEFT JOIN collections as c on c.dynamic_id = ud.id
