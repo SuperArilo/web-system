@@ -87,6 +87,13 @@ logging:
   level:
     online.superarilo.myblog.mapper: debug
 
+## 分页属性
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+
 
 ## upload file adress
 uploadFileAddress:
