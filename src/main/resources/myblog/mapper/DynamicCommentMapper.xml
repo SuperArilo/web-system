@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.superarilo.myblog.mapper.DynamicCommentMapper">
+
+    <resultMap id="comments" type="dynamicCommentVO">
+        <id property="id" column="id"/>
+        <result property="replyId" column="reply_id"/>
+        <result property="byReplyId" column="by_reply_id"/>
+        <result property="replyTime" column="reply_time"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="dynamicId" column="dynamic_id"/>
+        <association property="replyUser" javaType="map">
+            <id property="replyId" column="replyId"/>
+            <result property="replyUsername" column="replyUsername"/>
+            <result property="replyNickname" column="replyNickname"/>
+            <result property="replyHeader" column="replyHeader"/>
+            <result property="replyClassColor" column="replyClassColor"/>
+            <result property="replyClassName" column="replyClassName"/>
+        </association>
+        <association property="byReplyUser" javaType="map">
+            <id property="byReplyId" column="byReplyId"/>
+            <result property="byReplyUsername" column="byReplyUsername"/>
+            <result property="byReplyNickname" column="byReplyNickname"/>
+            <result property="byReplyHeader" column="byReplyHeader"/>
+            <result property="byReplyClassColor" column="byReplyClassColor"/>
+            <result property="byReplyClassName" column="byReplyClassName"/>
+        </association>
+    </resultMap>
+
+
+    <select id="listComments" resultMap="comments" >
+        SELECT
+            dc.id,
+            dc.reply_id,
+            dc.by_reply_id,
+            dc.reply_time,
+            dc.reply_content,
+            dc.dynamic_id,
+            /*回复者*/
+            reply_ui.uid AS replyId,
+            reply_ui.username AS replyUsername,
+            reply_ui.nickname AS replyNickname,
+            reply_ui.userhead AS replyHeader,
+            reply_sd.dict_value AS replyClassColor,
+            reply_sd.dict_describe AS replyClassName,
+            /*被回复人*/
+            by_reply_ui.uid AS byReplyId,
+            by_reply_ui.username AS byReplyUsername,
+            by_reply_ui.nickname AS byReplyNickname,
+            by_reply_ui.userhead AS byReplyHeader,
+            by_reply_sd.dict_value AS byReplyClassColor,
+            by_reply_sd.dict_describe AS byReplyClassName
+        FROM dynamic_comment AS dc
+        INNER JOIN user_information AS reply_ui ON reply_ui.uid = dc.reply_id
+        INNER JOIN user_information AS by_reply_ui ON by_reply_ui.uid = dc.by_reply_id
+        LEFT JOIN sys_dictionary AS reply_sd ON reply_sd.dict_type = reply_ui.class AND reply_sd.is_deleted = 0 AND reply_sd.dict_enable = 1
+        LEFT JOIN sys_dictionary AS by_reply_sd ON by_reply_sd.dict_type = by_reply_ui.class AND by_reply_sd.is_deleted = 0 AND by_reply_sd.dict_enable = 1
+        WHERE dc.dynamic_id = #{dynamicId}
+        ORDER BY dc.reply_time DESC, dc.id ASC
+        LIMIT #{pageStart}, #{pageSize}
+    </select>
+</mapper>

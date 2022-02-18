@@ -34,7 +34,7 @@ import java.util.Objects;
  * @since 2022-01-08
  */
 @RestController
-@RequestMapping("/dynamic/comments")
+//@RequestMapping("/dynamic/comments")
 public class DynamicCommentsController {
 
     private static final int DEFAULT_PAGE_NUMBER = 0;
