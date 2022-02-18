@@ -1,7 +1,6 @@
 package online.superarilo.myblog.controller;
 
 
-import online.superarilo.myblog.entity.DynamicComments;
 import online.superarilo.myblog.service.IDynamicCommentService;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.DynamicCommentVO;

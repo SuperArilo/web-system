@@ -7,15 +7,15 @@ import java.util.HashMap;
 
 public class JsonResult extends HashMap<String, Object> {
 
-    private static final String CODE = "code";
+    public static final String CODE = "code";
 
-    private static final String MESSAGE = "message";
+    public static final String MESSAGE = "message";
 
-    private static final String DATA = "data";
+    public static final String DATA = "data";
 
-    private static final String SUCCESS = "success";
+    public static final String SUCCESS = "success";
 
-    private static final String ERROR = "error";
+    public static final String ERROR = "error";
 
     private JsonResult() {
         this.put(CODE, HttpStatus.OK.value());
@@ -39,11 +39,11 @@ public class JsonResult extends HashMap<String, Object> {
     }
 
     public static JsonResult OK() {
-        return new JsonResult(HttpStatus.OK.value(), SUCCESS);
+        return OK(SUCCESS);
     }
 
     public static JsonResult OK(String message) {
-        return new JsonResult(HttpStatus.OK.value(), message);
+        return OK(message, null);
     }
 
     public static JsonResult OK(String message, Object data) {
@@ -51,15 +51,15 @@ public class JsonResult extends HashMap<String, Object> {
     }
 
     public static JsonResult OK(Object data) {
-        return new JsonResult(HttpStatus.OK.value(), SUCCESS, data);
+        return OK(SUCCESS, data);
     }
 
     public static JsonResult ERROR(Integer code, String message) {
-        return new JsonResult(code, message);
+        return ERROR(code, message, null);
     }
 
-    public static JsonResult ERROR(Integer code, Object data) {
-        return new JsonResult(code, ERROR, data);
+    public static JsonResult ERROR(Integer code,String message, Object data) {
+        return new JsonResult(code, message, data);
     }
 
     public static JsonResult PAGE(PageUtils page) {
