@@ -52,7 +52,7 @@
             by_reply_sd.dict_describe AS byReplyClassName
         FROM dynamic_comment AS dc
         INNER JOIN user_information AS reply_ui ON reply_ui.uid = dc.reply_id
-        INNER JOIN user_information AS by_reply_ui ON by_reply_ui.uid = dc.by_reply_id
+        LEFT JOIN user_information AS by_reply_ui ON by_reply_ui.uid = dc.by_reply_id
         LEFT JOIN sys_dictionary AS reply_sd ON reply_sd.dict_type = reply_ui.class AND reply_sd.is_deleted = 0 AND reply_sd.dict_enable = 1
         LEFT JOIN sys_dictionary AS by_reply_sd ON by_reply_sd.dict_type = by_reply_ui.class AND by_reply_sd.is_deleted = 0 AND by_reply_sd.dict_enable = 1
         WHERE dc.dynamic_id = #{dynamicId}
