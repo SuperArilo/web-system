@@ -1,14 +1,11 @@
 package online.superarilo.myblog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import online.superarilo.myblog.utils.DateUtils;
+import online.superarilo.myblog.utils.DateUtil;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,6 +15,11 @@ import java.util.Date;
  *
  * @author caoguirong
  * @since 2022-01-08
+ */
+
+/**
+ * @since 2022-02-18
+ * 该类已弃用 替代为 online.superarilo.myblog.entity.DynamicComment
  */
 @Data
 @TableName("dynamic_comments")
@@ -53,6 +55,6 @@ public class DynamicComments implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtil.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date createTime;
 }

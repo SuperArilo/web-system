@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import online.superarilo.myblog.utils.DateUtils;
+import online.superarilo.myblog.utils.DateUtil;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -67,7 +66,7 @@ public class SysDictionary implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtil.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date createTime;
 
     /**
@@ -78,7 +77,7 @@ public class SysDictionary implements Serializable {
     /**
      * 更新时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtil.YYYY_MM_DD_HH_MM_SS_BIAS_PATTERN)
     private Date updateTime;
 
     /**

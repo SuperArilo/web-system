@@ -63,7 +63,7 @@ public class FileMultipartUtil {
      * @return
      */
     public static String getImageServerBasePath(String business) {
-        return getBasePath("uploadFileAddress.picture_server_base_path") + business + new SimpleDateFormat("/" + DateUtils.YYYY_MM_DD_BIAS_PATTERN + "/").format(new Date());
+        return getBasePath("uploadFileAddress.picture_server_base_path") + business + new SimpleDateFormat("/" + DateUtil.YYYY_MM_DD_BIAS_PATTERN + "/").format(new Date());
     }
 
 

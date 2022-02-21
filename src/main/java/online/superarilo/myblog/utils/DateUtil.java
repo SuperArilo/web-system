@@ -1,6 +1,6 @@
 package online.superarilo.myblog.utils;
 
-public class DateUtils {
+public class DateUtil {
 
     /**
      * 年份（后两位）

@@ -24,7 +24,7 @@ import java.util.Date;
 @Component
 public class LogAnnotationAdvice {
 
-    private static final String USER_AGENT = "User_Agent";
+    private static final String USER_AGENT = "User-agent";
 
     private static final String TOKEN = "token";
 
