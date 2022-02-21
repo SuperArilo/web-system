@@ -19,7 +19,7 @@ public interface ILeaveWordsService extends IService<LeaveWords> {
     /**
      * 查询所有留言信息
      */
-
+    JsonResult listLeaveWords(Integer pageNumber, Integer pageSize);
 
     /**
      * 用户留言

@@ -1,19 +1,24 @@
 package online.superarilo.myblog.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import online.superarilo.myblog.entity.LeaveWords;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.mapper.LeaveWordsMapper;
 import online.superarilo.myblog.service.ILeaveWordsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import online.superarilo.myblog.utils.JsonResult;
+import online.superarilo.myblog.utils.PageUtils;
 import online.superarilo.myblog.utils.RedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,6 +31,24 @@ import java.util.Objects;
  */
 @Service
 public class LeaveWordsServiceImpl extends ServiceImpl<LeaveWordsMapper, LeaveWords> implements ILeaveWordsService {
+
+    private LeaveWordsMapper leaveWordsMapper;
+
+    @Autowired
+    public void setLeaveWordsMapper(LeaveWordsMapper leaveWordsMapper) {
+        this.leaveWordsMapper = leaveWordsMapper;
+    }
+
+    @Override
+    public JsonResult listLeaveWords(Integer pageNumber, Integer pageSize) {
+        if(Objects.isNull(pageNumber) || Objects.isNull(pageSize) || pageNumber <= 0 || pageSize <= 0) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "分页参数不正确");
+        }
+
+        PageHelper.startPage(pageNumber, pageSize);
+        List<LeaveWords> list = leaveWordsMapper.listLeaveWords();
+        return JsonResult.PAGE(new PageUtils(new PageInfo<>(list)));
+    }
 
     @Override
     public JsonResult userLeaveWords(LeaveWords leaveWords, HttpServletRequest request) {

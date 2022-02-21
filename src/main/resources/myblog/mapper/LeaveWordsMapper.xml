@@ -2,4 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="online.superarilo.myblog.mapper.LeaveWordsMapper">
 
+    <resultMap id="leaveWords" type="leaveWordsVO">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="classColor" column="classColor"/>
+        <result property="className" column="className"/>
+        <association property="userInformation">
+            <id property="uid" column="uid"/>
+            <result property="username" column="username"/>
+            <result property="userhead" column="userhead"/>
+            <result property="nickname" column="nickname"/>
+            <result property="personalizedSignature" column="personalized_signature"/>
+            <result property="clazz" column="class"/>
+        </association>
+    </resultMap>
+
+    <!-- 查询所有留言信息 -->
+    <select id="listLeaveWords" resultMap="leaveWords">
+        SELECT
+            lw.id,
+            lw.create_time,
+            lw.content,
+            ui.uid,
+            ui.class,
+            ui.username,
+            ui.nickname,
+            ui.userhead,
+            ui.personalized_signature,
+            sd.dict_value AS classColor,
+            sd.dict_describe AS className
+        FROM leave_words AS lw
+        INNER JOIN user_information AS ui ON ui.uid = lw.uid
+        INNER JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.dict_enable = 1
+    </select>
 </mapper>

@@ -5,11 +5,7 @@ import online.superarilo.myblog.entity.LeaveWords;
 import online.superarilo.myblog.service.ILeaveWordsService;
 import online.superarilo.myblog.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,6 +32,10 @@ public class LeaveWordsController {
     /**
      * 查询所有留言信息
      */
+    @GetMapping("/list")
+    public JsonResult listLeaveWords(Integer pageNumber, Integer pageSize) {
+        return leaveWordsService.listLeaveWords(pageNumber, pageSize);
+    }
 
 
     /**
