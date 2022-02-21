@@ -4,17 +4,18 @@
 
     <resultMap id="leaveWords" type="leaveWordsVO">
         <id property="id" column="id"/>
+        <result property="uid" column="userId"/>
         <result property="content" column="content"/>
         <result property="createTime" column="create_time"/>
-        <result property="classColor" column="classColor"/>
-        <result property="className" column="className"/>
-        <association property="userInformation">
+        <association property="user">
             <id property="uid" column="uid"/>
             <result property="username" column="username"/>
             <result property="userhead" column="userhead"/>
             <result property="nickname" column="nickname"/>
             <result property="personalizedSignature" column="personalized_signature"/>
             <result property="clazz" column="class"/>
+            <result property="classColor" column="classColor"/>
+            <result property="className" column="className"/>
         </association>
     </resultMap>
 
@@ -22,6 +23,7 @@
     <select id="listLeaveWords" resultMap="leaveWords">
         SELECT
             lw.id,
+            lw.uid as userId,
             lw.create_time,
             lw.content,
             ui.uid,

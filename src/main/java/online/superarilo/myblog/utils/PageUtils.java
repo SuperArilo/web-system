@@ -100,12 +100,12 @@ public class PageUtils implements Serializable {
 		this.totalPage = totalPage;
 	}
 
-	public int getCurrPage() {
+	public int getCurrentPage() {
 		return currentPage;
 	}
 
-	public void setCurrPage(int currPage) {
-		this.currentPage = currPage;
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
 	}
 
 	public List<?> getList() {
