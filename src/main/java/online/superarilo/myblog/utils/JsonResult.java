@@ -62,7 +62,7 @@ public class JsonResult extends HashMap<String, Object> {
         return new JsonResult(code, message, data);
     }
 
-    public static JsonResult PAGE(PageUtils page) {
+    public static JsonResult PAGE(PageUtil page) {
         return OK(page);
     }
 

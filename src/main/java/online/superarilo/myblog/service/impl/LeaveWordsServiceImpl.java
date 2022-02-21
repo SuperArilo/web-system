@@ -9,7 +9,7 @@ import online.superarilo.myblog.mapper.LeaveWordsMapper;
 import online.superarilo.myblog.service.ILeaveWordsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import online.superarilo.myblog.utils.JsonResult;
-import online.superarilo.myblog.utils.PageUtils;
+import online.superarilo.myblog.utils.PageUtil;
 import online.superarilo.myblog.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +47,7 @@ public class LeaveWordsServiceImpl extends ServiceImpl<LeaveWordsMapper, LeaveWo
 
         PageHelper.startPage(pageNumber, pageSize);
         List<LeaveWords> list = leaveWordsMapper.listLeaveWords();
-        return JsonResult.PAGE(new PageUtils(new PageInfo<>(list)));
+        return JsonResult.PAGE(new PageUtil(new PageInfo<>(list)));
     }
 
     @Override

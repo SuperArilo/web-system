@@ -11,11 +11,8 @@ import online.superarilo.myblog.utils.FTPUtil;
 import online.superarilo.myblog.utils.FileMultipartUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
-import online.superarilo.myblog.vo.MediaManagerVO;
-import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,8 +34,6 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     @Autowired
     private IUserInformationService userInformationService;
 
-    @Autowired
-    private Environment environment;
 
     @Override
     public Result<List<MediaManager>> listMediaByUid(Long uid) {
