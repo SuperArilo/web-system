@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.MediaManager;
 import online.superarilo.myblog.service.IMediaManagerService;
 import online.superarilo.myblog.utils.Result;
@@ -33,6 +34,7 @@ public class MediaManagerController {
      * @param uid
      * @return
      */
+    @Log
     @GetMapping("/list")
     public Result<List<MediaManager>> listMediaByUid(@RequestParam("uid") Long uid) {
         return mediaManagerService.listMediaByUid(uid);
@@ -44,6 +46,7 @@ public class MediaManagerController {
      * @param uid
      * @return
      */
+    @Log
     @PostMapping(value = "/upload/image")
     public Result<List> uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, @RequestParam("uid") Long uid) {
         return mediaManagerService.uploadImages(imageFiles, uid);
@@ -55,6 +58,7 @@ public class MediaManagerController {
      * @param uid
      * @return
      */
+    @Log
     @PostMapping("/remove")
     public Result<String> removeMediaByMeidaIdAndUid(@RequestParam("mediaIds") List<Long>  mediaIds, Long uid) {
         return mediaManagerService.removeMediaByMeidaIdAndUid(mediaIds, uid);

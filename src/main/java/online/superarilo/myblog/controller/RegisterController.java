@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.service.IRegisterService;
 import online.superarilo.myblog.utils.Result;
@@ -26,7 +27,7 @@ public class RegisterController {
         registerService = rs;
     }
 
-
+    @Log
     @PostMapping("/user")
     public Result<String> registerUser(@RequestBody UserDTO userDTO) {
         return registerService.register(userDTO);

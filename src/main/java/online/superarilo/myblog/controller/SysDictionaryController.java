@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.SysDictionary;
 import online.superarilo.myblog.service.ISysDictionaryService;
 import online.superarilo.myblog.utils.Result;
@@ -32,11 +33,13 @@ public class SysDictionaryController {
         sysDictionaryService = sds;
     }
 
+    @Log
     @GetMapping("/list")
     public Result<List<SysDictionaryVO>> list() {
         return sysDictionaryService.listDictionary();
     }
 
+    @Log
     @PostMapping("/save")
     public Result<String> saveDictionary(@RequestBody SysDictionary sysDictionary, HttpServletRequest request) {
         return sysDictionaryService.saveDictionary(sysDictionary, request);

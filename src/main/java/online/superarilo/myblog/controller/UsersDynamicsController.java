@@ -4,6 +4,7 @@ package online.superarilo.myblog.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.UsersDynamics;
 import online.superarilo.myblog.service.IUsersDynamicsService;
 import online.superarilo.myblog.utils.RedisUtil;
@@ -39,6 +40,7 @@ public class UsersDynamicsController {
      * 根据条件查询所有动态信息
      * @return
      */
+    @Log
     @GetMapping("/list")
     public Result<Object> listUserDynamics(Long[] tagIds,
                                                           String order,
@@ -58,13 +60,14 @@ public class UsersDynamicsController {
         return new Result<>(true, HttpStatus.OK, "success", result);
     }
 
+    @Log
     @GetMapping("/details")
     public Result<UsersDynamicsVO> queryDynamicById(Long dynamicId, HttpServletRequest request) {
         usersDynamicsService.incrementDynamicPageView(dynamicId, request);
         return usersDynamicsService.queryDynamicById(dynamicId);
     }
 
-
+    @Log
     @PostMapping("/")
     public Result<String> saveUserDynamic(@RequestBody UsersDynamicsVO usersDynamicsVO) {
         return usersDynamicsService.saveUserDynamic(usersDynamicsVO);

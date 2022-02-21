@@ -2,6 +2,7 @@ package online.superarilo.myblog.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.realm.UserRealm;
 import online.superarilo.myblog.service.IUserInformationService;
@@ -41,6 +42,7 @@ public class UserInformationController {
         this.userInformationService = userInformationService;
     }
 
+    @Log
     @GetMapping("/information")
     public Result<Map<String, Object>> queryUserInfo(HttpServletRequest request) {
         return userInformationService.queryUserInfo(request);
@@ -49,6 +51,7 @@ public class UserInformationController {
     /**
      * 用户修改个人信息
      */
+    @Log
     @PostMapping("/{uid}")
     public Result<String> updateUserInfo(@PathVariable("uid") Long uid, @RequestBody UserInformation user, HttpServletRequest request) {
         if(Objects.isNull(user.getUid())) {
@@ -63,6 +66,7 @@ public class UserInformationController {
      * @param headerFile 文件
      * @return 路径
      */
+    @Log
     @PostMapping("/header/upload")
     public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile, HttpServletRequest request) {
         if(headerFile != null && !headerFile.isEmpty()) {

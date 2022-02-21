@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.service.IDynamicCommentService;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.DynamicCommentVO;
@@ -37,6 +38,7 @@ public class DynamicCommentController {
      * @param dynamicId 需要查询的动态id
      * @return 结果
      */
+    @Log
     @GetMapping(value = "/list")
     public Result<Map<String, Object>> listComments(@RequestParam("dynamicId") Long dynamicId,
                                                    @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
@@ -50,6 +52,7 @@ public class DynamicCommentController {
     /**
      * 用户评论
      */
+    @Log
     @PostMapping("/comment/{dynamicId}")
     public Result<String> commentByDynamicId(@PathVariable("dynamicId") Long dynamicId, @RequestBody DynamicCommentVO dynamicCommentVO, HttpServletRequest request) {
         return dynamicCommentService.commentByDynamicId(dynamicId, dynamicCommentVO, request);

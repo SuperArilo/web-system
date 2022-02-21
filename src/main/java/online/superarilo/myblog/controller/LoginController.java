@@ -2,6 +2,7 @@ package online.superarilo.myblog.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.generator.TokenGenerator;
@@ -34,6 +35,7 @@ public class LoginController {
         userInformationService = us;
     }
 
+    @Log
     @PostMapping("/login")
     public Result<Object> login(@RequestBody UserDTO user) {
         String verifyKey = "login" + user.getRandom() + RedisUtil.VERIFY_CODE_REDIS_KEY_SUFFIX;
@@ -67,6 +69,7 @@ public class LoginController {
         return new Result<>(true, HttpStatus.OK, "登录成功", map);
     }
 
+    @Log
     @GetMapping("/logout")
     public Result<String> logout(HttpServletRequest request) {
         String token = request.getHeader("token");

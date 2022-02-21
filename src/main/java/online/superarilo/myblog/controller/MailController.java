@@ -1,5 +1,6 @@
 package online.superarilo.myblog.controller;
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.service.IMailService;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class MailController {
         mailService = ms;
     }
 
+    @Log
     @PostMapping("/code")
     public Result<String> sendMail(String to) {
         return mailService.sendMail(to);

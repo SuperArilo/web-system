@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.LeaveWords;
 import online.superarilo.myblog.service.ILeaveWordsService;
 import online.superarilo.myblog.utils.JsonResult;
@@ -32,6 +33,7 @@ public class LeaveWordsController {
     /**
      * 查询所有留言信息
      */
+    @Log
     @GetMapping("/list")
     public JsonResult listLeaveWords(Integer pageNumber, Integer pageSize) {
         return leaveWordsService.listLeaveWords(pageNumber, pageSize);
@@ -41,6 +43,7 @@ public class LeaveWordsController {
     /**
      * 用户留言
      */
+    @Log
     @PostMapping("/")
     public JsonResult userLeaveWords(HttpServletRequest request, @RequestBody LeaveWords leaveWords) {
         return leaveWordsService.userLeaveWords(leaveWords, request);

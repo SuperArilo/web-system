@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,7 @@ public class VerificationController {
 
 
 
+	@Log
 	@GetMapping("/image/{method}")
 	public Result verificationForImage(@PathVariable("method") String method, String random, HttpServletResponse response) {
 		// 验证获取验证码是否是可行方式

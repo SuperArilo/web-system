@@ -64,4 +64,9 @@ public class SysLog implements Serializable {
      */
     private String username;
 
+    /**
+     * 访问的方法
+     */
+    private String visitServiceMethod;
+
 }

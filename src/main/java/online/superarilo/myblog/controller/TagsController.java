@@ -1,6 +1,7 @@
 package online.superarilo.myblog.controller;
 
 
+import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.Tags;
 import online.superarilo.myblog.service.ITagsService;
 import online.superarilo.myblog.utils.Result;
@@ -35,21 +36,26 @@ public class TagsController {
     public void setTagsService(ITagsService ts) {
         this.tagsService = ts;
     }
+
+    @Log
     @GetMapping("/list")
     public Result<List<Tags>> listTags() {
         return tagsService.listTags();
     }
 
+    @Log
     @PostMapping("/save")
     public Result<String> saveTags(List<Tags> tags) {
         return new Result<>(true, HttpStatus.OK, "保存成功", "保存成功");
     }
 
+    @Log
     @PostMapping("/update")
     public Result<String> saveTags(Tags tag) {
         return new Result<>(true, HttpStatus.OK, "修改成功", "修改成功");
     }
 
+    @Log
     @PostMapping("/remove/{id}")
     public Result<String> removeTag(List<Long> tagIds) {
         return new Result<>(true, HttpStatus.OK, "删除成功", "删除成功");
