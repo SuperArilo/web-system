@@ -1,5 +1,7 @@
 package online.superarilo.myblog.utils;
 
+import online.superarilo.myblog.constant.RedisConstant;
+
 import java.util.Calendar;
 
 public class DateUtil {
@@ -45,8 +47,17 @@ public class DateUtil {
 
 
     /**
-     * 计算当天剩余秒数
-     * @return 返回当天剩余秒数
+     * 一天二十四小时的秒数
+     * @return 返回秒数
+     */
+    public static long theNumberOfSecondsInADay() {
+        return 24 * 60 * 60L;
+    }
+
+
+    /**
+     * 计算当天剩余秒数 如果当天时间小于两小时，则在追加一天时间
+     * @return 返回秒数
      */
     public static long theRestOfTheDay() {
         Calendar calendar = Calendar.getInstance();
@@ -55,6 +66,7 @@ public class DateUtil {
         calendar.set(Calendar.SECOND, 59);
         long endTime = calendar.getTime().getTime();
         long currentTime = System.currentTimeMillis();
-        return (endTime - currentTime) / 1000;
+        long time = endTime - currentTime;
+        return time / 1000 > 2 * 60 * 60 ? time : time + theNumberOfSecondsInADay();
     }
 }

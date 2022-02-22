@@ -11,6 +11,6 @@ public class RedisConstant {
     /**
      * 第一种登录过期时间 一天时间
      */
-    public static final Long REDIS_LOGIN_EXPIRE = 24 * 60 * 60L;
+    public static final Long REDIS_LOGIN_EXPIRE = DateUtil.theNumberOfSecondsInADay();
 
 }
