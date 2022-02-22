@@ -50,12 +50,12 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
-#    url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
 #    username: root
-#    password: mysql123456@
+#    password: 123456
+    url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+    username: root
+    password: mysql123456@
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
@@ -70,11 +70,11 @@ server:
 #    enabled: true
 #    key-store-password: saP88oIo
 #    keyStoreType: JKS
-#  ssl:
-#    key-store: classpath:caoguirong.jks
-#    enabled: true
-#    key-store-password: lzjFMku1
-#    keyStoreType: JKS
+  ssl:
+    key-store: classpath:caoguirong.jks
+    enabled: true
+    key-store-password: lzjFMku1
+    keyStoreType: JKS
 
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
