@@ -13,10 +13,7 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class MailUtil {
 
-    /**
-     * 邮箱验证规则
-     */
-    public static final String MAIL_REGEX = "^\\w+@(\\w)+(\\.[a-zA-Z]+)+$";
+
 
 
     private static JavaMailSender javaMailSender;

@@ -24,7 +24,7 @@ import java.util.Date;
 @Component
 public class LogAnnotationAdvice {
 
-    private static final String USER_AGENT = "User-agent";
+    private static final String USER_AGENT = "User-Agent";
 
     private static final String TOKEN = "token";
 
@@ -35,7 +35,7 @@ public class LogAnnotationAdvice {
     @Before("declareJointPointExpression()")
     public void beforeMethod(JoinPoint joinPoint) {
         Method method = ((MethodSignature) (joinPoint.getSignature())).getMethod();
-        HttpServletRequest request = request = HttpRequestContextUtil.getRequest();
+        HttpServletRequest request = HttpRequestContextUtil.getRequest();
 
         if(method.isAnnotationPresent(Log.class)) {
             log(request, method);

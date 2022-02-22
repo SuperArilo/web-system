@@ -46,7 +46,7 @@ public class RegisterServiceImpl implements IRegisterService {
         if(Objects.isNull(userDTO)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确参数", null);
         }
-        if(!StringUtils.hasLength(userDTO.getMail().trim()) || !userDTO.getMail().trim().matches(MailUtil.MAIL_REGEX)) {
+        if(!StringUtils.hasLength(userDTO.getMail().trim()) || !userDTO.getMail().trim().matches(RegexUtil.MAIL_REGEX)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确邮箱");
         }
         // 判断邮箱是否注册

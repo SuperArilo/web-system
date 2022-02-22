@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class VerificationController {
 
 
-	private final Color[] colors = {
+	private static final Color[] COLORS = {
 			Color.RED,
 			Color.BLUE,
 			Color.CYAN,
@@ -74,9 +74,9 @@ public class VerificationController {
 		RedisUtil.set(key, sb.toString(), 3 * 60, TimeUnit.SECONDS);
 
 
-		for (Color color : colors) {
+		for (Color color : COLORS) {
 			graphics.setColor(color);
-			int max = 60000 / colors.length;
+			int max = 60000 / COLORS.length;
 			for (int j = 0; j < max; j++) {
 				int x = Double.valueOf(Math.random() * imageWidth + 1).intValue();
 				int y = Double.valueOf(Math.random() * imageHeight + 1).intValue();
@@ -90,7 +90,7 @@ public class VerificationController {
 
 		for (int i = 0; i < chars.length; i++) {
 			// 随机选取一种颜色
-			graphics.setColor(colors[Double.valueOf(Math.random() * colors.length).intValue()]);
+			graphics.setColor(COLORS[Double.valueOf(Math.random() * COLORS.length).intValue()]);
 			// 横向
 			graphics.drawLine(0, Double.valueOf(Math.random() * imageHeight + 1).intValue(), imageWidth, Double.valueOf(Math.random() * imageHeight + 1).intValue());
 			// 纵向

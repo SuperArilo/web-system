@@ -3,6 +3,7 @@ package online.superarilo.myblog.service.impl;
 import online.superarilo.myblog.service.IMailService;
 import online.superarilo.myblog.utils.MailUtil;
 import online.superarilo.myblog.utils.RedisUtil;
+import online.superarilo.myblog.utils.RegexUtil;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -31,7 +32,7 @@ public class MailServiceImpl implements IMailService {
         if(to.length() == 0) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入邮箱", null);
         }
-        if(!to.matches(MailUtil.MAIL_REGEX)) {
+        if(!to.matches(RegexUtil.MAIL_REGEX)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "请输入正确的邮箱", null);
         }
         String titleTemplate = environment.getProperty("spring.mail.title-template");
