@@ -50,6 +50,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/tags/list", "anon");
         filterChainDefinitionMap.put("/onlinetalk/**", "anon");
         filterChainDefinitionMap.put("/verification/**", "anon");
+        filterChainDefinitionMap.put("/leave-words/list", "anon");
 
         // authc ： 必须认证才能访问
         filterChainDefinitionMap.put("/**", "oauth2");
