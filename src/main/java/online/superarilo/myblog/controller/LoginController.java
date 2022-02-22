@@ -8,6 +8,7 @@ import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.generator.TokenGenerator;
 import online.superarilo.myblog.service.IUserInformationService;
+import online.superarilo.myblog.utils.DateUtil;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import org.apache.shiro.SecurityUtils;
@@ -61,7 +62,7 @@ public class LoginController {
         }
         userInformation.setUserpwd(null);
         String token = TokenGenerator.generateToken();
-        RedisUtil.set(token, JSONObject.toJSONString(userInformation), RedisConstant.REDIS_LOGIN_EXPIRE, TimeUnit.SECONDS);
+        RedisUtil.set(token, JSONObject.toJSONString(userInformation), DateUtil.theRestOfTheDay(), TimeUnit.SECONDS);
 
         Map<String, Object> map = new HashMap<>();
 //        map.put("user", userInformation);

@@ -56,8 +56,8 @@ public class ShiroFilter extends FormAuthenticationFilter {
             this.errorMsg = "登录失败";
             return false;
         }
-        //刷新超时时间
-        RedisUtil.expire(token, RedisConstant.REDIS_LOGIN_EXPIRE); //30分钟过期
+//        刷新超时时间
+//        RedisUtil.expire(token, RedisConstant.REDIS_LOGIN_EXPIRE); // 使用当天剩余秒数，无需刷新有效时间
         UserToken userToken = new UserToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(userToken);
