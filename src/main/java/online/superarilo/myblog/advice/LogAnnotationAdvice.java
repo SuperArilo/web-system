@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -54,8 +55,10 @@ public class LogAnnotationAdvice {
         String token = request.getHeader(TOKEN);
         if(StringUtils.hasLength(token)) {
             UserInformation userInformation = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
-            sysLog.setUid(userInformation.getUid());
-            sysLog.setUsername(userInformation.getUsername());
+            if(!Objects.isNull(userInformation)) {
+                sysLog.setUid(userInformation.getUid());
+                sysLog.setUsername(userInformation.getUsername());
+            }
         }
         ISysLogService logService = SpringBeanUtil.getBean(ISysLogService.class);
         logService.save(sysLog);
