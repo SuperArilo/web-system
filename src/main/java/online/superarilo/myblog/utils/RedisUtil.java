@@ -53,7 +53,7 @@ public class RedisUtil {
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 
-    public static void expire(String key, int time) {
+    public static void expire(String key, long time) {
         redisTemplate.expire(key, time, TimeUnit.SECONDS);
     }
 

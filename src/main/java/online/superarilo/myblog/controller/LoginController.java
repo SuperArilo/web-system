@@ -3,6 +3,7 @@ package online.superarilo.myblog.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import online.superarilo.myblog.annotation.Log;
+import online.superarilo.myblog.constant.RedisConstant;
 import online.superarilo.myblog.dto.UserDTO;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.generator.TokenGenerator;
@@ -60,7 +61,7 @@ public class LoginController {
         }
         userInformation.setUserpwd(null);
         String token = TokenGenerator.generateToken();
-        RedisUtil.set(token, JSONObject.toJSONString(userInformation), 24 * 60 * 60, TimeUnit.SECONDS);
+        RedisUtil.set(token, JSONObject.toJSONString(userInformation), RedisConstant.REDIS_LOGIN_EXPIRE, TimeUnit.SECONDS);
 
         Map<String, Object> map = new HashMap<>();
 //        map.put("user", userInformation);

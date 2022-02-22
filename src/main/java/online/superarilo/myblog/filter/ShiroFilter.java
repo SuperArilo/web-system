@@ -2,6 +2,7 @@ package online.superarilo.myblog.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import online.superarilo.myblog.constant.RedisConstant;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.realm.UserToken;
 import online.superarilo.myblog.utils.RedisUtil;
@@ -56,7 +57,7 @@ public class ShiroFilter extends FormAuthenticationFilter {
             return false;
         }
         //刷新超时时间
-        RedisUtil.expire(token, 30 * 60); //30分钟过期
+        RedisUtil.expire(token, RedisConstant.REDIS_LOGIN_EXPIRE); //30分钟过期
         UserToken userToken = new UserToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(userToken);
