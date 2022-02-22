@@ -37,5 +37,6 @@
         FROM leave_words AS lw
         INNER JOIN user_information AS ui ON ui.uid = lw.uid
         INNER JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.dict_enable = 1
+        ORDER BY lw.create_time DESC, lw.id ASC
     </select>
 </mapper>
