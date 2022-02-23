@@ -3,13 +3,12 @@ package online.superarilo.myblog.controller;
 
 import online.superarilo.myblog.service.IInformService;
 import online.superarilo.myblog.utils.JsonResult;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author caoguirong
  * @since 2022-02-23
  */
-@Controller
+@RestController
 @RequestMapping("/inform")
 public class InformController {
 
