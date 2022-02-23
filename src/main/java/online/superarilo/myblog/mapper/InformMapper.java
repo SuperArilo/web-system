@@ -3,6 +3,7 @@ package online.superarilo.myblog.mapper;
 import online.superarilo.myblog.entity.Inform;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import online.superarilo.myblog.vo.InformVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author caoguirong
  * @since 2022-02-23
  */
+@Mapper
 public interface InformMapper extends BaseMapper<Inform> {
 
 
