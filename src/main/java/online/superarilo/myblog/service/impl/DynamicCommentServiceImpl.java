@@ -110,7 +110,7 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
 
         // 通知对方
         InformVO inform = new InformVO();
-        inform.setReceiver(Objects.isNull(dynamicCommentVO.getByReplyId()) ? one.getUid() : dynamicCommentVO.getReplyId());
+        inform.setReceiver(Objects.isNull(dynamicCommentVO.getByReplyId()) ? one.getUid() : dynamicCommentVO.getByReplyId());
         inform.setRead(0);
         inform.setSys(0);
         inform.setCreateTime(new Date());
