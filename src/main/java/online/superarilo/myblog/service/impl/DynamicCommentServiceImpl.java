@@ -114,7 +114,7 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
         inform.setRead(0);
         inform.setSys(0);
         inform.setCreateTime(new Date());
-        inform.setContent(null);
+        inform.setContent(dynamicComment.getReplyContent());
         inform.setEventId(dynamicId);
         inform.setNotifier(dynamicComment.getReplyId());
         informService.addInform(inform);
