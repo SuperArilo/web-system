@@ -76,7 +76,8 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
 
     @Override
     public Result<String> commentByDynamicId(Long dynamicId, DynamicCommentVO dynamicCommentVO, HttpServletRequest request) {
-        if(Objects.isNull(dynamicId) || Objects.isNull(dynamicsService.getOne(new QueryWrapper<UsersDynamics>().lambda().eq(UsersDynamics::getId, dynamicId)))) {
+        UsersDynamics one = dynamicsService.getOne(new QueryWrapper<UsersDynamics>().lambda().eq(UsersDynamics::getId, dynamicId));
+        if(Objects.isNull(one)) {
             return new Result<>(false, HttpStatus.BAD_REQUEST, "未找到评论的动态", null);
         }
 
@@ -102,7 +103,7 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
         DynamicComment dynamicComment = new DynamicComment();
         dynamicComment.setDynamicId(dynamicId);
         dynamicComment.setReplyId(user.getUid());
-        dynamicComment.setByReplyId(dynamicCommentVO.getByReplyId());
+        dynamicComment.setByReplyId(Objects.isNull(dynamicCommentVO.getByReplyId()) ? dynamicCommentVO.getReplyId() : one.getUid());
         dynamicComment.setReplyContent(dynamicCommentVO.getReplyContent());
         dynamicComment.setReplyTime(new Date());
         this.save(dynamicComment);
