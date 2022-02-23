@@ -2,18 +2,17 @@ package online.superarilo.myblog.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import online.superarilo.myblog.entity.DynamicComment;
-import online.superarilo.myblog.entity.DynamicComments;
-import online.superarilo.myblog.entity.UserInformation;
-import online.superarilo.myblog.entity.UsersDynamics;
+import online.superarilo.myblog.entity.*;
 import online.superarilo.myblog.mapper.DynamicCommentMapper;
 import online.superarilo.myblog.service.IDynamicCommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import online.superarilo.myblog.service.IInformService;
 import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.service.IUsersDynamicsService;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.DynamicCommentVO;
+import online.superarilo.myblog.vo.InformVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,6 +44,13 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
     @Autowired
     public void setUserInformationService(IUserInformationService userInformationService) {
         this.userInformationService = userInformationService;
+    }
+
+    private IInformService informService;
+
+    @Autowired
+    public void setInformService(IInformService informService) {
+        this.informService = informService;
     }
 
     @Override
@@ -100,6 +106,17 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
         dynamicComment.setReplyContent(dynamicCommentVO.getReplyContent());
         dynamicComment.setReplyTime(new Date());
         this.save(dynamicComment);
+
+        // 通知对方
+        InformVO inform = new InformVO();
+        inform.setReceiver(dynamicComment.getByReplyId());
+        inform.setRead(0);
+        inform.setSys(0);
+        inform.setCreateTime(new Date());
+        inform.setContent(null);
+        inform.setEventId(dynamicId);
+        inform.setNotifier(dynamicComment.getReplyId());
+        informService.addInform(inform);
         return new Result<>(true, HttpStatus.OK, "评论成功", null);
     }
 }
