@@ -103,7 +103,7 @@ public class DynamicCommentServiceImpl extends ServiceImpl<DynamicCommentMapper,
         DynamicComment dynamicComment = new DynamicComment();
         dynamicComment.setDynamicId(dynamicId);
         dynamicComment.setReplyId(user.getUid());
-        dynamicComment.setByReplyId(dynamicCommentVO.getReplyId());
+        dynamicComment.setByReplyId(dynamicCommentVO.getByReplyId());
         dynamicComment.setReplyContent(dynamicCommentVO.getReplyContent());
         dynamicComment.setReplyTime(new Date());
         this.save(dynamicComment);
