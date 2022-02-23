@@ -70,6 +70,7 @@ public class InformServiceImpl extends ServiceImpl<InformMapper, Inform> impleme
         inform.setCreateTime(informVO.getCreateTime());
         inform.setRead(informVO.getRead());
         inform.setSys(informVO.getSys());
+        this.save(inform);
         return JsonResult.OK("通知成功");
     }
 }
