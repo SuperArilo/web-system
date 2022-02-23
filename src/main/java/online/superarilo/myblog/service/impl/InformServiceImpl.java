@@ -62,9 +62,7 @@ public class InformServiceImpl extends ServiceImpl<InformMapper, Inform> impleme
         }
         Inform inform = new Inform();
         inform.setReceiver(informVO.getReceiver());
-        if(Integer.valueOf(0).equals(inform.getSys())) {
-            inform.setNotifier(informVO.getNotifier());
-        }
+        inform.setNotifier(informVO.getNotifier());
         inform.setContent(informVO.getContent());
         inform.setEventId(informVO.getEventId());
         inform.setCreateTime(informVO.getCreateTime());
