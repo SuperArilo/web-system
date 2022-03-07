@@ -37,6 +37,12 @@ public class Inform implements Serializable {
     private Long notifier;
 
     /**
+     * 标题
+     */
+    private String title;
+
+
+    /**
      * 通知内容
      */
     private String content;

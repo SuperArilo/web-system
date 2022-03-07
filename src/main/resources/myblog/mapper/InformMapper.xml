@@ -7,6 +7,7 @@
         <id property="id" column="id"/>
         <result property="notifier" column="notifier"/>
         <result property="receiver" column="receiver"/>
+        <result property="title" column="title"/>
         <result property="content" column="content"/>
         <result property="eventId" column="event_id"/>
         <result property="read" column="is_read"/>
@@ -20,6 +21,7 @@
             inform.id,
             inform.notifier,
             inform.receiver,
+            inform.title,
             inform.content,
             inform.event_id,
             inform.is_read,
