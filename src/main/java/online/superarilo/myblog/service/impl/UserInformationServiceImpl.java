@@ -108,7 +108,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
 
         Long bindCount = userInformationMapper.selectCount(new QueryWrapper<UserInformation>().eq("java_Mc_id", javaMcId));
         if (bindCount>0){
-            return JsonResult.ERROR(500,"ID已被绑定请联系管理员");
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(),"ID已被绑定请联系管理员");
         }
 
         String foo;
@@ -118,7 +118,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
                 throw new Exception("message error return!");
             }
         }catch (Exception e){
-            return JsonResult.ERROR(500,"ID不存在");
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(),"ID不存在");
         }
 
         HashMap<String, String> userInfo = JSON.parseObject(foo, new TypeReference<>() {
@@ -131,7 +131,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
         if (integer>0){
             return JsonResult.OK("绑定成功");
         }else{
-            return JsonResult.ERROR(500,"绑定失败");
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(),"绑定失败");
         }
 
     }

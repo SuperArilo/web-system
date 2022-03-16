@@ -92,14 +92,14 @@ public class UserInformationController {
      * @return Result<?>
      */
     @Log
-    @GetMapping("/whitelist")
+    @PostMapping("/whitelist")
     public JsonResult whitelist(@RequestParam String javaMcId, HttpServletRequest request){
 
         String token = request.getHeader("token");
         UserInformation adminInfo = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
 
         if (javaMcId.isEmpty()) {
-            return JsonResult.ERROR(500,"请输入绑定的ID");
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(),"请输入绑定的ID");
         }
 
         return userInformationService.whitelist(javaMcId,adminInfo);
