@@ -1,17 +1,6 @@
 package online.superarilo.myblog.controller;
 
-import java.util.Map;
-import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.alibaba.fastjson.JSONObject;
-
 import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.service.IUserInformationService;
@@ -20,6 +9,14 @@ import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -52,7 +49,7 @@ public class UserInformationController {
     @Log
     @PostMapping("/{uid}")
     public Result<String> updateUserInfo(@PathVariable("uid") Long uid, @RequestBody UserInformation user,
-        HttpServletRequest request) {
+                                         HttpServletRequest request) {
         if (Objects.isNull(user.getUid())) {
             user.setUid(uid);
         }
@@ -61,7 +58,7 @@ public class UserInformationController {
 
     /***
      * 上传头像
-     * 
+     *
      * @param headerFile
      *            文件
      * @return 路径
@@ -69,7 +66,7 @@ public class UserInformationController {
     @Log
     @PostMapping("/header/upload")
     public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile,
-        HttpServletRequest request) {
+                                                            HttpServletRequest request) {
         if (headerFile != null && !headerFile.isEmpty()) {
             String token = request.getHeader("token");
             UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
@@ -91,8 +88,7 @@ public class UserInformationController {
     /**
      * Minecraft ID验证
      *
-     * @param javaMcId
-     *            录入ID
+     * @param javaMcId 录入ID
      * @return Result<?>
      */
     @Log
@@ -112,7 +108,7 @@ public class UserInformationController {
     }
 
     @Log
-    @PutMapping("/updateWhitelist")
+    @PostMapping("/updateWhitelist")
     public JsonResult updateWhitelist(HttpServletRequest request) {
 
         String token = request.getHeader("token");
