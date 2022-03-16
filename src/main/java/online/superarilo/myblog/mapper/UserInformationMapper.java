@@ -1,7 +1,7 @@
 package online.superarilo.myblog.mapper;
 
-import online.superarilo.myblog.entity.UserInformation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import online.superarilo.myblog.entity.UserInformation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author caoguirong
@@ -21,5 +21,7 @@ public interface UserInformationMapper extends BaseMapper<UserInformation> {
 
     Map<String, Object> queryUserInfo(@Param("uid") Long uid);
 
-    Integer updateMcUuid(@Param("uuid") String uuid, @Param("name") String user,@Param("id")Long uid);
+    Integer updateMcUuid(@Param("uuid") String uuid, @Param("name") String user, @Param("id") Long uid);
+
+    Integer updateWhitelist(@Param("id") Long uid);
 }

@@ -1,7 +1,7 @@
 package online.superarilo.myblog.service;
 
-import online.superarilo.myblog.entity.UserInformation;
 import com.baomidou.mybatisplus.extension.service.IService;
+import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.Result;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author caoguirong
@@ -18,16 +18,14 @@ import java.util.Map;
  */
 public interface IUserInformationService extends IService<UserInformation> {
 
-
     UserInformation findUserByUsername(String username);
-
 
     /**
      * 根据token返回用户信息
+     *
      * @return
      */
     Result<Map<String, Object>> queryUserInfo(HttpServletRequest request);
-
 
     /**
      * 用户修改个人信息
@@ -38,8 +36,13 @@ public interface IUserInformationService extends IService<UserInformation> {
      * Minecraft ID验证
      *
      * @param javaMcId 录入ID
-     * @param user 用户信息
+     * @param user     用户信息
      * @return Result<?>
      */
     JsonResult whitelist(String javaMcId, UserInformation user);
+
+    /**
+     * 解绑
+     */
+    JsonResult updateWhitelist(UserInformation adminInfo);
 }

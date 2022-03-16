@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="online.superarilo.myblog.mapper.UserInformationMapper">
-    
-    
+
+
     <resultMap id="userInfo" type="map">
         <id property="uid" column="uid"/>
         <result property="username" column="username"/>
@@ -23,26 +23,32 @@
         SET java_Mc_id = #{name},mc_uuid = #{uuid}
         WHERE uid = #{id};
     </update>
+    <update id="updateWhitelist">
+        UPDATE user_information
+        SET java_Mc_id = NULL,mc_uuid = NULL
+        WHERE uid = #{id};
+    </update>
+
 
     <select id="queryUserInfo" resultMap="userInfo">
         SELECT
-            ui.uid,
-            ui.username,
-            ui.email,
-            ui.userhead,
-            ui.class,
-            DATE_FORMAT(ui.registertime, '%Y/%m/%d %H:%i:%s') as registertime,
-            ui.java_Mc_id,
-            ui.mc_uuid,
-            ui.nickname as nickname,
-            ui.personalized_signature as personalizedSignature,
-            sd.dict_value AS classColor,
-            sd.dict_describe AS className
+        ui.uid,
+        ui.username,
+        ui.email,
+        ui.userhead,
+        ui.class,
+        DATE_FORMAT(ui.registertime, '%Y/%m/%d %H:%i:%s') as registertime,
+        ui.java_Mc_id,
+        ui.mc_uuid,
+        ui.nickname as nickname,
+        ui.personalized_signature as personalizedSignature,
+        sd.dict_value AS classColor,
+        sd.dict_describe AS className
         FROM
-            user_information AS ui
+        user_information AS ui
         INNER JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.is_deleted = 0 AND sd.dict_enable = 1
         WHERE ui.uid = #{uid}
     </select>
 
-    
+
 </mapper>
