@@ -4,18 +4,16 @@ package online.superarilo.myblog.controller;
 import com.alibaba.fastjson.JSONObject;
 import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.UserInformation;
-import online.superarilo.myblog.realm.UserRealm;
 import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.utils.FileMultipartUtil;
+import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,5 +83,25 @@ public class UserInformationController {
             }
         }
         return new Result<>(false, HttpStatus.BAD_REQUEST, "上传失败", null);
+    }
+
+    /**
+     * Minecraft ID验证
+     *
+     * @param javaMcId 录入ID
+     * @return Result<?>
+     */
+    @Log
+    @GetMapping("/whitelist")
+    public JsonResult whitelist(@RequestParam String javaMcId, HttpServletRequest request){
+
+        String token = request.getHeader("token");
+        UserInformation adminInfo = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+
+        if (javaMcId.isEmpty()) {
+            return JsonResult.ERROR(500,"请输入绑定的ID");
+        }
+
+        return userInformationService.whitelist(javaMcId,adminInfo);
     }
 }

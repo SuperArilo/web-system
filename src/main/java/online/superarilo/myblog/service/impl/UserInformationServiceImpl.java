@@ -1,19 +1,25 @@
 package online.superarilo.myblog.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.mapper.UserInformationMapper;
 import online.superarilo.myblog.service.IUserInformationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -91,5 +97,42 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
         }
 
         return new Result<>(false, HttpStatus.BAD_REQUEST, "修改失败");
+    }
+
+    /**
+     * 正版账号绑定
+     */
+    @Override
+    public JsonResult whitelist(String javaMcId, UserInformation user) {
+
+
+        Long bindCount = userInformationMapper.selectCount(new QueryWrapper<UserInformation>().eq("java_Mc_id", javaMcId));
+        if (bindCount>0){
+            return JsonResult.ERROR(500,"ID已被绑定请联系管理员");
+        }
+
+        String foo;
+        try {
+            foo = new RestTemplate().getForObject("https://api.ashcon.app/mojang/v2/user/"+javaMcId,String.class);
+            if (foo==null){
+                throw new Exception("message error return!");
+            }
+        }catch (Exception e){
+            return JsonResult.ERROR(500,"ID不存在");
+        }
+
+        HashMap<String, String> userInfo = JSON.parseObject(foo, new TypeReference<>() {
+        });
+        String uuid = userInfo.get("uuid");
+        javaMcId = userInfo.get("username");
+
+        Integer integer = userInformationMapper.updateMcUuid(uuid, javaMcId, user.getUid());
+
+        if (integer>0){
+            return JsonResult.OK("绑定成功");
+        }else{
+            return JsonResult.ERROR(500,"绑定失败");
+        }
+
     }
 }

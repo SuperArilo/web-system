@@ -20,4 +20,6 @@ public interface UserInformationMapper extends BaseMapper<UserInformation> {
 
 
     Map<String, Object> queryUserInfo(@Param("uid") Long uid);
+
+    Integer updateMcUuid(@Param("uuid") String uuid, @Param("name") String user,@Param("id")Long uid);
 }

@@ -17,7 +17,13 @@
         <result property="nickname" column="nickname"/>
         <result property="personalizedSignature" column="personalizedSignature"/>
     </resultMap>
-    
+
+    <update id="updateMcUuid">
+        UPDATE user_information
+        SET java_Mc_id = #{name},mc_uuid = #{uuid}
+        WHERE uid = #{id};
+    </update>
+
     <select id="queryUserInfo" resultMap="userInfo">
         SELECT
             ui.uid,
@@ -37,5 +43,6 @@
         INNER JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.is_deleted = 0 AND sd.dict_enable = 1
         WHERE ui.uid = #{uid}
     </select>
+
     
 </mapper>
