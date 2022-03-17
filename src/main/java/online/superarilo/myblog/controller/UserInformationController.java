@@ -96,7 +96,7 @@ public class UserInformationController {
     public JsonResult whitelist(@RequestParam String javaMcId, HttpServletRequest request) {
 
         String token = request.getHeader("token");
-        UserInformation adminInfo = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+        UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
 
         if (javaMcId == null) {
             return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "参数错误");
@@ -104,7 +104,7 @@ public class UserInformationController {
             return JsonResult.OK("请输入要绑定的ID");
         }
 
-        return userInformationService.whitelist(javaMcId, adminInfo);
+        return userInformationService.whitelist(javaMcId, user);
     }
 
     @Log
@@ -112,9 +112,9 @@ public class UserInformationController {
     public JsonResult updateWhitelist(HttpServletRequest request) {
 
         String token = request.getHeader("token");
-        UserInformation adminInfo = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+        UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
 
-        return userInformationService.updateWhitelist(adminInfo);
+        return userInformationService.updateWhitelist(user);
 
     }
 

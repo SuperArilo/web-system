@@ -44,5 +44,5 @@ public interface IUserInformationService extends IService<UserInformation> {
     /**
      * 解绑
      */
-    JsonResult updateWhitelist(UserInformation adminInfo);
+    JsonResult updateWhitelist(UserInformation user);
 }

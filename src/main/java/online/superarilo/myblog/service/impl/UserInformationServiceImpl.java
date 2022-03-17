@@ -1,29 +1,26 @@
 package online.superarilo.myblog.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.mapper.UserInformationMapper;
 import online.superarilo.myblog.service.IUserInformationService;
 import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.RedisUtil;
 import online.superarilo.myblog.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -35,7 +32,7 @@ import online.superarilo.myblog.utils.Result;
  */
 @Service
 public class UserInformationServiceImpl extends ServiceImpl<UserInformationMapper, UserInformation>
-    implements IUserInformationService {
+        implements IUserInformationService {
 
     private UserInformationMapper userInformationMapper;
 
@@ -59,7 +56,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
             return new Result<>(false, HttpStatus.UNAUTHORIZED, "invalid token", null);
         }
         UserInformation userInformation =
-            JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+                JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
         if (Objects.isNull(userInformation)) {
             return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录", null);
         }
@@ -94,7 +91,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
         userInformation.setUid(user.getUid());
         userInformation.setNickname(StringUtils.hasLength(user.getNickname()) ? user.getNickname() : "");
         userInformation.setPersonalizedSignature(
-            StringUtils.hasLength(user.getPersonalizedSignature()) ? user.getPersonalizedSignature() : "");
+                StringUtils.hasLength(user.getPersonalizedSignature()) ? user.getPersonalizedSignature() : "");
 
         boolean b = this.updateById(userInformation);
         if (b) {
@@ -111,7 +108,7 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
     public JsonResult whitelist(String javaMcId, UserInformation user) {
 
         Long bindCount =
-            userInformationMapper.selectCount(new QueryWrapper<UserInformation>().eq("java_Mc_id", javaMcId));
+                userInformationMapper.selectCount(new QueryWrapper<UserInformation>().eq("java_Mc_id", javaMcId));
         if (bindCount > 0) {
             return JsonResult.OK("ID已被绑定请联系管理员");
         }
@@ -126,13 +123,16 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
             return JsonResult.OK("ID不存在");
         }
 
-        HashMap<String, String> userInfo = JSON.parseObject(foo, new TypeReference<>() {});
+        HashMap<String, String> userInfo = JSON.parseObject(foo, new TypeReference<>() {
+        });
         String uuid = userInfo.get("uuid");
         javaMcId = userInfo.get("username");
 
         Integer integer = userInformationMapper.updateMcUuid(uuid, javaMcId, user.getUid());
 
         if (integer > 0) {
+            userInformationMapper.deleteMcWhitelist(user.getUid());
+            userInformationMapper.insertMcWhitelist(user.getUid(), javaMcId, uuid);
             return JsonResult.OK("绑定成功");
         } else {
             return JsonResult.OK("绑定失败");
@@ -141,11 +141,12 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
     }
 
     @Override
-    public JsonResult updateWhitelist(UserInformation adminInfo) {
+    public JsonResult updateWhitelist(UserInformation user) {
 
-        Integer integer = userInformationMapper.updateWhitelist(adminInfo.getUid());
+        Integer integer = userInformationMapper.updateWhitelist(user.getUid());
 
         if (integer > 0) {
+            userInformationMapper.deleteMcWhitelist(user.getUid());
             return JsonResult.OK("解绑成功");
         } else {
             return JsonResult.OK("解绑失败");

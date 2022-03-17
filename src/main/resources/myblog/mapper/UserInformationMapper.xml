@@ -17,7 +17,10 @@
         <result property="nickname" column="nickname"/>
         <result property="personalizedSignature" column="personalizedSignature"/>
     </resultMap>
-
+    <insert id="insertMcWhitelist">
+        INSERT INTO mc_whitelist
+        VALUES (#{id},#{userName},#{userUuid},"Online");
+    </insert>
     <update id="updateMcUuid">
         UPDATE user_information
         SET java_Mc_id = #{name},mc_uuid = #{uuid}
@@ -28,6 +31,10 @@
         SET java_Mc_id = NULL,mc_uuid = NULL
         WHERE uid = #{id};
     </update>
+    <delete id="deleteMcWhitelist">
+        DELETE FROM mc_whitelist
+        WHERE uid = #{id};
+    </delete>
 
 
     <select id="queryUserInfo" resultMap="userInfo">
