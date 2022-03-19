@@ -13,19 +13,18 @@ public class CorsConfig {
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
+//        config.setAllowCredentials(true);
         config.addAllowedOriginPattern("*");
-        config.addAllowedHeader("*");
-//        config.addAllowedOriginPattern("http://localhost:8080");
+//        config.addAllowedHeader("*");
+        config.addAllowedOriginPattern("http://superarilo.icu/");
 //        config.addAllowedOriginPattern("https://web.postman.co");
 //        config.addAllowedOriginPattern("https://superarilo.online");
 //        config.addAllowedOriginPattern("https://www.superarilo.online");
-//        config.addAllowedHeader("Access-Control-Allow-Headers");
-//        config.addAllowedHeader("content-type");
-//        config.addAllowedHeader("Access-Control-Allow-Origin");
-//        config.addAllowedHeader("Access-Control-Allow-Headers");
-//        config.addAllowedHeader("token");
-//        config.addExposedHeader("Authorization");
+        config.addAllowedHeader("content-type");
+        config.addAllowedHeader("Access-Control-Allow-Origin");
+        config.addAllowedHeader("Access-Control-Allow-Headers");
+        config.addAllowedHeader("token");
+        config.addExposedHeader("Authorization");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         source.registerCorsConfiguration("/**", config);
