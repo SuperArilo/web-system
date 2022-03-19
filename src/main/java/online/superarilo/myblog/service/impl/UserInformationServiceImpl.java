@@ -107,6 +107,13 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
     @Override
     public JsonResult whitelist(String javaMcId, UserInformation user) {
 
+        Long uid = user.getUid();
+        String userUuid = userInformationMapper.selectUserInfo(uid);
+
+        if (userUuid != null && !"".equals(userUuid) && userUuid.length() > 0) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "此账户已绑定白名单");
+        }
+
         Long bindCount =
                 userInformationMapper.selectCount(new QueryWrapper<UserInformation>().eq("java_Mc_id", javaMcId));
         if (bindCount > 0) {
@@ -115,12 +122,14 @@ public class UserInformationServiceImpl extends ServiceImpl<UserInformationMappe
 
         String foo;
         try {
+
             foo = new RestTemplate().getForObject("https://api.ashcon.app/mojang/v2/user/" + javaMcId, String.class);
             if (foo == null) {
                 throw new Exception("message error return!");
             }
+
         } catch (Exception e) {
-            return JsonResult.OK("ID不存在");
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "ID不存在");
         }
 
         HashMap<String, String> userInfo = JSON.parseObject(foo, new TypeReference<>() {

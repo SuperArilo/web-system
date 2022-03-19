@@ -50,9 +50,9 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-#    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: 123456
+    #    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+    #    username: root
+    #    password: 123456
     url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
     username: root
     password: mysql123456@
@@ -62,19 +62,19 @@ server:
   compression:
     enabled: true
     mime-types: application/json,application/xml,text/html,text/xml,text/plain
-  port: 1234
+  port: 80
   servlet:
     context-path: /api
+  #  ssl:
+  #    key-store: classpath:5670151_superarilo.icu.jks
+  #    enabled: true
+  #    key-store-password: saP88oIo
+  #    keyStoreType: JKS
 #  ssl:
-#    key-store: classpath:5670151_superarilo.icu.jks
+#    key-store: classpath:caoguirong.jks
 #    enabled: true
-#    key-store-password: saP88oIo
+#    key-store-password: lzjFMku1
 #    keyStoreType: JKS
-  ssl:
-    key-store: classpath:caoguirong.jks
-    enabled: true
-    key-store-password: lzjFMku1
-    keyStoreType: JKS
 
 mybatis-plus:
   mapper-locations: classpath:myblog/mapper/**/*.xml
@@ -102,7 +102,7 @@ uploadFileAddress:
 
 ## picture server:
 pictureServer:
-#  host: 182.42.112.115
+  #  host: 182.42.112.115
   host: 1.116.88.15
   port: 21
   user: ftpadmin

@@ -56,6 +56,11 @@
         INNER JOIN sys_dictionary AS sd ON sd.dict_type = ui.class AND sd.is_deleted = 0 AND sd.dict_enable = 1
         WHERE ui.uid = #{uid}
     </select>
+    <select id="selectUserInfo" resultType="java.lang.String">
+        SELECT mc_uuid
+        FROM `user_information`
+        WHERE uid = #{id}
+    </select>
 
 
 </mapper>

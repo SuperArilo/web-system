@@ -28,4 +28,6 @@ public interface UserInformationMapper extends BaseMapper<UserInformation> {
     void insertMcWhitelist(@Param("id") Long uid, @Param("userName") String javaMcId, @Param("userUuid") String uuid);
 
     void deleteMcWhitelist(@Param("id") Long uid);
+
+    String selectUserInfo(@Param("id") Long uid);
 }
