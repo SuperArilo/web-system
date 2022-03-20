@@ -40,7 +40,7 @@ public class ShiroFilter extends FormAuthenticationFilter {
         String token = httpServletRequest.getHeader("token");
         if (StringUtils.isBlank(token)) {
             this.errorCode = HttpStatus.UNAUTHORIZED;
-            this.errorMsg = "invalid token";
+            this.errorMsg = "非法token";
             return false;
         }
         UserInformation userInfo;
@@ -48,7 +48,7 @@ public class ShiroFilter extends FormAuthenticationFilter {
             userInfo = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
         } catch (Exception e) {
             this.errorCode = HttpStatus.UNAUTHORIZED;
-            this.errorMsg = "token失效";
+            this.errorMsg = "token失效，请重新登陆！";
             return false;
         }
         if (userInfo == null) {

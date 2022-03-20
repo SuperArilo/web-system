@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.superarilo.myblog.mapper.OnlineTalkMapper">
+    <select id="getUserHeadAndName" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT nickname, userhead, uid FROM user_information where java_Mc_id = #{mcJavaId} and mc_uuid = #{uuid}
+    </select>
+</mapper>

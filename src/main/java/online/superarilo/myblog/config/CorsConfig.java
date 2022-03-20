@@ -17,6 +17,7 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
 //        config.addAllowedHeader("*");
         config.addAllowedOriginPattern("http://superarilo.icu/");
+        config.addAllowedOriginPattern("http://www.superarilo.icu/");
 //        config.addAllowedOriginPattern("https://web.postman.co");
 //        config.addAllowedOriginPattern("https://superarilo.online");
 //        config.addAllowedOriginPattern("https://www.superarilo.online");

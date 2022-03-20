@@ -3,7 +3,6 @@ package online.superarilo.myblog.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import online.superarilo.myblog.utils.DateUtil;
-
 import java.io.Serializable;
 import java.util.Date;
 

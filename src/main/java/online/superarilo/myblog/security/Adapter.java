@@ -16,7 +16,7 @@ public class Adapter implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor).addPathPatterns("/api/user/check");
-        registry.addInterceptor(adminInterceptor).addPathPatterns("/api/album/set","/api/album/del");
+//        registry.addInterceptor(tokenInterceptor).addPathPatterns("/api/user/check");
+//        registry.addInterceptor(adminInterceptor).addPathPatterns("/api/album/set","/api/album/del");
     }
 }
