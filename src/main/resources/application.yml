@@ -56,9 +56,6 @@ spring:
     url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
     username: root
     password: mysql123456@
-#    url: jdbc:mysql://42.193.23.180:3306/minecraft?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-#    username: Minecraft
-#    password: nLEDhpD7zXpdtFA3
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
@@ -113,10 +110,10 @@ pictureServer:
 
 ## http
 #pictureHttp: https://www.superarilo.icu:4433/
-pictureHttp: https://www.itrong.love:4433/
+pictureHttp: http://1.116.88.15:4433/
 
 
 ## user default-header.png url
 user:
   default-header:
-    url: https://www.itrong.love:4433/images/header/default/default-header.png
+    url: http://1.116.88.15:4433/images/header/default/default-header.png
