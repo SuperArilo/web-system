@@ -115,10 +115,10 @@ pictureServer:
 
 ## http
 #pictureHttp: https://www.superarilo.icu:4433/
-pictureHttp: http://1.116.88.15:4433/
+pictureHttp: https://1.116.88.15:4433/
 
 
 ## user default-header.png url
 user:
   default-header:
-    url: http://1.116.88.15:4433/images/header/default/default-header.png
+    url: https://1.116.88.15:4433/images/header/default/default-header.png
