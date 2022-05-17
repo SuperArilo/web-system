@@ -222,26 +222,30 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     }
 
     @Override
-    public Result<String> removeMediaByMeidaIdAndUid(List<Long> mediaIds, Long uid) {
-        UserInformation selUser = userInformationService.getById(uid);
-        if(selUser == null) {
-            return new Result<>(false, HttpStatus.NOT_FOUND, "当前用户不存在","当前用户不存在");
+    public JsonResult removeMediaByMediaIdAndUid(List<Long> mediaIds, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if(!StringUtils.hasLength(token) || Objects.isNull(RedisUtil.get(token))) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "登录失效，请重新登录");
         }
+        UserInformation user = JSON.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+        Long uid = user.getUid();
         if(mediaIds == null || mediaIds.isEmpty()) {
-            return new Result<>(false, HttpStatus.NOT_FOUND, "选择要删除的资源","选择要删除的资源");
+            return JsonResult.ERROR(HttpStatus.NOT_FOUND.value(), "选择要删除的资源");
         }
         List<MediaManager> list = this.list(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid).in(MediaManager::getId, mediaIds));
-        // 用户删除的资源集合
-        List<MediaManager> removeMediaRelativePaths = new ArrayList<>();
+//        // 用户删除的资源集合
+//        List<MediaManager> removeMediaRelativePaths = new ArrayList<>();
         if(list == null || list.size() == 0) {
-            return new Result<>(false, HttpStatus.NOT_FOUND, "删除的资源不存在或已删除","删除的资源不存在或已删除");
+            return JsonResult.ERROR(HttpStatus.NOT_FOUND.value(), "删除的资源不存在或已删除");
         }
-        list.forEach((item) -> {
-            if(mediaIds.contains(item.getId())) {
-                removeMediaRelativePaths.add(item);
-            }
-        });
-
+//        list.forEach((item) -> {
+//            if(mediaIds.contains(item.getId())) {
+//                removeMediaRelativePaths.add(item);
+//            }
+//        });
+        for (MediaManager mediaManager : list) {
+            UploadFileSevenNiuYunUtil.delete(mediaManager.getMediaUrl());
+        }
         this.remove(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid).in(MediaManager::getId, mediaIds));
 
         // 异步删除图片服务器资源
@@ -257,7 +261,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
 //            }).start();
 //        }
 
-        return new Result<>(true, HttpStatus.OK, "success", "删除成功");
+        return JsonResult.OK("删除成功");
     }
 
     /**

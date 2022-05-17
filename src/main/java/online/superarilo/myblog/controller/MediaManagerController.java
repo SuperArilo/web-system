@@ -56,13 +56,13 @@ public class MediaManagerController {
 
     /**
      * 删除用户的媒体资源
-     * @param mediaIds
-     * @param uid
-     * @return
+     * @param mediaIds id
+     * @param request req
+     * @return jsonResult
      */
     @Log
     @PostMapping("/remove")
-    public Result<String> removeMediaByMeidaIdAndUid(@RequestParam("mediaIds") List<Long>  mediaIds, Long uid) {
-        return mediaManagerService.removeMediaByMeidaIdAndUid(mediaIds, uid);
+    public JsonResult removeMediaByMediaIdAndUid(@RequestParam("mediaIds") List<Long>  mediaIds, HttpServletRequest request) {
+        return mediaManagerService.removeMediaByMediaIdAndUid(mediaIds, request);
     }
 }
