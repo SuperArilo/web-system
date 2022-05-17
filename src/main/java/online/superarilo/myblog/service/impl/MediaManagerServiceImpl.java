@@ -1,5 +1,6 @@
 package online.superarilo.myblog.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import online.superarilo.myblog.entity.MediaManager;
 import online.superarilo.myblog.entity.UserInformation;
@@ -7,16 +8,17 @@ import online.superarilo.myblog.mapper.MediaManagerMapper;
 import online.superarilo.myblog.service.IMediaManagerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import online.superarilo.myblog.service.IUserInformationService;
-import online.superarilo.myblog.utils.FTPUtil;
-import online.superarilo.myblog.utils.FileMultipartUtil;
-import online.superarilo.myblog.utils.Result;
+import online.superarilo.myblog.utils.*;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.*;
 
@@ -33,6 +35,9 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
 
     @Autowired
     private IUserInformationService userInformationService;
+
+    @Autowired
+    private Environment environment;
 
 
     @Override
@@ -62,10 +67,10 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
             return new Result<>(false, HttpStatus.BAD_REQUEST, "单次最多上传4张图片");
         }
         // 检查图片
-        Result<List> checkFilesResult = this.checkFile(files, FileMultipartUtil.IMAGE_FILE_SUFFIX);
-        if(checkFilesResult != null) {
-            return checkFilesResult;
-        }
+//        Result<List> checkFilesResult = this.checkFile(files, FileMultipartUtil.IMAGE_FILE_SUFFIX);
+//        if(checkFilesResult != null) {
+//            return checkFilesResult;
+//        }
 
 //        // 获取本地存储路径
 //        String localBasePath = FileMultipartUtil.systemRoot();
@@ -151,6 +156,72 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
     }
 
     @Override
+    public JsonResult uploadImages(List<MultipartFile> files, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if(!StringUtils.hasLength(token) || Objects.isNull(RedisUtil.get(token))) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "登录失效，请重新登录");
+        }
+        UserInformation user = JSON.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
+        Long uid = user.getUid();
+
+        List<MediaManager> userMediaList = this.list(new QueryWrapper<MediaManager>().lambda().eq(MediaManager::getUid, uid));
+        if(userMediaList.size() >= 16) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "最多保存十六张图片");
+        }
+        if(files == null || files.isEmpty()) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "请选择图片文件");
+        }
+        if(files.size() > 4) {
+            return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "单次最多上传4张图片");
+        }
+//        检查图片
+        JsonResult checkFilesResult = this.checkFile(files, FileMultipartUtil.IMAGE_FILE_SUFFIX);
+        if(checkFilesResult != null) {
+            return checkFilesResult;
+        }
+
+        List<MediaManager> list = new ArrayList<>();
+        int count = 0;
+        for (MultipartFile item : files) {
+            MediaManager mediaManager = new MediaManager();
+            String relativePosition = null;
+            String key = UUID.randomUUID().toString().replaceAll("-", "");
+            String originalFilename = item.getOriginalFilename();
+            if(StringUtils.hasLength(originalFilename)) {
+                key += originalFilename.substring(originalFilename.lastIndexOf("."));
+            } else {
+                break;
+            }
+            try {
+                relativePosition = UploadFileSevenNiuYunUtil.upload(item.getInputStream(), key);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(StringUtils.hasLength(relativePosition)) {
+                mediaManager.setUid(uid);
+                mediaManager.setMediaName(item.getOriginalFilename());
+                mediaManager.setMediaUrl(relativePosition);
+                mediaManager.setMediaHttpUrl(environment.getProperty("seven_niu_yun.httpUrl") + relativePosition);
+                mediaManager.setCreateTime(new Date());
+                list.add(mediaManager);
+                count++;
+            }
+        }
+        if(count == files.size()) {
+            if (this.saveBatch(list)) {
+                return JsonResult.OK(list);
+            }
+        }
+        //上传失败一个，全部取消
+        if(!list.isEmpty()) {
+            list.forEach(item -> {
+                UploadFileSevenNiuYunUtil.delete(item.getMediaUrl());
+            });
+        }
+        return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "上传失败");
+    }
+
+    @Override
     public Result<String> removeMediaByMeidaIdAndUid(List<Long> mediaIds, Long uid) {
         UserInformation selUser = userInformationService.getById(uid);
         if(selUser == null) {
@@ -194,7 +265,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
      * @param files
      * @return
      */
-    private Result<List> checkFile(List<MultipartFile> files, List<String> suffixes) {
+    private JsonResult checkFile(List<MultipartFile> files, List<String> suffixes) {
         List<String> errorList = new ArrayList<>();
         for (MultipartFile file : files) {
             String originalFilename = file.getOriginalFilename();
@@ -203,7 +274,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
                 errorList.add(originalFilename + " 图片格式不正确，目前支持 JPG, PNG, JPEG, GIF格式");
             }
         }
-        return errorList.isEmpty() ? null : new Result<>(false, HttpStatus.BAD_REQUEST, "error", errorList);
+        return errorList.isEmpty() ? null : JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "格式不正确" ,errorList);
     }
 
 }

@@ -2,10 +2,12 @@ package online.superarilo.myblog.service;
 
 import online.superarilo.myblog.entity.MediaManager;
 import com.baomidou.mybatisplus.extension.service.IService;
+import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.Result;
 import online.superarilo.myblog.vo.MediaManagerVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -34,6 +36,9 @@ public interface IMediaManagerService extends IService<MediaManager> {
      * @return
      */
     Result<List> uploadImages(List<MultipartFile> files, Long uid);
+
+
+    JsonResult uploadImages(List<MultipartFile> files, HttpServletRequest request);
 
 
     /**

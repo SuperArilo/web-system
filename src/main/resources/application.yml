@@ -122,3 +122,12 @@ pictureHttp: https://1.116.88.15:4433/
 user:
   default-header:
     url: https://1.116.88.15:4433/images/header/default/default-header.png
+
+## 七牛云
+seven_niu_yun:
+  AccessKey: cD_YA59Ok0Ti2yjLwfbyYh0lWigPUTyvSjcTc236
+  SecretKey: Bx7hEkYh8r6mefK16XWQ4UocqU789PMJYL2mlp2v
+  bucket: superarilo
+  httpUrl: http://image.superarilo.icu/
+  fileUri: image/
+

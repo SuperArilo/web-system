@@ -4,6 +4,7 @@ package online.superarilo.myblog.controller;
 import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.MediaManager;
 import online.superarilo.myblog.service.IMediaManagerService;
+import online.superarilo.myblog.utils.JsonResult;
 import online.superarilo.myblog.utils.Result;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -42,14 +44,14 @@ public class MediaManagerController {
 
     /**
      * 用户上传图片
-     * @param imageFiles
-     * @param uid
-     * @return
+     * @param imageFiles files
+     * @param request req
+     * @return result
      */
     @Log
     @PostMapping(value = "/upload/image")
-    public Result<List> uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, @RequestParam("uid") Long uid) {
-        return mediaManagerService.uploadImages(imageFiles, uid);
+    public JsonResult uploadImages(@RequestParam("imageFiles") List<MultipartFile> imageFiles, HttpServletRequest request) {
+        return mediaManagerService.uploadImages(imageFiles, request);
     }
 
     /**
