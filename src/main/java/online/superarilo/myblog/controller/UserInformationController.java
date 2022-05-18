@@ -4,19 +4,19 @@ import com.alibaba.fastjson.JSONObject;
 import online.superarilo.myblog.annotation.Log;
 import online.superarilo.myblog.entity.UserInformation;
 import online.superarilo.myblog.service.IUserInformationService;
-import online.superarilo.myblog.utils.FileMultipartUtil;
-import online.superarilo.myblog.utils.JsonResult;
-import online.superarilo.myblog.utils.RedisUtil;
-import online.superarilo.myblog.utils.Result;
+import online.superarilo.myblog.service.impl.MediaManagerServiceImpl;
+import online.superarilo.myblog.utils.*;
 import online.superarilo.myblog.vo.ImageRelativeAbsolutePathVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * <p>
@@ -31,6 +31,9 @@ import java.util.Objects;
 public class UserInformationController {
 
     private IUserInformationService userInformationService;
+
+    @Autowired
+    private Environment environment;
 
     @Autowired
     public void setUserInformationService(IUserInformationService userInformationService) {
@@ -65,24 +68,50 @@ public class UserInformationController {
      */
     @Log
     @PostMapping("/header/upload")
-    public Result<ImageRelativeAbsolutePathVO> uploadHeader(@RequestParam("headerFile") MultipartFile headerFile,
+    public JsonResult uploadHeader(@RequestParam("headerFile") MultipartFile headerFile,
                                                             HttpServletRequest request) {
         if (headerFile != null && !headerFile.isEmpty()) {
             String token = request.getHeader("token");
             UserInformation user = JSONObject.parseObject(String.valueOf(RedisUtil.get(token)), UserInformation.class);
             if (user == null) {
-                return new Result<>(false, HttpStatus.UNAUTHORIZED, "登录失效，请重新登录");
+                return JsonResult.ERROR(HttpStatus.UNAUTHORIZED.value(), "登录失效，请重新登录");
             }
-            ImageRelativeAbsolutePathVO imageRelativeAbsolutePathVO = FileMultipartUtil.uploadHeader(headerFile);
-            if (imageRelativeAbsolutePathVO != null) {
-                UserInformation userInformation = new UserInformation();
-                userInformation.setUid(user.getUid());
-                userInformation.setUserhead(imageRelativeAbsolutePathVO.getAbsolutePath());
-                userInformationService.updateById(userInformation);
-                return new Result<>(true, HttpStatus.OK, "上传成功", imageRelativeAbsolutePathVO);
+            // 检查文件类型
+            List<MultipartFile> multipartFiles = new ArrayList<>();
+            multipartFiles.add(headerFile);
+            JsonResult jsonResult = MediaManagerServiceImpl.checkFile(multipartFiles, FileMultipartUtil.IMAGE_FILE_SUFFIX);
+            if(!Objects.isNull(jsonResult)) {
+                return jsonResult;
+            }
+
+
+            // 文件名
+            String fileName = UUID.randomUUID().toString().replaceAll("-", "");
+            String originalFilename = headerFile.getOriginalFilename();
+            if(StringUtils.hasLength(originalFilename)) {
+                fileName += originalFilename.substring(originalFilename.lastIndexOf("."));
+            }else {
+                return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "文件不能为空");
+            }
+            // 相对路径
+            String relativePosition;
+            try {
+                relativePosition = UploadFileSevenNiuYunUtil.upload(headerFile.getInputStream(), fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return JsonResult.ERROR(500, "上传失败");
+            }
+            // 拼接全路径
+            String absolutePosition = environment.getProperty("seven_niu_yun.httpUrl") + relativePosition;
+
+            UserInformation userInformation = new UserInformation();
+            userInformation.setUid(user.getUid());
+            userInformation.setUserhead(absolutePosition);
+            if (userInformationService.updateById(userInformation)) {
+                return JsonResult.OK("上传成功");
             }
         }
-        return new Result<>(false, HttpStatus.BAD_REQUEST, "上传失败", null);
+        return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "上传失败", null);
     }
 
     /**

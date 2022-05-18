@@ -175,7 +175,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
             return JsonResult.ERROR(HttpStatus.BAD_REQUEST.value(), "单次最多上传4张图片");
         }
 //        检查图片
-        JsonResult checkFilesResult = this.checkFile(files, FileMultipartUtil.IMAGE_FILE_SUFFIX);
+        JsonResult checkFilesResult = checkFile(files, FileMultipartUtil.IMAGE_FILE_SUFFIX);
         if(checkFilesResult != null) {
             return checkFilesResult;
         }
@@ -269,7 +269,7 @@ public class MediaManagerServiceImpl extends ServiceImpl<MediaManagerMapper, Med
      * @param files
      * @return
      */
-    private JsonResult checkFile(List<MultipartFile> files, List<String> suffixes) {
+    public static JsonResult checkFile(List<MultipartFile> files, List<String> suffixes) {
         List<String> errorList = new ArrayList<>();
         for (MultipartFile file : files) {
             String originalFilename = file.getOriginalFilename();
