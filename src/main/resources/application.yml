@@ -10,10 +10,10 @@ spring:
       repositories:
         enabled: false
   redis:
-    host: localhost  #配置redis的主机地址，需要修改成自己的
+    host: beta.superarilo.icu  #配置redis的主机地址，需要修改成自己的
     database: 0
-    port: 6379
-    password: redis123456
+    port: 12120
+    password: XPW5mJ48LG4sP3nD
     jedis:
       pool:
         max-active: 50 # 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool 的状态为exhausted(耗尽)
@@ -50,17 +50,9 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   datasource:
-    #    url: jdbc:mysql://localhost:3357/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-    #    username: root
-    #    password: 123456
-    # 测试数据库
-#    url: jdbc:mysql://182.42.112.115:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: mysql123456@
-    # 生产环境数据库
-    url: jdbc:mysql://42.193.23.180:3306/minecraft?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
-    username: Minecraft
-    password: nLEDhpD7zXpdtFA3
+    url: jdbc:mysql://beta.superarilo.icu:3306/myblog_dev?useUnicode=true&character_set_server=utf8mb4&serverTimezone=Asia/Shanghai
+    username: root
+    password: 01c2502fa37f4127
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
@@ -121,7 +113,7 @@ pictureHttp: https://1.116.88.15:4433/
 ## user default-header.png url
 user:
   default-header:
-    url: https://1.116.88.15:4433/images/header/default/default-header.png
+    url: http://image.superarilo.icu/image/default-header.png
 
 ## 七牛云
 seven_niu_yun:
